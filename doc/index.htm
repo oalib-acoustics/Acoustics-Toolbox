@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <style>
+<!--
+.MsoPlainText
+	{font-size:10.0pt;
+	font-family:"Courier New";}
+-->
+  </style>
+    <title>The Acoustics Toolbox</title>
+  </head>
+  <body class="Normal" lang="EN-US" bgcolor="#ffffff">
+    <h1>The Acoustics Toolbox<br>
+    </h1>
+    <p style="font-family: monospace;"><br>
+      The Acoustics Toolbox is a collection of acoustic models and
+      related software for studying sound propagation in an ocean
+      waveguide. Actually, the models have been structured to be
+      suitable for general wave propagation problems; however, the ocean
+      application is our main focus.</p>
+    <p style="font-family: monospace;">The acoustic models in the
+      package are:</p>
+    <ul style="font-family: monospace;">
+      <li><o:p><o:p><a href="kraken.htm">KRAKEN</a> normal mode approach
+            <o:p> </o:p></o:p></o:p></li>
+      <li><a href="scooter.htm">SCOOTER</a> spectral integral (also know
+        as wavenumber integration or the reflectivity method </li>
+      <li><o:p><o:p><a href="bounce.htm">BOUNCE</a> calculation of a
+            reflection coefficient for a stack of layers <o:p> </o:p></o:p></o:p></li>
+      <li><a href="bellhop.htm">BELLHOP</a> Gaussian beam tracing and
+        ray tracing code </li>
+      <li><o:p><o:p><a href="sparc.htm">SPARC</a> A spectral integral
+            code that operates directly in the time domain. </o:p></o:p></li>
+    </ul>
+    <p style="font-family: monospace;">There are generally no limits on
+      the dimensions that can be handled (up to virtual memory). The
+      code uses dynamic allocation for virtually all arrays. There are a
+      few exceptions. You will generally get a flag if for some reason
+      any dynamic memory allocation fails or if you have exceeded an
+      intrinsic limit in the code.<br>
+    </p>
+    <p style="font-family: monospace;">The documentation uses a common
+      Fortran or Matlab syntax where a ( 1 : 5 ) represents a vector (
+      1, 2, 3, 4, 5 ). The convention on model input is that such
+      vectors are defined by first reading a line with the number of
+      elements in the vector. Then the vector itself is read in.
+      However, in reading the vector one can optionally provide just the
+      first and last elements followed by a '/'. Thus, after specifying
+      5 elements, the vector (1:5) can be read is as '1 5 /'<br>
+    </p>
+    <p style="font-family: monospace;">For option letters in the various
+      models, you will often see that there is a default. For instance,
+      BELLHOP defaults to a point source in cylindrical coordinates, but
+      you can explicitly select a point source ('R') or a line source
+      ('X'). If you just want to go with the default, then simply put in
+      a blank space for that position.<br>
+    </p>
+    <p style="font-family: monospace;">The following modules are part of
+      the package.</p>
+    <h2>Group I: Mode Computations:</h2>
+    <ul style="font-family: monospace;">
+      <li><a href="kraken.htm">KRAKEN</a>&nbsp;&nbsp;&nbsp; Solves for
+        the modes and writes them to disk. Elastic media are allowed but
+        material attenuation in an elastic medium is ignored.</li>
+      <li>KRAKENC&nbsp;&nbsp; A version of KRAKEN which finds the
+        eigenvalues in the complex plane.&nbsp; KRAKEN uses perturbation
+        theory to obtain imaginary parts of the eigenvalues while
+        KRAKENC computes the complex eigenvalues exactly.&nbsp; KRAKENC
+        runs about 3 times slower but is necessary for leaky mode
+        computations or for including material attenuation in elastic
+        media.&nbsp; Internally KRAKENC replaces elastic layers by an
+        equivalent reflection coefficent. For this reason, you cannot
+        use KRAKENC to look at fields within the elastic layers.</li>
+      <li>KRAKEL&nbsp;&nbsp;&nbsp; Analogous to KRAKENC but also
+        computes elastic displacements and stresses for elastic media.
+        KRAKEL is seldom used and tends to not be kept up-to-date.</li>
+    </ul>
+    <h2>Group II: Basic Plotting Routines:</h2>
+    <ul style="font-family: monospace;">
+      <li>&nbsp; PLOTSSP&nbsp;&nbsp; Plots the sound speed profile.</li>
+      <li>&nbsp; PLOTMODE&nbsp; Plots selected modes.</li>
+      <li>&nbsp; PLOTGRN&nbsp;&nbsp; Plots the Green's funtion for the
+        depth separated wave equation for a particular source/receiver
+        combination.</li>
+      <li>&nbsp; PLOTTRI&nbsp;&nbsp; Plots the triangular elements used
+        for 3-D field calculations. </li>
+    </ul>
+    <h2>Group III: Field Computations:</h2>
+    <ul style="font-family: monospace;">
+      <li>&nbsp; <a href="field.htm">FIELD</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        Computes fields on a vertical array over a specified range and
+        for a series of source depths. Individual phones in the array
+        may be displaced from the vertical. Range dependence is handled
+        by either adiabatic or one-way coupled mode theory.</li>
+      <li>&nbsp; <a href="field3d.htm">FIELD3D</a>&nbsp;&nbsp; Computes
+        field for a three-dimensionally varying SSP using adiabatic mode
+        theory.</li>
+    </ul>
+    <h2>Group IV: Plotting Routines that use Group III Program Output:</h2>
+    <ul style="font-family: monospace;">
+      <li>&nbsp; PLOTSHD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Plots tranmission
+        loss in plan or elevation, i.e. an (x,y) plot or an (r,z) plot.</li>
+      <li>&nbsp; PLOTRAYXY&nbsp;&nbsp;&nbsp; Plots the ray paths of the
+        Gaussian beams generated during 3D field calculations.</li>
+    </ul>
+    <p style="font-family: monospace;">The various programs for
+      computing fields (GROUP III) are only needed for PLOTSHD, or for
+      special user programs (e.g. ambiguity surfaces).</p>
+    <p style="font-family: monospace;">The following extensions are used
+      with these programs:</p>
+    <ul style="font-family: monospace;">
+      <li>&nbsp; .F90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The
+        Fortran90/95 source code</li>
+      <li>&nbsp; .HLP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A HeLP
+        file documenting the module</li>
+      <li>&nbsp; .BAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A BATch
+        file which runs the module</li>
+    </ul>
+    <p style="font-family: monospace;">All user input in all modules is
+      read using list-directed I/O. Thus data can be typed in
+      free-format using space, tabs, commas or slashes as delimeters.
+      Character input should be enclosed in single quotes like this:
+      'CHARACTER INPUT'. You will see the '/' character in a number of
+      the input files. This terminates an input line causing the program
+      to use default values.</p>
+    <h2>Directory Structure<br>
+    </h2>
+    <p style="font-family: monospace;"><br>
+    </p>
+    <ul style="font-family: monospace;">
+      <li>AT:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This is the Acoustics
+        Toolbox directory which contains command files for running
+        KRAKEN and other models in the toolbox.</li>
+      <li>Bellhop: Bellhop and Bellhop3D beam tracing models<br>
+      </li>
+      <li>doc:&nbsp;&nbsp;&nbsp;&nbsp; html files with brief notes about
+        how to run the models</li>
+      <li>Krakel:&nbsp; A version of KRAKEN that provides the
+        displacement field in elastic media. It does not presently
+        include attenuation and is of limited practical use.</li>
+      <li>Kraken:&nbsp; Kraken and Krakenc normal mode codes</li>
+      <li>KrakenField: Routines that sum the Kraken normal modes to
+        produce acoustic fields. Includes options for range-independent,
+        range-dependent, and 3D fields.</li>
+      <li>Matlab:&nbsp; Includes routines for plotting the results of
+        all the models, as well as Matlab equivalents of some of the
+        Fortran models.</li>
+      <li>misc:&nbsp;&nbsp;&nbsp; Miscellaneous subroutines
+        (root-finders, linear equation solvers, etc.) used by the
+        various models.</li>
+      <li>Scooter: Includes the Scooter wavenumber integration model and
+        the Sparc time-domain version.</li>
+      <li>tests:&nbsp;&nbsp; A huge battery of test cases used to
+        exercise and demonstrate the various model capabilities.</li>
+      <li>tslib:&nbsp;&nbsp; Miscellaneous subroutines specifically
+        related to timeseries manipulations.<br>
+      </li>
+    </ul>
+    <br>
+  </body>
+</html>

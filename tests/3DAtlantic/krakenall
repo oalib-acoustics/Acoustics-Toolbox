@@ -1,0 +1,18 @@
+#!/bin/csh
+
+foreach depth ( 36 38 40 42 44 46 48 50 52 )
+   kraken lanta$depth
+end
+
+foreach depth ( 36 38 40 42 44 46 48 )
+   kraken lantb$depth
+   kraken lantc$depth
+   kraken lantd$depth
+end
+
+foreach depth ( 02 04 06 08 10 12 14 16 18 20 \
+                22 24 26 28 30 32 34 36 38 40 \
+                42 44 46 48 50 52 )
+   kraken lante$depth
+end
+

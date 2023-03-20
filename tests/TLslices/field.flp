@@ -1,0 +1,13 @@
+/,				! TITLE
+'RA'				! OPT 'X/R' (coords), 'C/A' (couple/adiab)
+9999,				! M  (number of modes to include)
+1				! NPROF
+  0.0				! RPROF(1:NPROF) (km)
+501				! NR 
+ 200.0  220.0 /			! R(1:NR )   (km)
+1				! NSD
+   500.0 /			! SD(1:NSD)   (m)
+1				! NRD
+  2500.0 /			! RD(1:NRD)   (m)
+1				! NRR
+     0.0 /			! RR(1:NRR)   (m)

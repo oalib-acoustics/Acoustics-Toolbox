@@ -1,0 +1,13 @@
+'KRAKEN, rigid bottom'			! TITLE
+'RC'				! OPT 'X/R' (coords), 'C/A' (couple/adiab)
+9999				! M  (number of modes to include)
+251				! NPROF
+  0.0  30.0 /			! RPROF(1:NPROF) (km)
+1001				! NR
+  0.0  100.0 /			! R( 1:NR )   (km)
+1				! NSD
+   18.0 /			! SD(1:NSD)   (m)
+201				! NRD
+  0.0 3000 /			! RD(1:NRD)   (m)
+201				! NRR
+     0.0 /			! RR(1:NRR)   (m)

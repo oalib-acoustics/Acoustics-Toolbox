@@ -1,0 +1,29 @@
+'MUNK3D' 				! TITLE
+'STDFRM' 				! OPT
+9999			! M (number of modes)
+1                    	! Nsx
+0.001         		! Sx( 1 : Nsx )  coordinates of source (km)
+1                    	! Nsy
+0.001         		! Sy( 1 : Nsy )  coordinates of source (km)
+1                    	! Nsd
+1000.0               	! Sd(1:Nsd) (m)
+1                    	! Nrd
+800.0  /             	! Rd(1:Nrd) (m)
+501                  	! Nr
+0.0 100.0            	! RMIN  RMAX (km)
+19
+0.0  360.0 / 			! NTHETA  THETA(1:NTHETA) (degrees)
+5					! Number of SSP's (NSSP)
+ 100.0     0.0  'MUNKT0'  		! coordinates (x  y) i=1  NSSP (km)
+   0.0   100.0  'MUNKT90'  
+-100.0     0.0  'MUNKT0'  
+   0.0  -100.0  'MUNKT270'  
+   0.0     0.0  'MUNKT0'  
+4                    ! NELTS
+5  1  2  				! Nodes of corners
+5  2  3  
+5  3  4  
+5  4  1  
+4.0  360.0  90  			! ALPHA1  ALPHA2  NALPHA
+500.0  160  				! STEP  NSTEPS
+0.3  					! EPMULT

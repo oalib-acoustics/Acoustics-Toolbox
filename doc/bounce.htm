@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:w="urn:schemas-microsoft-com:office:word"
+  xmlns="http://www.w3.org/TR/REC-html40">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <meta name="ProgId" content="Word.Document">
+    <meta name="Generator" content="Microsoft Word 11">
+    <meta name="Originator" content="Microsoft Word 11">
+    <link rel="File-List" href="bounce_files/filelist.xml">
+    <!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Michael B. Porter</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>0</o:TotalTime>
+  <o:Created>2006-04-07T01:10:00Z</o:Created>
+  <o:LastSaved>2006-04-07T01:10:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>361</o:Words>
+  <o:Characters>2060</o:Characters>
+  <o:Company>Heat, Light, and Sound Research, Inc.</o:Company>
+  <o:Lines>17</o:Lines>
+  <o:Paragraphs>4</o:Paragraphs>
+  <o:CharactersWithSpaces>2417</o:CharactersWithSpaces>
+  <o:Version>11.6360</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+    <style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 65.95pt 1.0in 65.95pt;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+  </style><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+    <title>BOUNCE</title>
+  </head>
+  <body style="" lang="EN-US">
+    <div class="Section1">
+      <h1><o:p>BOUNCE</o:p></h1>
+      <h1><o:p></o:p></h1>
+      <p class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">BOUNCE
+        computes the reflection coefficient for a stack of acoustic
+        media optionally overlying elastic media. The reflection
+        coefficient is written to both a '.IRC' file (internal
+        reflection coefficient) and to a '.BRC' file (bottom reflection
+        coefficient).&nbsp; These files can be used by KRAKEN, SCOOTER,
+        and BELLHOP to provide a boundary condition, or plotted using
+        PLOTRTH.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">The input
+        structure is identical to that used by KRAKENC although the
+        input lines for source and receiver depth are not read and can
+        be omitted.&nbsp; Furthermore, the surface boundary condition is
+        ignored and, in effect, replaced by a homogeneous halfspace
+        where the incident wave propagates.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">If you are
+        interested in getting a reflection coefficient for a bottom
+        which is being used in a KRAKENC, SCOOTER, or BELLHOP run, you
+        will need to delete the layers corresponding to the water
+        column.&nbsp; Otherwise you will get a reflection coefficient
+        corresponding to a wave incident from above the ocean surface.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">The angles
+        used for calculating the reflection coefficient are calculated
+        based on the phase-velocity interval [ CMin, CMax ].&nbsp; For a
+        full 90 degree calculation set CMin to the lowest speed in the
+        problem (say 1400.0) CMax to 1.0E9.&nbsp; The actual number of
+        tabulated points is then determined by RMax.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">If you are
+        using the reflection coefficient for a coherent TL calculation
+        then RMax should be the maximum range to which you are
+        propagating. The further you go, the finer the sampling that is
+        needed in the reflection coefficient. Run time is usually not an
+        issue; however, if you pick an RMax that is insanely large then
+        it could be.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><br>
+        The reflection coefficient depends on the impedance contrast
+        between the halfspace from which the field is incident and the
+        reflecting medium. Therefore BOUNCE must know the sound speed
+        and other properties of the upper halfspace. If you're using the
+        reflection coefficient to replace the sub-bottom in the ocean
+        then you must set the speed of that upper halfspace to match the
+        sound speed at the bottom of the ocean.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">If you set
+        the number of finite-difference grid points (NPTS) to zero, then
+        BOUNCE automatically calculates a value to have 20 points per
+        wavelength. If there is shear in a certain layer, then the shear
+        wave will have a shorter wavelength than the P-wave speed. Then
+        the smaller shear wavelength will be used to calculate the
+        default. In some cases, 20 points per wavelength does not
+        provide sufficient accuracy and you may need to increase that to
+        as much as 100 points per wavelength.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><br>
+        If you only have a halfspace, you can set NMedia to 0. (The
+        other models in the acoustics toolbox always require at least
+        one acoustic medium, normally the ocean.)<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp; <br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">Files:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Input</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+        ENVironmental data</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.BRC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Bottom&nbsp;&nbsp; Refl. Coef.&nbsp; (optl)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Output</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.PRT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+        PRinT file</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;*.BRC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+        Bottom&nbsp;&nbsp; Refl. Coef.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.IRC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Internal Refl. Coef.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <h2>EXAMPLE OF ENV FILE:</h2>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">'Refl.
+        coef. test problem'</p>
+      <p style="font-family: monospace;" class="MsoPlainText">50.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText">1</p>
+      <p style="font-family: monospace;" class="MsoPlainText">'NAW'<br>
+        0.0&nbsp; 1500.0&nbsp; 0.0&nbsp; 1.0 0.0
+        0.0/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! Z(m) CP CS
+        (m/s) RHO (g/cm3) AP AS <br>
+        100 0.0 20.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;
+0.0
+
+
+
+
+
+
+
+
+        1600.0 400.0 1.8 0.2 0.5</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+20.0
+
+
+
+
+
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText">'A' 0.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+20.0
+
+
+
+
+
+
+
+
+        1800.0 600.0 2.0 0.1 0.2</p>
+      <p style="font-family: monospace;" class="MsoPlainText">1400.0
+        19000.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText">10.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+
+
+
+
+
+
+
+        RMax (km)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+
+
+
+
+
+
+
+        NSz</p>
+      <p style="font-family: monospace;" class="MsoPlainText">50.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+
+
+
+
+
+
+
+        Sz( 1 : NSz )</p>
+      <p style="font-family: monospace;" class="MsoPlainText">501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+
+
+
+
+
+
+
+        NRz</p>
+      <p style="font-family: monospace;" class="MsoPlainText">0.0 150.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !
+        Rz( 1 : NRz )</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">The above
+        example (taken from the SAFARI reference manual) involves two
+        elastic layers.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <h2><tt>The Algorithm</tt></h2>
+      <p><tt>All the models in the Acoustics Toolbox treat boundaries
+          and interfaces with a Robin boundary condition:</tt></p>
+      <p><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; Z_Top p' + p = 0</tt></p>
+      <p><tt>&nbsp;&nbsp;&nbsp; Z_Bot p' + p = 0</tt></p>
+      <p><tt><br>
+        </tt><tt>where p is the acoustic pressure. Thus Z = -p/p'
+          represents something akin to an impedance (but which is not
+          precisely the impedance because of some scale factors). That
+          impedance is represented by a ratio, Z = g/( \rho f ), where f
+          and g are functions of the horizontal wavenumber that have no
+          singularities. In this fashion, we can find eigenvalues by
+          shooting from the bottom towards the top, or vice versa,
+          adjusting the wavenumber to satisfy the boundary condition:</tt></p>
+      <p><tt><br>
+        </tt><tt>\delta(k ) = g(k) p' + \rho f(k) p = 0.</tt></p>
+      <p><tt><br>
+        </tt><tt>Working with the non-singular \delta( k ) makes it
+          easier to do the root finding. This Z is related to the
+          reflection coefficient by:</tt></p>
+      <p><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; Z = ( 1 / (i k_z ) ) * ( 1 + R ) / (
+          1 - R )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Eq. ( 1 )</tt></p>
+      <p><tt><br>
+        </tt><tt>where k_z = sqrt( omega^2/c^2 - k_x^2 ) is the vertical
+          wavenumber. This implies:</tt></p>
+      <p><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; R = - ( 1 - i k_z Z ) / ( 1 + i k_z
+          Z
+          )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Eq. ( 2 )</tt></p>
+      <p><tt><br>
+        </tt><tt>which you can easily check by substituting (1) into (2)
+          or vice versa. The propagation angle associated with a given
+          wavenumber is atan( k_z, k_x ).<br>
+        </tt></p>
+      <p><tt>To summarize, a bottom reflection coefficient is calculated
+          by propagating the f(k), g(k) functions up from the bottom and
+          then using the above formula to convert that to a reflection
+          coefficient. If the deepest layer is a halfspace, then we use
+          the analytic formula for the reflection coefficient from a
+          halfspace and convert that to f(k), g(k). Centered-finite
+          difference formulas then are used to shoot up through the
+          layers. The layers can be elastic-- see the formulas in the
+          KRAKEN manual.<br>
+        </tt></p>
+      <p><tt>BOUNCE writes f(k), g(k) to the output Internal Reflection
+          Coefficient file (IRCFile) and R( theta ) to the Bottom
+          Reflection Coefficient file (BRCFile). Both of these files can
+          be used with most of the models in the Acoustics Toolbox.
+          However, the IRCFIL represents an entire function that works
+          better with the KRAKEN root finder.<br>
+        </tt></p>
+      <p><tt>The Matlab function PLOTBRC.m plots that. As mentioned
+          above, the reflection coefficient refers to a planewave
+          propagating in a halfspace, reflecting off the stack of layers
+          being treated by BOUNCE. Therefore, it depends on the
+          soundspeed of the halfspace in which that planewave is
+          propagating. In other words, the reflection coefficient, R(
+          theta ) depends not just on the impedance of the stack of
+          layers, but the impedance contrast. Thus, it is important to
+          specify the upper halfspace parameters. (Otherwise you get the
+          default of c0= 1500 m/s.)<br>
+        </tt></p>
+      <p class=""><tt>The functions f(k) and g(k) can become *very*
+          large or very small when there is tunneling. To deal with
+          that, all the models in the Acoustics Toolbox carry a separate
+          variable, iPower, which keeps track of powers of 10. Thus we
+          have f(k) = F(k) * 10^iPower and g(k) = G(k) * 10^iPower. The
+          removal of these extra factors is done whenever f and g become
+          badly scaled. This does not have to be done in any precise
+          way. The important thing is just to avoid over/underflows.</tt><tt
+          class=""> These quantities, f(k), g(k), and iPower(k), are the
+          key values output as the Internal Reflection Coefficient.<br
+            class="">
+        </tt></p>
+      <p><tt> </tt></p>
+      <p><tt>Usually something like 10 points/wavelength in the
+          numerical grid is sufficient. However, one should keep in mind
+          that the shortest wavelength (often related to shear speed) is
+          the important one for the sampling. Also, since BOUNCE is very
+          fast, there's no reason to skimp. The finer the grid, the more
+          accurate the result. I'll suggest perhaps 100
+          points/wavelength as a good balance between run time and
+          accuracy. I have seen cases where 10 points/wavelength gave
+          very poor accuracy in R( theta ).<br>
+        </tt></p>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+  </body>
+</html>

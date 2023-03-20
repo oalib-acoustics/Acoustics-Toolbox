@@ -1,0 +1,819 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/TR/REC-html40"
+  xmlns:w="urn:schemas-microsoft-com:office:word"
+  xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <meta name="ProgId" content="Word.Document">
+    <meta name="Generator" content="Microsoft Word 11">
+    <meta name="Originator" content="Microsoft Word 11">
+    <link rel="File-List" href="field3d_files/filelist.xml">
+    <!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Michael B. Porter</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>0</o:TotalTime>
+  <o:Created>2006-04-07T01:11:00Z</o:Created>
+  <o:LastSaved>2006-04-07T01:11:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>1365</o:Words>
+  <o:Characters>7785</o:Characters>
+  <o:Company>Heat, Light, and Sound Research, Inc.</o:Company>
+  <o:Lines>64</o:Lines>
+  <o:Paragraphs>18</o:Paragraphs>
+  <o:CharactersWithSpaces>9132</o:CharactersWithSpaces>
+  <o:Version>11.6360</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+    <style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 65.95pt 1.0in 65.95pt;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+  </style><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+    <title>FIELD3D</title>
+  </head>
+  <body style="" lang="EN-US">
+    <div class="Section1">
+      <h1><o:p>FIELD3D</o:p></h1>
+      <h1><o:p></o:p></h1>
+      <p class="MsoPlainText"><o:p><br>
+        </o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">The
+        FIELD3D program uses the modes calculated by KRAKEN and produces
+        a shade file which contains a sequence of 2-D slices of the
+        acoustic field.&nbsp; It is commonly used to compute a field in
+        plan view, i.e. as a function of horizontal coordinates (x,y).
+        It can also be used to compute the field on a vertical slice
+        along any fixed bearing through the 3-D environment.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">FIELD3D
+        uses a tiling of the ocean environment based on triangles. The
+        terminology is taken from finite-elements.&nbsp; To define the
+        triangles you must do the following:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">(1) Lay out a grid of points (nodes) where
+        you will construct environmental files for KRAKEN and solve for
+        the modes.&nbsp; A rule-of-thumb is to pick points every 10 km
+        but obviously a coarser spacing can be used in sites with less
+        environmental change.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">(2) Assign a number to each of the nodes.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">(3) Form a triangulation of the
+        nodes.&nbsp; That is, connect the nodes with lines such that the
+        grid is divided into a number of triangles.&nbsp; This should be
+        done with an eye towards keeping the area of the individual
+        triangles uniform.&nbsp; All nodes should be a corner of at
+        least one triangle. Each triangle is referred to as an element.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">There are algorithms for performing this
+        step automatically and if you write one I would be glad to
+        receive it.&nbsp; If instead you do this by hand you will
+        rapidly discover the merits of using a regular grid.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">(4) Assign a number to each of the
+        elements.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">You now
+        have the information required by FIELD3D to describe your
+        triangulation.&nbsp; In the input file you first tell FIELD3D
+        the coordinates of each node and the name of the file containing
+        the modes at each node.&nbsp; You then tell FIELD3D how you
+        connected the nodes to form a triangulation.&nbsp; This is done
+        by specifying the node numbers which define the corners of each
+        successive element (triangle).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Files:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Description</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Input</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.FLP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FieLd
+
+        Parameters</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.MOD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+30-99&nbsp;&nbsp;&nbsp;&nbsp;
+MODe
+
+        files</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Output</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.PRT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PRinT
+
+        file</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+*.SHD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SHaDe
+
+        file</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <h2>EXAMPLE AND DESCRIPTION OF FLP FILE:</h2>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">'MUNK3D'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        ! TITLE</p>
+      <p style="font-family: monospace;" class="MsoPlainText">'STDFM'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!
+
+        OPT</p>
+      <p style="font-family: monospace;" class="MsoPlainText">9999&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+M
+
+        (number of modes)<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+        Nsx<br>
+        0.001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! Sx&nbsp;
+        coordinates of source (km)<br>
+        1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+
+        Nsy<br>
+        0.001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! Sy&nbsp;
+        coordinates of source (km)<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        ! NSD</p>
+      <p style="font-family: monospace;" class="MsoPlainText">1000.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+SD(1:NSD)
+
+        (m)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        &nbsp;&nbsp;&nbsp;! NRD</p>
+      <p style="font-family: monospace;" class="MsoPlainText">800.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+RD(1:NRD)
+
+        (m)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        ! NR</p>
+      <p style="font-family: monospace;" class="MsoPlainText">0.0&nbsp;
+        100.0&nbsp;
+        501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+RMIN&nbsp;
+
+        RMAX (km)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        ! NTHETA</p>
+      <p style="font-family: monospace;" class="MsoPlainText">0.0&nbsp;
+        360.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+THETA(1:NTHETA)
+
+        (degrees)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;!
+Number
+of
+
+        SSP's (NSSP)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;100.0&nbsp;&nbsp;&nbsp;&nbsp;
+0.0&nbsp;
+'SCR:MUNKT0'&nbsp;&nbsp;
+!
+
+        (x, y) i=1, NSSP (km)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+0.0&nbsp;&nbsp;
+100.0&nbsp;
+'SCR:MUNKT90'&nbsp;
+
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">-100.0&nbsp;&nbsp;&nbsp;&nbsp;
+
+        0.0&nbsp; 'SCR:MUNKT0'</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+0.0&nbsp;
+-100.0&nbsp;
+'SCR:MUNKT270'
+
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+0.0&nbsp;&nbsp;&nbsp;&nbsp;
+0.0&nbsp;
+'SCR:MUNKT0'&nbsp;
+
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! NELTS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">5&nbsp;
+        1&nbsp;
+        2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+Nodes
+
+        of corners</p>
+      <p style="font-family: monospace;" class="MsoPlainText">5&nbsp;
+        2&nbsp; 3&nbsp; </p>
+      <p style="font-family: monospace;" class="MsoPlainText">5&nbsp;
+        3&nbsp; 4&nbsp; </p>
+      <p style="font-family: monospace;" class="MsoPlainText">5&nbsp;
+        4&nbsp; 1&nbsp; </p>
+      <p style="font-family: monospace;" class="MsoPlainText">4.0&nbsp;
+        360.0&nbsp;
+        90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+ALPHA1&nbsp;
+
+        ALPHA2&nbsp; NALPHA</p>
+      <p style="font-family: monospace;" class="MsoPlainText">500.0&nbsp;
+160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+!
+STEP&nbsp;
+
+        NSTEPS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">0.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        ! EPMULT</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(1) -
+        OPTIONS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        OPT</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPT(3:3):
+Type
+of
+
+        caculation.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'STD'
+(Standard)
+
+        for an Nx2D run.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'GBT'
+(Gaussian
+
+        beam trace) for a 3D run.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'PDQ'
+For
+
+        a fast preview run.</p>
+      <p style="font-family: monospace; margin-left: 160px;"
+        class="MsoPlainText">The 'STD' option neglects horizontal
+        refraction but runs a lot faster. Avoid using the 'GBT' option:
+        it requires some care to use properly. Option 'PDQ' runs about
+        3x as fast as 'STD' but is less accurate.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPT(4:4):
+TESCHECK
+(tesselation
+
+        check) flag.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'T'&nbsp;
+Perform
+
+        the tesselation check.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'F'&nbsp;
+omit&nbsp;&nbsp;&nbsp;
+
+        the tesselation check.</p>
+      <p style="font-family: monospace; margin-left: 160px;"
+        class="MsoPlainText">For all but the simplest setups the user
+        will INVARIABLY make an error in setting up the
+        triangulation.&nbsp; The first step to avoid this is to run
+        PLOTTRI to get a plot of the triangulation.&nbsp; Even after
+        that one should invoke this 'TESCHECK' option however for large
+        problems some time can be saved by turning off this feature
+        after the triangulation has been checked once.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPT(5:5):
+Type
+of
+
+        beams.</p>
+      <p style="font-family: monospace; margin-left: 160px;"
+        class="MsoPlainText">There are several types of Gaussian beams
+        available.&nbsp; I suggest using 'M'. This option is ignored
+        unless the Gaussian beam calculation has been selected. </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPT(6:6):
+Ray
+file
+
+        flag.</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText">Use 'R' to have a file of ray path
+        trajectories (in the horizontal plane) written to disk for
+        subsequent plotting using the PLOTRAYXY program.&nbsp; These
+        rays show the horizontal refraction of individual modes. This
+        option is ignored if you select a 'STD' or 'PDQ' run for then
+        the ray paths are just straight lines.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>OPT(7:7):
+
+        Selects a source beam pattern<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </span>'*' Read in a source beam pattern file.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </span>'O' Omnidirectional (default).</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><br>
+        (2) - NUMBER OF MODES</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        M</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+M:&nbsp;&nbsp;&nbsp;
+Number
+
+        of modes to use in the field computation.</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">If the number of modes specified exceeds
+        the number computed then the program uses all the computed
+        modes. </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(3) -
+        SOURCE COORDINATES (xy)<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NSx</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Sx(1:NSx)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NSy</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Sy(1:NSy)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NSx:&nbsp;
+The
+
+        number of source coordinates in x.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sx():
+x-coordinates
+
+        of the sources (km).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NSy:&nbsp;
+The
+
+        number of source coordinates in y.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Sy():
+
+        y-coordinates of the sources (km).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(4) -
+        SOURCE/RECEIVER DEPTHS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NSD</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        SD(1:NSD)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NRD</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        RD(1:NRD)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NSD:&nbsp;
+The
+
+        number of source depths.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SD():
+The
+source&nbsp;&nbsp;
+
+        depths (m).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NRD:&nbsp;
+The
+
+        number of receiver depths.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RD():
+The
+receiver
+
+        depths (m).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(5) -
+        RECEIVER RANGES</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NR</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        RMIN&nbsp; RMAX</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NR:&nbsp;&nbsp;
+Number
+
+        of receiver ranges.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RMIN:
+First
+receiver
+
+        range (km). MUST BE ZERO!</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RMAX:
+Last&nbsp;
+receiver
+
+        range (km).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(6) -
+        RADIALS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NTHETA</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        THETA(1:NTHETA)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NTHETA:&nbsp;
+Number
+
+        of radials.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+THETA():
+Angles
+for
+
+        each radial (degrees).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      </p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">For full circle (or disc) coverage our
+        plotting program likes to have a repeated radial, say 0 and 360
+        degrees.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">You cannot have multiple sources, receivers
+        and bearings in a single run: at least one of NSD, NRD or NTHETA
+        must be 1.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(7) -
+        NODES</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NNODES</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        X(1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Y(1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FILNAM(1)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        X(2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Y(2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FILNAM(2)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X(NNODES)&nbsp;
+Y(NNODES)&nbsp;
+
+        FILNAM(NNODES)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NNODES:&nbsp;&nbsp;&nbsp;
+Number
+
+        of nodes.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X():&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+X-coordinate
+
+        of node (km).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Y():&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Y-coordinate
+
+        of node (km). </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FILNAM():&nbsp;
+Name
+
+        of the mode file for that node.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Use
+the
+
+        name 'DUMMY' to produce an acoustic absorber.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(8) -
+        ELEMENTS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NELTS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NODE1(1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        NODE2(1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NODE3(1)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        NODE1(2)&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;NODE2(2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        NODE3(2)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        .</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NODE1(NELTS)&nbsp;
+NODE2(NELTS)&nbsp;
+
+        NODE3(NELTS)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NELTS:&nbsp;&nbsp;&nbsp;
+Number
+
+        of elements. (&lt;1500)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NODE1():&nbsp;
+Number
+
+        of node at first corner of the triangle.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NODE2():&nbsp;&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;
+"&nbsp;&nbsp;
+
+        "&nbsp;&nbsp;&nbsp; " second&nbsp;&nbsp; "&nbsp;&nbsp;
+        "&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp; "</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NODE3():&nbsp;&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;
+
+        "&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp; " third&nbsp;&nbsp;&nbsp;
+        "&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp; "</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+In
+this
+fashion
+
+        we define a tiling of triangular elements. The ordering of the
+        elements is arbitrary.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">(9) -
+        GAUSSIAN BEAM INFO</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ALPHA1&nbsp;
+ALPHA2&nbsp;
+
+        NALPHA</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        STEP&nbsp; NSTEPS</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        EPMULT</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ALPHA1:
+First
+angle
+
+        for beam fan (degrees).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ALPHA2:
+Last&nbsp;&nbsp;&nbsp;
+"&nbsp;&nbsp;&nbsp;
+
+        "&nbsp;&nbsp;&nbsp; "&nbsp;&nbsp; "&nbsp;&nbsp;&nbsp;&nbsp; "</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NALPHA:
+Number
+of
+
+        beams in fan.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+STEP:&nbsp;&nbsp;
+Step
+
+        size (m).</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NSTEPS:
+Number
+of
+
+        steps.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+EPMULT:
+Epsilon
+multipler
+
+        for beam initial conditions.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+This
+Gaussian
+beam
+
+        info can be omitted if the 'STD' option in block (1) is used.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Run time
+        is roughly proportional to M * NTHETA * NR.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;</p>
+    </div>
+  </body>
+</html>

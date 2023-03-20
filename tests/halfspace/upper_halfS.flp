@@ -1,0 +1,3 @@
+'RBO'				! 'R/X (coord), Pos/Neg/Both' note: pade interp has artifacts
+1001				! Nrr number of receiver ranges
+0.0  10.0 /			! rr( 1 : Nrr ) receiver ranges (km)

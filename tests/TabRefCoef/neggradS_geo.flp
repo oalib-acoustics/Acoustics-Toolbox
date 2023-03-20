@@ -1,0 +1,3 @@
+'RB'				! 'R/X (coord), Pos/Neg/Both' 
+501				! Nrr number of receiver ranges
+0.0  20.0 /			! rr( 1 : Nrr ) receiver ranges (km)

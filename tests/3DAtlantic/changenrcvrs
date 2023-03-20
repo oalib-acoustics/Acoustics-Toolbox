@@ -1,0 +1,11 @@
+#!/bin/csh
+printenv
+
+foreach filenm ( $argv[*] )
+   echo $filenm
+   sed \
+   -e "s/^51/ 201/g" \
+   $filenm >! $filenm.new
+   mv $filenm ~/dumpster
+   mv $filenm.new $filenm
+end

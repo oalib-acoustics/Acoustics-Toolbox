@@ -1,0 +1,1077 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Language" content="en-us">
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>Acoustics Toolbox</title>
+    <meta name="author" content="Michael B. Porter">
+  </head>
+  <body>
+    <h1 style="text-align: center;">Acoustics Toolbox: Kraken (normal
+      modes) </h1>
+    <p align="center"><br>
+    </p>
+    <big><big> <small>Copyright (C) 2009&nbsp; Michael B. Porter<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; This program is free software: you can
+          redistribute it and/or modify<br>
+          &nbsp;&nbsp;&nbsp; it under the terms of the GNU General
+          Public License as published by<br>
+          &nbsp;&nbsp;&nbsp; the Free Software Foundation, either
+          version 3 of the License, or<br>
+          &nbsp;&nbsp;&nbsp; (at your option) any later version.<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; This program is distributed in the hope
+          that it will be useful,<br>
+          &nbsp;&nbsp;&nbsp; but WITHOUT ANY WARRANTY; without even the
+          implied warranty of<br>
+          &nbsp;&nbsp;&nbsp; MERCHANTABILITY or FITNESS FOR A PARTICULAR
+          PURPOSE.&nbsp; See the<br>
+          &nbsp;&nbsp;&nbsp; GNU General Public License for more
+          details.<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; You should have received a copy of the GNU
+          General Public License<br>
+          &nbsp;&nbsp;&nbsp; along with this program.&nbsp; If not, see
+          &lt;http://www.gnu.org/licenses/&gt;.</small><big><big><br>
+          </big></big></big></big><br>
+    <h1>Updates</h1>
+    <br>
+    <br>
+    &nbsp;1/30/86&nbsp; New versions of KRAKEN and KRAKENC correct a bug
+    in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eigenvector
+    computations which probably did not affect<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; you unless
+    you saw the error message "failure to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; converge in
+    SINVIT" <br>
+    <br>
+    &nbsp;2/18/86&nbsp; Bug in KRAKENC corrected which affected
+    eigenvector<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; accuracy for
+    strongly attenuated modes.&nbsp; When<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; significant,
+    this error would have been flagged as<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "SINVIT
+    FAILED TO CONVERGE". The field computation has<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; been made a
+    common subroutine called EVAL for use by<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PLOTTLR,
+    PLOTTLD, FIELD, ... to assure consistency and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; simplify any
+    changes to the field computation. The<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; modified
+    version stores the field matrix in a fashion<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; which allows
+    for up to 50000 field points essentially<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; independent
+    of whether the matrix is 50000x1 or<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1x50000, etc.
+    With EVAL a common routine, the X,R or S<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameter
+    which indicates cartesian, cylindrical or<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scaled
+    cylindrical field computations has been<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; incorporated
+    in all the field computing routines. <br>
+    <br>
+    &nbsp;3/12/86&nbsp; TILT and DISPLACE merged into the FIELD program
+    so that<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; one routine
+    is used for vertical, tilted or displaced<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arrays. Also,
+    a blank line for last record in '.RED',<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '.SOD' and
+    '.RER' files is no longer needed. <br>
+    <br>
+    &nbsp;4/8/86&nbsp;&nbsp; CLOW parameter added for compatibility with
+    SCOOTER FFP<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; program. At
+    some later date KRAKEN will be modified to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allow the
+    mode calculation to be restricted to the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [CLOW,CHIGH]
+    phase speed interval, but for now CLOW is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a dummy
+    parameter. <br>
+    <br>
+    &nbsp;4/23/86&nbsp; KRAKEN and KRAKENC modified to allow one or more<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elastic media
+    above the water column.&nbsp; Thus an elastic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ice model may
+    be used. Additionally 'KRAKEN- ' or<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'KRAKENC- '
+    is now inserted before the user supplied<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; title.&nbsp;
+    With several programs now producing shade files<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it is
+    desireable to have this indicator on plotted<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output. <br>
+    <br>
+    &nbsp;5/22/86&nbsp; FIELD and PLOTTLR modified to treat range
+    dependent<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; environments
+    by adiabatic mode theory. <br>
+    <br>
+    &nbsp;6/1/86&nbsp;&nbsp; Surface scatter options modified to
+    accomodate Twersky<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ice scatter
+    as an amplitude only effect.&nbsp; Hard surface<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; backing
+    option removed since it seemed more a hazard<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (of
+    accidental use) than a benefit.&nbsp; Some unit numbers<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; changed: most
+    input is now done from unit 5 rather than<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 which makes
+    it simpler to run the program<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interactively
+    since unit=5 is the default input unit;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the unit
+    numbers for '.VEC' and '.WNO' have been<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; changed so
+    that with adiabatic mode runs a series of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; such files
+    can be allocated to sequential unit numbers. <br>
+    <br>
+    &nbsp;6/15/86&nbsp; FIELD3D module added which generalizes adiabatic
+    mode<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; theory to
+    3-dimensional problems. <br>
+    <br>
+    &nbsp;11/1/86&nbsp; Environmental file closed promptly after data is
+    read for<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user
+    convenience. START module added to provide a start-up<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; field for PE
+    programs. <br>
+    <br>
+    &nbsp;11/30/86 Spline option fixed.&nbsp; This had apparently not
+    been used<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by anybody
+    and was not properly updated when the input<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file format
+    was changed.&nbsp; Also, added check to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gracefully
+    abort the program when the problem is too<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; big for
+    dimensioned storage. <br>
+    <br>
+    &nbsp;1/8/87&nbsp;&nbsp; Slight changes in format statements on
+    input to avoid<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the problem
+    of neglected decimal points causing<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; disasters. <br>
+    <br>
+    &nbsp;2/13/87&nbsp; KRAKENC modified to gracefully handle problems
+    where<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the user
+    requests more modes than KRAKENC is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dimensioned
+    to handle. Both KRAKEN and KRAKENC modified<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to narrow a
+    user specified phase speed interval which<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is
+    unnecessarily large. (Eliminates the problem of a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user
+    specifying a CLOW which is so low as to cause a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; failure to
+    converge in the root finder.) Dimensions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; increased to
+    allow for up to 1000 modes. <br>
+    <br>
+    &nbsp;3/20/87&nbsp; All modules modified to use a single mode file
+    instead<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of separate
+    files for eigenvalues and eigenvectors. <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thus '.WNO'
+    and '.VEC' are now '.MOD'.&nbsp; This simplifies<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the command
+    files, especially for 3D runs which employ<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; numerous mode
+    files. Adiabatic versions of PLOTTLR and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FIELD have
+    been made the only versions.&nbsp; Thus PLOTTLRAD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; replaces
+    PLOTTLR.&nbsp; This is a step in the direction of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reducing the
+    proliferation of new modules with minor<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; variations
+    over existing modules. SCOOTER FFP program<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; integrated
+    into the package. <br>
+    <br>
+    &nbsp;6/1/87&nbsp;&nbsp; Options for different kinds of boundary
+    conditions<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; added. Allows
+    free, rigid and homogeneous half-spaces<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at top and
+    bottom. Environmental file format changed<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; slightly to
+    accomodate same. <br>
+    <br>
+    &nbsp;8/10/87&nbsp; Bug in section which scales to avoid under/over
+    flow<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; corrected.
+    Caused an overflow error to occur in the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; special case
+    where a mode became exactly 0.0 at one of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the finite
+    difference points. <br>
+    <br>
+    &nbsp;2/1/88&nbsp;&nbsp; Errors in line-source represention
+    corrected. The line<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; source is of
+    virtually no relevance in underwater<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acoustics so
+    this probably doesn't affect you.&nbsp; Coupled<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mode solution
+    implemented but density variations and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; half-space
+    contributions are ignored. <br>
+    <br>
+    &nbsp;6/29/88&nbsp; Inefficiencies in mode reading removed. Source,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver
+    depth files eliminated.&nbsp; ( Use of the /<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; command to
+    terminate records combined with an<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interpolation
+    routine made the '.SOD' and '.RED' files<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; an
+    unnecessary incumberance. ) KRAKEN input structure<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; modified so
+    that all lines are now read in using list<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; directed I/O.
+    <br>
+    <br>
+    &nbsp;8/1/88&nbsp;&nbsp; Some problems in tabulated bottom refl.
+    coeff.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; corrected.
+    Also corrections to FIELDS which made it<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; necessary to
+    use more k-space points than it should<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; have needed.
+    Interfacial scatter finally implemented<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; correctly. <br>
+    <br>
+    &nbsp;10/5/88&nbsp; Modified to allow up to 301 SSP pts.&nbsp;
+    Changes to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; internal
+    structures to do this efficiently.&nbsp;&nbsp; <br>
+    <br>
+    &nbsp;6/10/89&nbsp; Addition of source/receiver depth line.&nbsp;
+    This allows<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the user to
+    specify the depths at which modes are<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; written to
+    the mode file.&nbsp; Changes to various plotting<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; routines to
+    allow the user to specify the axis lengths. <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change to SSP
+    input structure: in the old version the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user had to
+    provide a count of the number of SSP points<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in each
+    layer.&nbsp; In the new version you simply provide<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the depth at
+    the bottom of each layer.&nbsp; The program<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; keeps reading
+    SSP points till it reaches that depth.<br>
+    <br>
+    &nbsp;9/19/89&nbsp; Several structural changes to the codes have
+    been made.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A subroutine
+    READIN replaces the previous INCLUDE for<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reading the
+    environmental file and a routine BCIMP has<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; been written
+    which combines TOPIMP and BOTIMP routines<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for the
+    boundary conditions.&nbsp; BCIMP has been written so<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that there
+    are no differences between the options<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; available for
+    top and bottom boundaries. (Actually,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that's not
+    entirely true since the internal reflection<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coefficient
+    option is still only implemented for the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lower
+    boundary.)&nbsp; The interfacial roughness calculation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; has been
+    separated from the mode normalization code to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; improve
+    readability. <br>
+    <br>
+    &nbsp;10/30/89 The option 'M' for attenuation in dB/m has been<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; implemented.
+    This is a one-line formula in the routine<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CRCI which,
+    despite appearing in earlier documentation,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; seems to have
+    gone unimplemented till now.<br>
+    <br>
+    &nbsp;11/20/89 Changes in FIELD3D calculations.&nbsp; In the
+    original<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; version the
+    receiver was located at the origin and the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; source moved
+    out in range.&nbsp; The present version is<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; consistent
+    with the other field calculation routines in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that the
+    source is fixed at the origin and the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receivers
+    move out in range.&nbsp; In addition, the option<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for multiple
+    source depths is now implemented.<br>
+    <br>
+    &nbsp;12/11/89 KRAKEN/KRAKENC modified to produce a MODFIL even when<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; there are no
+    propagating modes.&nbsp; This eliminates the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; need to
+    introduce DUMMY nodes in a FIELD3D run.<br>
+    <br>
+    &nbsp;2/2/90&nbsp;&nbsp; Changes to mode file format. The new<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; format is
+    much more compact for problems with lots of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; modes. In
+    addition, it includes the density and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; half-space
+    properties so that the field can be<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calculated in
+    a half-space.&nbsp; Also FIELD now allows a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; title to be
+    specified.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Error in
+    FIELD removed. In range-dependent calculations<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the number of
+    modes, M, may sometimes be reduced in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; propagating
+    out in range.&nbsp; The error in FIELD was to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; not reset M
+    for subsequent sources, possibly causing<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; erroneous
+    results.&nbsp; This error would only have affected<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    range-dependent problems with multiple sources.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Changes to
+    KRAKEN and KRAKENC to reduce storage.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Small change
+    in adiabatic calculations (routines EVALAD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and
+    EVAL3D.&nbsp; The denominator in the adiabatic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expression
+    involves sqrt(k(r)r).&nbsp; In the previous<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; version (as
+    in certain other modal codes the mean value<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of k(r) was
+    used instead.&nbsp; In practice, you'll be<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hard pressed
+    to spot the difference in TL calculations.<br>
+    <br>
+    &nbsp;3/30/90&nbsp; Errors in PROFIL routine corrected.&nbsp; The
+    LOC variable<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was not being
+    saved between calls and there was also an<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; illegal
+    reference to LOC(0).&nbsp; On a VAX the former<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; problem is a
+    non-issue because VMS Fortran<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; automatically
+    saves variables.&nbsp; The latter is only a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; problem when
+    LOC(0) accesses a non-zero value or a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; protected
+    memory location.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Also, if you
+    ever used the Thorp attenuation option you<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; know that it
+    wasn't working right.&nbsp; A missing factor<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was causing
+    attenuation values about 10,000 times too<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; large!<br>
+    <br>
+    &nbsp;6/20/90&nbsp; Bug in FIELD3D corrected which caused errors
+    when the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; step size
+    between points where TL was calculated was<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; large enough
+    that there was not at least one TL point<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in each
+    triangle. An analogous problem was also<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; corrected in
+    FIELD for adiabatic calculations.&nbsp; PDQ<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; option added
+    to FIELD3D for quicker but less accurate<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3D
+    calculations.&nbsp; Finally, FIELD3D has been modified to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; allow radials
+    to pass directly over nodes of the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    triangulation.&nbsp; Similarly, the source can now lie<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; anywhere in
+    the plane (on a node or even outside the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; triangles).<br>
+    <br>
+    &nbsp;12/10/90 Extensions to coupled mode routine.&nbsp; Density and
+    halfspace<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; contributions
+    are now included.&nbsp; This has necessitated<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; some
+    modifications to the MODFIL format.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A program
+    BOUNCE has been created to compute a reflection<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coefficient
+    for a multilayered domain.&nbsp; This reflection<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; coefficient
+    can be passed to KRAKENC to provide a boundary<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; condition or
+    plotted using the new routine PLOTRTH.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NEW IMPROVED
+    KRAKENC! Up to 3 times slower than the old<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    version!&nbsp; I've added an option which causes KRAKENC to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; perform a
+    very careful root search.&nbsp; In certain elastic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; problems the
+    old root finder was found to miss modes.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unfortunately
+    making the root finder more robust entails<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; slowing the
+    code down.&nbsp; As a compromise, I've introduced<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the
+    slow/robust root-finder as an option.&nbsp; For more<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; information
+    see TOPOPT as described in KRAKEN.HLP.<br>
+    <br>
+    &nbsp; 1/26/91 The XL and XR arrays were erroneously dimensioned one<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; element too
+    small.&nbsp; This caused an error in the special<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case when the
+    number of modes was exactly equal<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to MAXM, the
+    maximum number of modes KRAKEN is dimensioned<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to calculate.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Modifications
+    to the adiabatic mode calculation routine<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EVALAD.&nbsp;
+    With a very coarse distribution of receivers in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; range the
+    results differed from the convergent answer<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; obtained with
+    say 500 range points.&nbsp; Basically, there was<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; some sloppy
+    handling of the phase integral in range<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; which assumed
+    you had a dense sampling of points in<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; range.&nbsp;
+    (Practically the inaccuracy introduced was<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; probably less
+    than that due to the adiabatic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; approximation
+    itself.)<br>
+    <br>
+    <br>
+    &nbsp; 5/15/91 Error corrected in READIN.&nbsp; The vectors CP and
+    CS were<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dimensioned
+    to a length of one element.&nbsp; When the analytic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; profile
+    option is used this is not sufficient.<br>
+    <br>
+    &nbsp; 5/20/92 Common blocks reshuffled to avoid alignment errors on<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; various UNIX
+    systems during compilation.&nbsp; Double opens<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; implemented
+    to get record lengths from files on UNIX<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    systems.&nbsp; A missing EXTERNAL statement has been added to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the
+    SLATECBESSEL package.&nbsp; On SGI systems this was flagged<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+    compilation time and subsequently led to erratic<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; results.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An error has
+    been corrected in KRAKEN which<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; caused minor
+    discrepancies with the KRAKENC result.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KRAKEN was
+    taking the single precision part of the SSP<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rather than
+    the full double precision available.&nbsp; Since<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the models
+    write the mode files in single precision, this<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error only
+    shows up on the print-out where the full precision<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is
+    shown.&nbsp; Also, it did not affect results on VAX machines.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; An error in
+    the 'Q' type attenuation has been fixed.&nbsp; The<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error caused
+    any attenuation to be ignored when using this<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; option.<br>
+    <br>
+    &nbsp;9/25/92&nbsp; The option of putting an acousto-elastic
+    halfspace<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; on the top
+    was not working properly. (It took the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; density from
+    the lower halfspace.)<br>
+    <br>
+    &nbsp;11/9/92&nbsp; Error corrected in coupled-mode calculations
+    (subroutine<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    EVALCM).&nbsp; The program multiplied the profile ranges<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by a factor
+    of 1000 to convert km to m every time it<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was called.
+    The error was that the scaling was repeated<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for sources
+    after the first.&nbsp; This had the effect of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stretching
+    the environment so much that it was effectively<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    range-independent for subsequent sources.<br>
+    <br>
+    &nbsp;1/20/93&nbsp; Form feeds removed.&nbsp; TYPE and ACCEPT
+    statements removed.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Routine COVAR
+    written to generate a covariance matrix<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for
+    matched-field processing with colored or white<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; noise. BART
+    and CAPON implemented to compute<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ambiguity
+    surfaces.&nbsp; A few other minor changes were<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; made to
+    accomodate the more sensitive AIX (IBM) and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AbSoft (NeXT)
+    compilers.<br>
+    <br>
+    &nbsp;6/ 5/93&nbsp; KRAKEN and KRAKENC have been modified to discard<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; any
+    eigenvalue returned by the root finder if<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; an error
+    occurred during the search. This fixes<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a problem
+    that occurred in some elastic cases<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where extra
+    modes were returned. Also, the e(i pi/4)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; factor has
+    been added to the pressure calculations.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Since this
+    phase does not affect TL or standard<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; beamformers,
+    it had never been included.<br>
+    <br>
+    &nbsp;8/20/93&nbsp; KRAKENC has been modified to zero out the
+    imaginary<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; part of an
+    eigenvalue if it's positive.&nbsp; A positive<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; imaginary
+    part may occur when the true root is just<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; below the
+    real axis. For such roots the root-finder<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; can give a
+    very accurate approximation to the root<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that just
+    happens to be on the positive side of<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the axis.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A check has
+    been added in COVAR for zero eigenvalues.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The colored
+    noise model will always fail in such<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cases since
+    without attenuation the noise sheet<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; leads to
+    infinite intensities.<br>
+    <br>
+    12/26/93&nbsp; Unix version was not creating empty mode files<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; correctly for
+    the case when no modes were present.<br>
+    <br>
+    &nbsp;4/ 9/94&nbsp; Adiabatic calculations were showing excessive<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; round-off
+    error when many (&gt;1000) receiver<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ranges were
+    used.&nbsp; The offending variable has<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; been
+    converted to double precision in EVALAD.F and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EVALD3D.F<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KRAKENC was
+    not setting the value for the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last
+    calculated mode when it aborted the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; run because
+    the mesh was too coarse.<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All programs
+    have been set up to open Fortran files<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by name
+    rather than unit number. This gets around<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the problem
+    that different vendors use different<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default names
+    for files causing the scripts to<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; need to be
+    modified for each machine.<br>
+    <br>
+    &nbsp;6/23/94&nbsp; Bug fix in KRAKEN: a variable was not properly
+    initialized<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in the
+    special case where a mode cutoff on the 3rd<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or subsequent
+    meshes. To fix it, FUNCT has been modified<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to return 0
+    and zsecx.f has been modified to quit immediately<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; when f(x) = 0
+    (identically).<br>
+    <br>
+    &nbsp;3/13/95&nbsp; Various routines for calculating the acoustic
+    pressure<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; were missing
+    a factor of i (eval.f, eval3d.f, evalcm.f, ...<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This has no
+    effect on TL but leads to a Hilbert transform<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in
+    time-series calculations.<br>
+    <br>
+    &nbsp;3/15/96&nbsp; The logical record length used in opening the
+    mode files<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was too small
+    in the case of many layers and few receivers.<br>
+    <br>
+    &nbsp;4/19/96&nbsp; getmod.f was testing the proximity of the
+    receiver depth<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to the
+    tabulation grid using points above and below the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receiver.
+    This is not valid when there is only one tabulation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; point ... The
+    code has been modified to bypass linear<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interpolation
+    for this case.<br>
+    <br>
+    &nbsp;5/27/96&nbsp; An option has been added to calculate the finite
+    difference<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grid (NMESH)
+    automatically.<br>
+    <br>
+    10/29/96&nbsp; For adiabatic field calculations, erroneous results
+    are<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; obtained if
+    the first profile does not start at zero range.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A test has
+    been added to field.f to enforce this.<br>
+    <br>
+    10/14/97&nbsp; FIELD3D failed without explanation in a case where
+    there were<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more modes
+    than allocated storage (MAXM). A test has been added<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; to flag this
+    error in all routines.<br>
+    <br>
+    11/30/97&nbsp; MODBIN/MODASC have been modified so that the ascii
+    file format<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is easier to
+    read into matlab programs. LAPACK implementation<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of RAN()
+    included to aid portability. Bug in BOUNCE ...<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; it was
+    accessing (but not using) LOC( 0 ) in calculating the<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reflection
+    coefficient for a stack of elastic layers with no<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acoustic
+    layer.<br>
+    <br>
+    &nbsp;1/98 PLOTRTH has been modified to include new display options.<br>
+    <br>
+    &nbsp;8/98 KRAKEN and KRAKENC now allow up to 1000 profiles to be
+    stacked one after<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; another in a single ENVFIL. Thus, a
+    coupled-mode or adiabatic run can be<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; done with a single call to KRAKEN or
+    KRAKENC. In many cases, the run-time<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; was dominated by just the cost of
+    loading KRAKEN so this can be a big time<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; saver ...<br>
+    <br>
+    &nbsp;8/98 The inverse iteration routines (sinvitd and sinvitz for
+    KRAKEN and KRAKENC<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; respectively, have been cleaned up
+    and tuned a bit for about a 25% speed<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; improvement.<br>
+    <br>
+    &nbsp;3/99 Group velocity is now included in the output print file.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Modifications for Y2k compliance.<br>
+    <br>
+    &nbsp;6/00 The option for having KRAKEN and KRAKENC do multiple runs
+    in one envfil was not working (as a result of my having added a
+    'close' for the file in the wrong place (fixed). Variables also
+    needed to be deallocated so that an error was not generated in
+    trying to allocate an already exiting variable. (This problem crept
+    in when features of f90 dynamic allocation were introduced.)<br>
+    &nbsp;<br>
+    10/00 Evidently some errors crept into FIELD3D/EVAL3D when dynamic
+    array allocation was added. The range-vector had not been allocated.
+    Subroutine 'out' was carrying the vector 'iset' through to a calling
+    program (not using it itself) and had never allocated it as a
+    vector. There was an erroneous attemp to allocate vector 'sumk' for
+    subsequent radials, when it had already been allocated.<br>
+    <br>
+    10/00 The documentation files have been updated to reflect the minor
+    changes in the input structure required for dynamic allocation.<br>
+    <br>
+    2/01 Bottom and top reflection coeffiecient files were not being
+    closed. This causes a problem when multiple profiles were stacked in
+    a single KRAKEN envfil and the reflection coefficients needed to be
+    re-read for subsequent profiles.<br>
+    <br>
+    9/01 Same problem as on 6/00 but with modfil's not being properly
+    closed. As I understand the Fortran spec, all files should be
+    automatically and properly closed on program termination. However,
+    since the compiler doesn't seem to be doing this properly I'm adding
+    close statements for all files.<br>
+    <br>
+    11/01 A bug in Bounce was introduced in converting to f95. The bug
+    involved the calculation of the mesh spacing H(). Fixed. An
+    additional feature has been added allowing BOUNCE to directly output
+    a reflection coefficient file in the '.brc' format that BELLHOP
+    uses.<br>
+    <br>
+    <i>May 2002</i><br>
+    Attenuation units can be input in terms of a 'loss parameter'.
+    Incomplete dependencies in Makefiles have been corrected.<br>
+    <br>
+    <i>June 2002</i><br>
+    An atan(y/x) operation was converted to atan2(y, x) to allow for
+    x=0. This happens when KRAKEN or SCOOTER, calculateS a reflection
+    coefficient for vertical incidence.<br>
+    <br>
+    <i>November 2002</i><br>
+    Changes to KRAKEN so that mode files are numbered modfil0001,
+    modfil0002, etc. as opposed to modfil1, modfil2, ... This addresses
+    a problem that the (presumed standard) I0 format option in Lahey
+    Fortran does not exist in Portland Group Fortran. <br>
+    <br>
+    <i>December 2002</i><br>
+    The field program allows you to specify receiver displacements (for
+    tilted arrays). Typically, the array is straight and one wants to
+    just put in a value of zero and have it repeated for all phones. The
+    FIELD code was inadvertantly accessing an unitialized variable in
+    that case. I've never seen a problem result from this, but it's
+    obviously not the way to leave things and it was being trapped when
+    I had all the debug traps set by the compiler. It's now fixed.<br>
+    <br>
+    <i>February 2003</i><br>
+    A problem was brought to my attention in using the option for a
+    tabulated reflection coefficient in KRAKENC. It turned out that the
+    code was using the sound speed at the top of the ocean, rather than
+    the value at the water/sediment interface. The phase of the
+    reflection coefficient was also being included with an incorrect
+    sign (relative to the convention in BOUNCE). The first of these
+    problems was also present in SCOOTER (but not the second). A set of
+    test problems (at/tests/TabRefCoef) has been added to exercise this
+    option. There are 6 cases there; however, BELLHOP is not currently
+    part of that battery, nor are the top reflection coefficients tested
+    ... KRAKENC and SCOOTER are tested for both BRC and IRC types of
+    reflectioncoefficients.<br>
+    <br>
+    <i>March 2003</i><br>
+    In an earlier process of converting the code to f95 I had used a
+    cmplx( ,,kind=4) statement where kind=8 (double precision) should
+    have been used. (This is in function CRCI.) The effect of this was
+    that the sound speed profiles were provided in single precision.
+    Given that in the real world we know the sound speed that precisely,
+    the error is irrelevant for practical problems. However, it would
+    effect extremely precise benchmarking exercises.<br>
+    <br>
+    <i>May 2004</i><br>
+    Compilation under the latest version of Lahey Fortran revealed
+    problems related to not deallocating dynamic variables in
+    subroutines that were called more than once. DEALLOC statements have
+    been added to KRAKEN and KRAKENC in the necessary places.<br>
+    <br>
+    <i>May 2006</i><br>
+    The dynamic allocation done in FIELD3D to take advantage of
+    fortran95 had some small problems. In the process of looking at
+    this, a large number of changes were done. The shade files now allow
+    multiple bearings which affects all the codes in the Acoustics
+    Toolbox. An ElementMod (Element Module) has been introduced to take
+    further advantage of the f95 dynamic allocation. EVALGB.f90 (the
+    Gaussian beam option for horizontal refraction) has had key sections
+    converted to double precision since a test case (at/test/3DAtlantic)
+    showed sensitivity to the precision.<br>
+    <br>
+    <i>November 2006</i><br>
+    The default mesh spacing of 10 points/wavelength was found too
+    coarse for calculating the reflection coefficient using BOUNCE. It
+    was increase to 20 points/wavelength. Unfortunately this effects all
+    the models in the toolbox that use that same readin routine. Those
+    models will now run slower than necessary.<br>
+    <br>
+    <i>December 2007</i><br>
+    Gulf test case using the adiabatic option generates a segmentation
+    fault with the Intel compiler. g95 and gfortran are fine. No errors
+    are detected by the Intel compiler when all checks are turned on.
+    Error is eliminated by using fewer receiver depths. Speculation is
+    that the automatic array allocation for the variable PhiL is failing
+    (since this is one difference compared to the coupled mode version).<br>
+    <br>
+    <i>April 2008</i><br>
+    Fixed logic that was supposed to detect the last SSP point by an
+    approximate match to the value of Depth. The test was too stringent,
+    and didn't always find a match because of roundoff.<br>
+    <br>
+    Learned that the Intel compiler generates a segmentation fault when
+    the stack overflows. A compiler switch was added to the Makefile to
+    replace the stack by a heap for the Intel compiler. This answers
+    issue of December 2007 above ...<br>
+    <br>
+    Added logic to gracefully exit when an end of file is detected in
+    the ENVFIL. This happens, for instance, when a user puts extra blank
+    lines at the end. KRAKEN thinks the user has concatenated runs and
+    tries to process the blank lines as an input stream.<br>
+    <br>
+    <i>March 2009</i><br>
+    The "subtab" option for profiles in field.f90 had become broken ...
+    This option allows you to specify just the first and last ranges of
+    the profiles in an adiabatic or coupled-mode calculation. Then field
+    would subtabulate intermediate ranges. The call to the subtab
+    routine was just in the wrong place ...<br>
+    <br>
+    <i>August 2009</i><br>
+    Previously, KRAKEN and KRAKENC would create a different mode file
+    for each profile in the environmental file. The new version writes
+    the modes into a single, combined mode file. All the routines that
+    read mode files, including FIELD have been modified accordingly.<br>
+    <br>
+    The mode files use a fixed record length determined by the first
+    profile in the environmental profile. Therefore an error will be
+    generated if the required record length increases in subsequent
+    profiles. The record length is normally controlled by the number of
+    distinct source/receiver depths.<br>
+    <br>
+    The Matlab versions of FIELD have also been converted to be
+    compatible with this new format. The coupled mode implementation in
+    Matlab has been modified to store the modes in single precision
+    (they are written to the mode file in single precision, so there is
+    not a lot of advantage in computing later in double precision).<br>
+    <br>
+    The convergence test in the root finders was tighter in KRAKENC than
+    KRAKEN (root finders zseccx and zsecx, respectively). These have
+    been unified using the tighter test, but with a looser tolerance for
+    the test. Also, there was a reliable process in zseccx to avoid NaNs
+    in the secant method when the function returned the same value at
+    adjacent iterates. This has been carried over to zsecx. This should
+    be a more robust process.<br>
+    <br>
+    The inverse iteration routines (invited and sinvitz) were not able
+    to get the specified growth rate for certain interfacial modes. The
+    test has been relaxed a bit.<br>
+    <br>
+    The test in KRAKEN and KRAKENC to determine when a mode was outside
+    the user-specified spectral integral was incorrect for negative
+    eigenvalues. Fixed.<br>
+    <br>
+    Constants, such as 1.0 have been typed in as 1.0D0 everywhere to
+    make sure they are treated as double precision.<br>
+    <br>
+    <i>April 2011</i><br>
+    Modified FIELD3D to allow multiple source locations in the x-y
+    direction&nbsp; (for noise calculations with sources located
+    everywhere).<br>
+    <br>
+    <i>May 2011</i><br>
+    BOUNCE modified to handle imaginary angles more gracefully when
+    writing a reflection coefficient file. They are mapped to zero
+    degrees.<br>
+    <br>
+    <i>November 2011</i><br>
+    The MergeVectors routine in at/misc was supposed to remove
+    duplicates in the source/receiver depths where the modes are
+    tabulated. It was not consistently doing so because it tested for
+    exact equality. This has been corrected.<br>
+    <br>
+    <i>November 2012</i><br>
+    The routine (getmodes.f90) that returns the mode shapes in
+    halfspaces used a formula<br>
+    that was only valid with KRAKENC modes. There had actually been a<br>
+    comment in the code noting that limitation ... That routine has been<br>
+    modified to detect whether the modes were calculated by KRAKEN or<br>
+    KRAKENC and use the appropriate formula.<br>
+    <br>
+    <i>June 2015</i><br>
+    There are both Fortran and Matlab implementations of coupled modes
+    in<br>
+    KRAKEN. The Matlab versions had a formula for calculating the<br>
+    integration weights that assumed a single index for the interface
+    was<br>
+    returned. However, for internal interfaces a special weight is
+    needed<br>
+    for points on either side of the interface. This caused a fatal
+    error<br>
+    when the Matlab code was run iff there were sub-bottom layers. This<br>
+    affected both evalcm.m and evalcmLoadAll.m which are two different<br>
+    implementations of coupled modes.<br>
+    <br>
+    <i>September 2015</i><br>
+    There is a rarely used and little tested option in FIELD3D to use
+    Gaussian beams x modes to treat<br>
+    horizontal refraction in the adiabatic mode approximation. The file
+    involved is evaluategb.f90.<br>
+    <br>
+    A shortcut<br>
+    had been taken in the code in assuming that a single range step
+    along<br>
+    the central ray of the beam could only take you into an adjacent<br>
+    element. Code has been added to have it skip through multiple
+    elements<br>
+    as necessary.<br>
+    <br>
+    The code had also been ignoring the imaginary part of the modal
+    wavenumbers (the attenuation factor). (The<br>
+    complex rays are projected onto the real plane by taking the real
+    part<br>
+    of the wavenumbers; however, this should not have been applied to
+    the<br>
+    phase delay.)<br>
+    <br>
+    <i>February 2017</i><br>
+    Testing with an aeroacoustic scenario (involving low density)
+    revealed<br>
+    that there was a missing density factor in handling tabulated<br>
+    reflection coefficients. This occured in both KRAKEN and SCOOTER for<br>
+    this option and has been fixed.<br>
+    <br>
+    <i>November 2017</i><br>
+    A new option had been added in KRAKEN and KRAKENC some months back
+    to<br>
+    do broadband calculations. This is invoked with an option letter and<br>
+    requires a frequency vector to be added to the input file. This
+    change<br>
+    was fairly involved, requiring modifications to the file formats for<br>
+    both modfiles and shdfiles.<br>
+    <br>
+    Two bugs showed up. First, the record length did not consider the<br>
+    length of the frequency vector. When there were many frequencies,
+    the<br>
+    record lenght was too short to accomodate that vector.<br>
+    <br>
+    Second, the automatic grid selection took a scalar multiple based on<br>
+    the frequency. However, it was scaling things for each frequency
+    based<br>
+    on how much larger it was relative to the lowest frequency. However,<br>
+    the initial grid itself was selected based on the highest<br>
+    frequency. Therefore, the grids were ridiculously fine and the
+    runtime<br>
+    was excessive.<br>
+    <br>
+    <i>January 2018</i><br>
+    The format of the mode files has been modified so that top and
+    bottom<br>
+    halfspace information is written for each frequency and for each<br>
+    profile. The previous version assumed that did not change. The<br>
+    soundspeed generally changes with frequency because it is a complex<br>
+    number incorporating the frequency-dependent attenuation. Allowing
+    the<br>
+    sound speed in the halfspace also to change with profile makes
+    KRAKEN<br>
+    more general. These changes affect both the writing of the mode
+    files<br>
+    as well as Fortran and Matlab routines that read those mode files.<br>
+    <br>
+    The KRAKEN Field routines have also been pulled out into a separate<br>
+    directory to organize things a bit more cleanly.<br>
+    <br>
+    <i>September 2020</i><br>
+    A user found inconsistent results between the Fortran and Matlab<br>
+    version of field. This was because they had applied array tilt and
+    the<br>
+    Matlab version does not have that implemented. (The Fortran version
+    does.) A test was added so<br>
+    that that is flagged as an error.<br>
+    <br>
+    <i>October 2020</i><br>
+    All the references to the Twersky ice scatter model have been<br>
+    removed from both the code and the documentation. This capability
+    had<br>
+    fallen out of repair decades ago and (in my opinion)<br>
+    was of minimal value.<br>
+    <br>
+    At some point, perhaps two years ago, I broke the Matlab version of<br>
+    the coupled mode code. I had added code that interpolated the ranges<br>
+    of new profiles based on a first and last range. However, that was<br>
+    generally not appropriate. The Fortran version remained as the<br>
+    default. This problem has been fixed and both codes produces the
+    same<br>
+    results. This corrects resutls from at/tests/Gulf and at/tests/step<br>
+    when using the Matlab coupled mode code.<br>
+    <br>
+    <i>March 2021</i><br>
+    I was getting sporadic segment violations where running the coupled<br>
+    mode test in at/tests/step. The cause was a line that extended the<br>
+    profile ranges so that the last segment continued in a<br>
+    range-independent fashion to infinite range. The code involved was<br>
+    field.f90 and evaluateCM.f90 (coupled mode option). This was fixed
+    by<br>
+    modifying evaluateCM to try to advance the profile index past the
+    last profile.<br>
+    <br>
+    This was tracked down by running valgrind. Several other minor bugs<br>
+    were revealed by that, involving unitialized variables. These were
+    not<br>
+    significant since they were not playing a role in the field.f90---
+    some<br>
+    of these variables related to 3D calculations used by other
+    programs.<br>
+    <br>
+    <i>May 2021</i><br>
+    FIELD3D was failing in cases where there were no propagating<br>
+    modes. The had been a trap for that; however, it was being checked<br>
+    after the routine for reading the modes was already trying to do<br>
+    that. A check has been added earlier.<br>
+    <br>
+    The Matlab plotmode.m routine has also been modified to show an
+    error<br>
+    message when asked to plotmodes for cases where there were no<br>
+    propagating modes.<br>
+    <br>
+    <i>August 2021</i><br>
+    A new method was introduced several years ago to incorporate
+    boundary<br>
+    losses in KRAKEN (but not KRAKENC). The new method generalizes to<br>
+    leaky modes and was generally found to be a significant<br>
+    improvement. However, in the process of adding that in I
+    accidentally<br>
+    disabled a correction to the group speed formula associated with the<br>
+    lower halfspace. This has now been corrected for the trapped modes,<br>
+    restoring the capability. However, we do not currently have an<br>
+    extension for the group speed for the leaky modes.<br>
+    <br>
+    <i>April 2022</i><br>
+    There is a limit in gfortran (and possibly other compilers) on the<br>
+    size of the largest array (2 GB? with mcmodel=small). Field3d.f90<br>
+    sometimes needs bigger arrays. To bypass this limit the large arrays<br>
+    are now allocated dynamically.<br>
+    <br>
+    <br>
+    <br>
+  </body>
+</html>

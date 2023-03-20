@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="content-type">
+    <title>Reflection Coefficient File</title>
+  </head>
+  <body>
+    <h1>Range-Dependent SSP File</h1>
+    <br>
+    If you select option 'Q' (quadrilateral elements) for the SSP
+    interpolation, BELLHOP will read a range-dependent SSP from an
+    SSPFIL. The format of the SSPFIL is as follows:<br>
+    <h4 style="font-family: monospace;">Range-dependent SSP<br>
+    </h4>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax: </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>NPROFILES<br>
+        RPROF( 1 )&nbsp; RPROF( 2 ) ...&nbsp; RPROF( NPROFILES )<br>
+      </var><var>C( 1, 1 )<span style="">&nbsp;&nbsp; </span>C( 1, 2 )<span
+          style="">&nbsp; ...</span>&nbsp; C( 1, NPROFILES )</var><var
+        style="font-style: italic;"><br>
+        C( 2, 1 )<span style="">&nbsp;&nbsp; </span>C( 2, 2 )<span
+          style="">&nbsp; </span>...&nbsp; C( 2, NPROFILES )<span
+          style=""><br>
+          &nbsp;</span>.<span style=""><br>
+          &nbsp;</span>.<br>
+        &nbsp;.<br>
+        <span style=""></span><span style=""></span><span style=""></span><span
+          style=""></span></var><span style="font-style: italic;">C( NZ,
+        1 )&nbsp; C( NZ, 2 )&nbsp;&nbsp;&nbsp;&nbsp; ...&nbsp; C( NZ,
+        NPROFILES )</span></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>NPROFILES:<span
+        style="">&nbsp;&nbsp; </span>Number of profiles.<br>
+      NZ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number
+      of depth points where SSP is sampled<br>
+      <span style=""></span>RPROF():<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+      </span>Range of each profile in km.<br>
+      <span style=""></span>C():<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      </span>Sound speed. c( iz, iprof ) is the sound speed at the depth
+      point, iz, in profile, iprof.<br>
+    </p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText">Example:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><br>
+    </p>
+    <p style="font-family: monospace; margin-left: 80px;">8<br>
+      0.0&nbsp;&nbsp;&nbsp;&nbsp; 12.5&nbsp; &nbsp;&nbsp;
+      25.0&nbsp;&nbsp;&nbsp; 37.5&nbsp;&nbsp;&nbsp;
+      50.0&nbsp;&nbsp;&nbsp; 75.0&nbsp;&nbsp;&nbsp; 100.0&nbsp;&nbsp;
+      125.0<br>
+      1536&nbsp;&nbsp;&nbsp; 1536 &nbsp;&nbsp;&nbsp;
+      1536&nbsp;&nbsp;&nbsp; 1536&nbsp;&nbsp;&nbsp;
+      1536&nbsp;&nbsp;&nbsp; 1536&nbsp;&nbsp;&nbsp;
+      1536&nbsp;&nbsp;&nbsp; 1536<br>
+      1506&nbsp;&nbsp;&nbsp; 1508.75&nbsp; 1511.5&nbsp; 1514.25
+      1517&nbsp;&nbsp;&nbsp; 1520&nbsp;&nbsp;&nbsp;
+      1524&nbsp;&nbsp;&nbsp; 1528<br>
+      1503&nbsp;&nbsp;&nbsp; 1503&nbsp;&nbsp; &nbsp;
+      1503&nbsp;&nbsp;&nbsp; 1502.75 1502.5&nbsp; 1502&nbsp;&nbsp;&nbsp;
+      1502&nbsp;&nbsp;&nbsp; 1502<br>
+      1508&nbsp;&nbsp;&nbsp; 1507&nbsp;&nbsp;&nbsp;&nbsp;
+      1506&nbsp;&nbsp;&nbsp; 1505&nbsp;&nbsp;&nbsp;
+      1504&nbsp;&nbsp;&nbsp; 1503&nbsp;&nbsp;&nbsp; 1501.5&nbsp; 1500<br>
+      1508&nbsp;&nbsp;&nbsp; 1506.6&nbsp;&nbsp; 1505&nbsp;&nbsp;&nbsp;
+      1503.75 1502.5&nbsp; 1500.5&nbsp; 1499&nbsp;&nbsp;&nbsp; 1497<br>
+      1497&nbsp;&nbsp;&nbsp; 1497&nbsp;&nbsp;&nbsp;&nbsp;
+      1497&nbsp;&nbsp;&nbsp; 1497&nbsp;&nbsp;&nbsp;
+      1497&nbsp;&nbsp;&nbsp; 1497&nbsp;&nbsp;&nbsp;
+      1497&nbsp;&nbsp;&nbsp; 1497<br>
+      1500&nbsp;&nbsp;&nbsp; 1500&nbsp;&nbsp;&nbsp;&nbsp;
+      1500&nbsp;&nbsp;&nbsp; 1500&nbsp;&nbsp;&nbsp;
+      1500&nbsp;&nbsp;&nbsp; 1500&nbsp;&nbsp;&nbsp;
+      1500&nbsp;&nbsp;&nbsp; 1500<br>
+      1512&nbsp;&nbsp;&nbsp; 1512&nbsp;&nbsp;&nbsp;&nbsp;
+      1512&nbsp;&nbsp;&nbsp; 1512&nbsp;&nbsp;&nbsp;
+      1512&nbsp;&nbsp;&nbsp; 1512&nbsp;&nbsp;&nbsp;
+      1512&nbsp;&nbsp;&nbsp; 1512<br>
+      1528&nbsp;&nbsp;&nbsp; 1528&nbsp;&nbsp;&nbsp;&nbsp;
+      1528&nbsp;&nbsp;&nbsp; 1528&nbsp;&nbsp;&nbsp;
+      1528&nbsp;&nbsp;&nbsp; 1528&nbsp;&nbsp;&nbsp;
+      1528&nbsp;&nbsp;&nbsp; 1528<br>
+      1545&nbsp;&nbsp;&nbsp; 1545&nbsp;&nbsp;&nbsp;&nbsp;
+      1545&nbsp;&nbsp;&nbsp; 1545&nbsp;&nbsp;&nbsp;
+      1545&nbsp;&nbsp;&nbsp; 1545&nbsp;&nbsp;&nbsp;
+      1545&nbsp;&nbsp;&nbsp; 1545<br>
+    </p>
+    <p style="font-family: monospace; margin-left: 80px;"><br>
+      Note: The main BELLHOP envfil must contain a dummy SSP with NZ
+      depth points. Those depths points are used to interpret the depths
+      in the above SSP matrix.<br>
+    </p>
+    <p style="font-family: monospace; margin-left: 80px;">The vector of
+      profile ranges must increase strictly monotonically.<br>
+    </p>
+    <p style="font-family: monospace; margin-left: 80px;">See the
+      example in at/tests/Gulf. Note that the SSP is NOT extrapolated
+      outside the domain of ranges. If you trace rays to ranges outside
+      that domain, you will get an error message. That limit for tracing
+      rays is controlled by rBox. Keep in mind also that BELLHOP will
+      trace rays to negative 'ranges' if the launch angles go to the
+      left or if boundary interactions cause the rays to reverse.<br>
+    </p>
+  </body>
+</html>

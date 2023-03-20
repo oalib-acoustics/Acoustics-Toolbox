@@ -1,0 +1,13 @@
+/,				! TITLE
+'RA'				! OPT 'X/R' (coords), 'C/A' (couple/adiab)
+9999				! M  (number of modes to include)
+1				! NProf # of profiles
+     0.0 100.0 /		! RProf( 1 : NProf ) (km)
+1001 	       			! NRr # of receiver ranges
+ 0.0  100.0 /			! Rr(    1 : NRr   ) (km)
+1     	    			! NSz # of source depths
+   100.0 /			! Sz(    1 : NSz   ) (m)
+501	  			! NRz # of receiver ranges
+  0.0 200.0 /			! Rz(    1 : NRz )   (m)
+501   	     			! NRo # of receiver range offsets (for array tilt)
+     0.0 /			! Ro(    1 : NRo )   (m)

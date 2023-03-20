@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="content-type">
+    <title>Altimetry or Bathymetry File</title>
+  </head>
+  <body>
+    <h1>Altimetry or Bathymetry File</h1>
+    <br>
+    The format is the same for top altimetry or bottom bathymetry. Only
+    BELLHOP and SimplePE use these files. (SimplePE allows bathymetry
+    variations, but not altimetry variations.)<br>
+    <br>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax: </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>TYPE<br>
+        NPOINTS</var><var><br>
+        R(1)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Z(1)<span
+          style=""></span></var><var><br>
+        R(2)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Z(2)<span
+          style=""></span><span style=""><br>
+          &nbsp;</span>.<span style=""><br>
+          &nbsp;</span>.<br>
+        <span style="">&nbsp;</span>.<span style=""><br>
+          R</span>(NPOINTS)<span style="">&nbsp; </span>Z(NPOINTS)<span
+          style=""><br>
+        </span></var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TYPE(1:1)<br>
+      &nbsp;&nbsp;&nbsp; 'L' for piecewise linear<br>
+      &nbsp;&nbsp;&nbsp; 'C' for curvilinear<br>
+      TYPE(2:2)<br>
+      &nbsp;&nbsp;&nbsp; 'S' Short format (bathymetry only) (default)<br>
+      &nbsp;&nbsp;&nbsp; 'L' Long format (bathymetry and geoacoustic
+      parameters)<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">NPOINTS:<span style=""> </span>Number of r-z
+      points to follow.<br>
+      <span style=""></span>R():<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>Range (km)<br>
+      <span style=""></span>Z():<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>Depth (m).<br>
+      <span style=""></span></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText">Example (bathymetry only):</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'L'<br>
+      5<br>
+      <span style=""></span>&nbsp; 0<span style="">&nbsp; 3000</span><span
+        style=""></span><br>
+      &nbsp;10&nbsp; 3000<span style=""></span><span style=""></span><span
+        style=""></span><span style=""></span><span style=""></span><span
+        style=""><br>
+        &nbsp;20&nbsp;&nbsp; 500<br>
+        &nbsp;30&nbsp;&nbsp; 3000<br>
+        100&nbsp;&nbsp; 3000<br>
+      </span></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText">Example (bathymetry and geoacoustics):</p>
+    <p style="margin-left: 80px; font-family: monospace;">'LL'<br>
+      3<br>
+      &nbsp; 0 100 1700 0.0 1.2 0.5 0<br>
+      2.5 100 1550 0.0 1.2 0.5 0<br>
+      5.0 100 1550 0.0 1.2 0.5 0</p>
+    <br>
+    Generally the piecewise linear option should be selected. However,
+    if the boundaries are sampled on a very fine scale (a few
+    wavelengths) then the curvilinear option produces a smoother fit.
+    That in turn improves the results obtained with geometric ray
+    tracing. The curvilinear option was implemented to treat effects of
+    fine-scale scattering.<big><big><big><br>
+          <small><small><br>
+              <small>Note that depths, z, are positive downward,
+                following a convention used throughout the models. This
+                is a bit counter-intuitive for altimetry; however, a
+                different convention for that would also have been
+                counter-intuitive for others.<br>
+                <br>
+                The vector of range values must increase strictly
+                monotonically.<br>
+                <br>
+                The second letter of the TYPE string is used to select a
+                range-dependent bottom type. If you set it 'L'
+                additional entries will be read with that geoacoustic
+                information given in the same format as used for
+                halfspaces in the environmental file (compressional wave
+                speed,&nbsp; compressional wave attenuation, density,
+                shear wave speed, shear wave attenuation).<br>
+              </small></small></small> </big></big></big>
+  </body>
+</html>

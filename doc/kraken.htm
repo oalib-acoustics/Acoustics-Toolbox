@@ -1,0 +1,1832 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/TR/REC-html40"
+  xmlns:w="urn:schemas-microsoft-com:office:word"
+  xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <meta name="ProgId" content="Word.Document">
+    <meta name="Generator" content="Microsoft Word 11">
+    <meta name="Originator" content="Microsoft Word 11">
+    <link rel="File-List" href="kraken_files/filelist.xml">
+    <!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Michael B. Porter</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>0</o:TotalTime>
+  <o:Created>2006-04-07T01:11:00Z</o:Created>
+  <o:LastSaved>2006-04-07T01:11:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>3916</o:Words>
+  <o:Characters>22325</o:Characters>
+  <o:Company>Heat, Light, and Sound Research, Inc.</o:Company>
+  <o:Lines>186</o:Lines>
+  <o:Paragraphs>52</o:Paragraphs>
+  <o:CharactersWithSpaces>26189</o:CharactersWithSpaces>
+  <o:Version>11.6360</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+    <style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 65.95pt 1.0in 65.95pt;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+  </style><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+    <title>KRAKEN</title>
+  </head>
+  <body style="" lang="EN-US">
+    <div class="Section1">
+      <h1><o:p><span style="font-family: monospace;">KRAKEN</span></o:p></h1>
+      <h2><o:p></o:p></h2>
+      <div style="margin-left: 40px;">
+        <h2><a href="#Overview">Overview</a></h2>
+        <h2><a href="#Example_and_Description_of_Environmental">Example
+            Environmental File</a></h2>
+      </div>
+      <h2></h2>
+      <h2 style="margin-left: 40px;"><a href="#Description_of_Inputs:">Description
+
+
+
+
+          of Inputs</a></h2>
+      <h2 style="margin-left: 40px;"><a href="#How_to_run_KRAKEN_">How
+          to Run Kraken</a><br>
+      </h2>
+      <h2 style="margin-left: 40px;"><a href="#Sample_Print_Out">Sample
+          Print Out</a><br>
+      </h2>
+      <p style="font-family: monospace;"><br>
+      </p>
+      <h2><a name="Overview"></a>Overview<br>
+      </h2>
+      <p style="font-family: monospace;">KRAKEN is a normal mode program
+        for range-varying environments in either cartesian (line
+        sources) or cylindrical coordinates (point sources).&nbsp; The
+        basic method is described in </p>
+      <p style="font-family: monospace; margin-left: 40px;">Porter,
+        Michael B. and Reiss, Edward L., "A numerical method for
+        ocean-acoustic normal modes", JASA <span style="font-weight:
+          bold;">76</span>, 244-252 (1984). </p>
+      <p style="font-family: monospace; margin-left: 40px;">Porter,
+        Michael B. and Reiss, Edward L., "A numerical method for bottom
+        interacting ocean acoustic normal modes", JASA <span
+          style="font-weight: bold;">77</span>, 1760-1767 (1985). </p>
+      <p style="font-family: monospace;">Range-dependent solutions are
+        obtained by using optionally adiabatic or coupled mode theory.</p>
+      <p class="MsoPlainText"><o:p><span style="font-family: monospace;">&nbsp;</span>
+        </o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">KRAKEN is
+        the main program.<span style="">&nbsp; </span>It takes an
+        environmental file, computes the modes, and writes them to disk
+        for use by other modules.<span style="">&nbsp; </span>A print
+        file is also produced, echoing the user input.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">KRAKENC is
+        a complex arithmetic version (hence the C in KRAKENC) of KRAKEN.<span
+          style="">&nbsp; </span>By working in the complex domain, loss
+        mechanisms such as ice scatter and material absorption may be
+        included 'exactly' rather than perturbatively.<span style="">&nbsp;
+
+
+
+
+        </span>In addition, leaky modes may be computed.<span style="">&nbsp;
+
+
+
+
+        </span>The price of this non-perturbative treatment is a
+        slowdown in speed by approximately a factor of 4.<span style="">&nbsp;
+
+
+
+        </span>This factor principally represents the difference between
+        complex and real arithmetic.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">KRAKEN
+        does not at allow for losses in elastic media due to material
+        attenuation.<span style="">&nbsp; </span>Thus, for attenuating
+        elastic media, KRAKENC should be used. </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">Files:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Name<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>Description</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Input</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;</span>*.ENV<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>ENVironmental data</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*.BRC<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>Bottom<span style="">&nbsp;&nbsp; </span>Refl.
+
+
+
+        Coef.<span style="">&nbsp; </span>(optl)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*.TRC<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>Top<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>Refl. Coef.<span style="">&nbsp; </span>(optl)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*.IRC<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>Internal Refl. Coef.<span style="">&nbsp;
+
+
+
+        </span>(optl)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Output</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*.PRT<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>PRinT file</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*.MOD<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+        </span><span style=""></span>MODe<span style="">&nbsp; </span>file</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <h2><a name="Example_and_Description_of_Environmental"></a>Example
+        Environmental File</h2>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>'FRAMIV'<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        </span>! TITLE</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>50.0<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!
+        FREQ (Hz)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>4<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! NMEDIA</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>'NVF'<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! OPTIONS</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>750<span style="">&nbsp; </span>0.0<span
+          style="">&nbsp; </span>3750.0<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! NMESH<span style="">&nbsp; </span>SIGMA (m)<span
+          style="">&nbsp; </span>Z(NSSP)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>0.0<span style="">&nbsp;
+
+
+
+        </span>1436.0<span style="">&nbsp; </span>0.0<span style="">&nbsp;
+
+
+
+        </span>1.03/<span style="">&nbsp;&nbsp;&nbsp; </span>! Z(m)<span
+          style="">&nbsp; </span>CP<span style="">&nbsp; </span>CS(m/s)<span
+          style="">&nbsp; </span>RHO(gm/cm3)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp; </span>30.0<span style="">&nbsp;
+        </span>1437.4 /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp; </span>50.0<span style="">&nbsp;
+        </span>1437.7 /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp; </span>80.0<span style="">&nbsp;
+        </span>1439.5 /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>100.0<span style="">&nbsp; </span>1441.9
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>125.0<span style="">&nbsp; </span>1444.6
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>150.0<span style="">&nbsp; </span>1450.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>175.0<span style="">&nbsp; </span>1456.1
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>200.0<span style="">&nbsp; </span>1458.4
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>250.0<span style="">&nbsp; </span>1460.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>300.0<span style="">&nbsp; </span>1460.5
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>350.0<span style="">&nbsp; </span>1460.6
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>400.0<span style="">&nbsp; </span>1461.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>450.0<span style="">&nbsp; </span>1461.5
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>500.0<span style="">&nbsp; </span>1462.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>600.0<span style="">&nbsp; </span>1462.9
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>700.0<span style="">&nbsp; </span>1463.9
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>800.0<span style="">&nbsp; </span>1464.8
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp; </span>900.0<span style="">&nbsp; </span>1465.8
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1000.0<span style="">&nbsp; </span>1466.7
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1100.0<span style="">&nbsp; </span>1467.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1200.0<span style="">&nbsp; </span>1469.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1300.0<span style="">&nbsp; </span>1469.5
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1400.0<span style="">&nbsp; </span>1471.8
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1600.0<span style="">&nbsp; </span>1474.5
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>1800.0<span style="">&nbsp; </span>1477.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>2000.0<span style="">&nbsp; </span>1479.6
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>2500.0<span style="">&nbsp; </span>1487.9
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3750.0<span style="">&nbsp; </span>1510.4
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>35<span style="">&nbsp; </span>0.0<span
+          style="">&nbsp; </span>3808.33</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3750.0<span style="">&nbsp; </span>1504.6<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>0.0<span style="">&nbsp;&nbsp;
+
+
+
+        </span>1.50<span style="">&nbsp;&nbsp; </span>.15<span style="">&nbsp;
+
+
+
+
+        </span>0.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3808.33 1603.07 /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>35<span style="">&nbsp; </span>0.0<span
+          style="">&nbsp; </span>3866.66</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3808.33 1603.07<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+        </span>0.0<span style="">&nbsp;&nbsp; </span>1.533<span
+          style="">&nbsp; </span>.15<span style="">&nbsp; </span>0.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3866.66 1701.53 /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>35<span style="">&nbsp; </span>0.0<span
+          style="">&nbsp; </span>3925.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3866.66 1701.53<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+        </span>0.0<span style="">&nbsp;&nbsp; </span>1.566<span
+          style="">&nbsp; </span>.15<span style="">&nbsp; </span>0.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3925.0<span style="">&nbsp; </span>1800.0
+
+
+
+        /</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>'A'<span style="">&nbsp; </span>0.0<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! BOTOPT<span style="">&nbsp; </span>SIGMA (m)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp; </span>3925.0<span style="">&nbsp; </span>1800.0<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>0.0<span style="">&nbsp;&nbsp;
+
+
+
+        </span>1.60<span style="">&nbsp;&nbsp; </span>.15<span style="">&nbsp;
+
+
+
+
+        </span>0.0</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>0.0<span style="">&nbsp; </span>1504.0<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! CLow<span style="">&nbsp; </span>CHigh (m/s)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>300.0<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!
+        RMax (km)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>1<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! NSz</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>100.0 /<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! Sz( 1 : NSz ) (m)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>1<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! NRz</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;</span>200.0 /<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+        </span>! Rz( 1 : NRz ) (m)</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <h2><a name="Description_of_Inputs:"></a> Description of
+        Environmental File</h2>
+      The <a href="EnvironmentalFile.html">first 6 blocks</a> in the
+      ENVFIL are common to all the programs in the Acoustics Toolbox.
+      The following blocks should be appended for KRAKEN:<br>
+      <br>
+      <br>
+      <h3><a name="7_-_Phase_Speed_Limits_"></a>(7) - Phase Speed Limits<br>
+      </h3>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><var>CLOW<span
+            style="">&nbsp; </span>CHIGH</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>CLOW:<span
+          style="">&nbsp;&nbsp; </span>Lower phase speed limit (m/s).</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span><span style=""></span>CLOW
+will
+
+
+
+
+        be computed automatically if you set it to zero. However, by
+        using a nonzero CLOW you can skip the computation of slower
+        modes. Mainly <span style=""></span>this is used to exclude
+        interfacial modes (e.g.<span style=""></span>a Scholte wave).<span
+          style="">&nbsp; </span>The root finder is especially slow in
+        converging to these interfacial <span style=""></span>modes and
+        when the source and receiver are <span style=""></span>sufficiently
+are
+
+
+
+
+        far from the interface the interfacial modes are negligible.</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>CHIGH:<span
+          style="">&nbsp; </span>Upper phase speed limit (m/s).</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span>The larger CHIGH is,
+        the more modes are calculated and the longer the execution time.
+        Therefore CHIGH should be set as small aspossible to minimize
+        execution time.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span>On the other hand,
+        CHIGH controls the maximum<span style=""></span>ray angle
+        included in a subsequent field calculation-- ray paths are
+        included which turn <span style=""></span>at the depth
+        corresponding to CHIGH in the SSP. <span style=""></span>Thus a
+        larger CHIGH means more deeply <span style=""></span>penetrating
+
+
+
+
+        rays are included.</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span>Choice of CHIGH then
+        becomes a matter of <span style=""></span>experience.<span
+          style="">&nbsp; </span>In the far-field and at
+        high-frequencies, rays travelling in the ocean <span style=""></span>bottom
+
+
+
+        are severely attenuated and one may set <span style=""></span>CHIGH
+
+
+
+        to the sound speed at the ocean bottom. In<span style=""></span>the
+
+
+
+        near-field, low-frequency case, rays refracted in the bottom may
+        contribute <span style=""></span>significantly to the field and
+        CHIGH should be chosen to include such ray paths.</p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span>KRAKEN will (if
+        necessary) reduce CHIGH so that <span style=""></span>only
+        trapped (non-leaky) modes are computed. </p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 120px;"
+        class="MsoPlainText"><span style=""></span>KRAKENC will attempt
+        to compute leaky modes if <span style=""></span>CHIGH exceeds
+        the phase velocity of either the <span style=""></span>S-wave
+        or P-wave speed in the half-space. Leaky <span style=""></span>mode
+
+
+
+        computations are somewhat experimental at this time. </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <h3><a name="8_-_Maximum_Range_"></a>(8) - Maximum Range<br>
+      </h3>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><var>RMax</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>RMax:<span
+          style="">&nbsp;&nbsp; </span>Maximum range (km).</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText"><span style=""></span>This parameter should
+        be set to the largest range for which a field calculation will
+        be desired.</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText"><span style=""></span>During the mode
+        calculation the mesh is doubled successively until the
+        eigenvalues are sufficiently accurate at this range. If you set
+        it to zero, then no mesh doublings will be <span style=""></span>performed.
+You
+don't
+
+
+
+
+        need to worry too much about this parameter-- even if you set it
+        to <span style=""></span>zero the results will usually be
+        reasonable.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <h3><a name="9_-_SourceReceiver_Depths_"></a>(9) - Source/Receiver
+        Depths<br>
+      </h3>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><var>NSz</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><var><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Sz(
+          1 : NSz )</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><var><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>NRz</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><var><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Rz(
+          1 : NRz )</var></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>NSz:<span
+          style="">&nbsp; </span>Number of source<span style="">&nbsp;&nbsp;
+
+
+
+
+        </span>depths.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Sz():
+
+
+
+
+        Source<span style="">&nbsp;&nbsp; </span>depths (m).</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>NRz:<span
+          style="">&nbsp; </span>Number of receiver depths.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Rz():
+
+
+
+        Receiver depths (m).</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p><br>
+        <span style=""></span>This data is read in using list-directed
+        I/O so you can type it just about any way you want, e.g. on one
+        line or <span style=""></span>split onto several lines.<span
+          style="">&nbsp; </span>Also if your depths are equally spaced
+        then you can type just the first and last depths followed by a
+        '/' and the intermediate depths will be generated automatically.
+      </p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><span style=""></span>CPU time is
+        essentially independent of the number of sources and receivers
+        so that you can freely ask for thousands of depths. However, for
+        high-frequencies the storage for the mode files can be
+        excessive. </p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><span style=""></span>The source/rcvr
+        depths are sorted and merged and then the modes are calculated
+        at the union of the two sets of depths. Thus, it doesn't matter
+        if you mix up source and receiver depths. Furthermore, you can
+        leave out <span style=""></span>either the source or receiver
+        specification (but not both simultaneously) simply by using a
+        '/' for that line. </p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><span style=""></span>Sources and receivers
+        cannot be placed in a half-space.</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><span style=""></span>If you are going to
+        be doing a coupled-mode calculation then you must specify a
+        large number of receiver depths spanning the entire column (down
+        to the half-space). Fine sampling (about 10 points/wavelength)
+        is needed to calculate the coupling integrals accurately.<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText"><br>
+        <span style=""></span></p>
+      <h2><a name="How_to_run_KRAKEN_"></a>How to run KRAKEN<br>
+      </h2>
+      <p style="font-family: monospace;">Starting out for the first
+        time? If the distribution does not have precompiled executables
+        for your hardware, run the 'makefiles' to compile and link of
+        the whole package.</p>
+      <ol style="font-family: monospace;">
+        <li>&nbsp; Create the environmental file for your problem,
+          following the directions in KRAKEN.HLP.</li>
+        <li>&nbsp; Run KRAKEN (or KRAKENC) by typing</li>
+      </ol>
+      <blockquote style="font-family: monospace;">
+        <p>KRAKEN filename</p>
+      </blockquote>
+      <p style="font-family: monospace; margin-left: 40px;">where
+        "filename" is the environmental file. (The process is the same
+        under DOS or Linux.) The KRAKEN.HLP file details the differences
+        between the KRAKEN and KRAKENC.</p>
+      <ol style="font-family: monospace;">
+        <li>&nbsp; Run FIELD to sum the modes and compute the complex
+          pressure field:</li>
+      </ol>
+      <p style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp; FIELD
+        filename</p>
+      <ol style="font-family: monospace;">
+        <li>&nbsp; You now have several choices (all the GROUP II
+          programs). These are run from inside MATLAB:</li>
+      </ol>
+      <blockquote style="font-family: monospace;">
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; a. PLOTMODE to plot the modes.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; b. PLOTSSP&nbsp; to plot the sound
+          speed profile.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp; c. PLOTSHD&nbsp; to plot the
+          pressure field as a function of range and depth.</p>
+      </blockquote>
+      <p style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp; Once
+        the modes are created by KRAKEN or KRAKENC you can run the above
+        plot programs in any sequence or as often as you like.</p>
+      <h2><a name="Sample_Print_Out"></a>Sample Print Out</h2>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style=""></span>The print-out for this input is shown below.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>KRAKEN-
+
+          FRAMIV<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>Frequency
+
+
+
+
+          =<span style="">&nbsp;&nbsp; </span>20.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>NMedia =<span style="">&nbsp;&nbsp; </span>4</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>N2-LINEAR approximation
+          to SSP</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span><span style="">&nbsp;&nbsp;</span>Attenuation
+
+
+
+
+          units: dB/mkHz</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>VACUUM<br>
+        </samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>Z<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>AlphaR<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>BetaR<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Rho<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>AlphaI<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>BetaI</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(
+          Number of pts =<span style="">&nbsp;&nbsp; </span>750<span
+            style="">&nbsp; </span>RMS roughness =<span style="">&nbsp;&nbsp;
+
+
+
+          </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>)</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1436.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>30.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1437.40<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>50.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1437.70<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>80.00<span style="">&nbsp;
+
+
+
+          </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>1439.50<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>100.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1441.90<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>125.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1444.60<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>150.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1450.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>175.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1456.10<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>200.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1458.40<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>250.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1460.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>300.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1460.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>350.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1460.60<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>400.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1461.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>450.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1461.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>500.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1462.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>600.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1462.90<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>700.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1463.90<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>800.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1464.80<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>900.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1465.80<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+          </span><span style="">&nbsp;&nbsp;&nbsp;</span>0.0000<span
+            style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1000.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1466.70<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1100.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1467.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1200.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1469.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1300.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1469.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1400.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1471.80<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1600.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1474.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>1800.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1477.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>2000.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1479.60<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>2500.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1487.90<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3750.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1510.40<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.03<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.0000<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(
+          Number of pts =<span style="">&nbsp;&nbsp;&nbsp; </span>35<span
+            style="">&nbsp; </span>RMS roughness =<span style="">&nbsp;&nbsp;
+
+
+
+          </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>)</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3750.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1504.60<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3808.33<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1603.07<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.50<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(
+          Number of pts =<span style="">&nbsp;&nbsp;&nbsp; </span>35<span
+            style="">&nbsp; </span>RMS roughness =<span style="">&nbsp;&nbsp;
+
+
+
+          </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>)</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3808.33<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1603.07<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.53<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3866.66<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+          </span><span style="">&nbsp;&nbsp;</span>1701.53<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.53<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.1500<span
+            style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(
+          Number of pts =<span style="">&nbsp;&nbsp;&nbsp; </span>35<span
+            style="">&nbsp; </span>RMS roughness =<span style="">&nbsp;&nbsp;
+
+
+
+          </span>0.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>)</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3866.66<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1701.53<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.57<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3925.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1800.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.57<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>(
+          RMS roughness =<span style="">&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>)</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp; </span>ACOUSTO-ELASTIC
+          half-space</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>3925.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>1800.00<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.00<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>1.60<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.1500<span style="">&nbsp;&nbsp;&nbsp; </span>0.0000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>CLOW
+          =<span style="">&nbsp;&nbsp; </span>0.0000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+          </span>CHIGH =<span style="">&nbsp;&nbsp; </span>1504.0<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>RMAX
+          =<span style="">&nbsp; </span>300.0000000000000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>Number
+
+
+
+
+          of sources<span style="">&nbsp;&nbsp; </span>=<span style="">&nbsp;
+
+
+
+          </span>1</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>100.000<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+          </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>Number
+
+
+
+
+          of receivers =<span style="">&nbsp; </span>501</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>0.00000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>7.85000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>15.7000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>23.5500<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>31.4000<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>39.2500<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>47.1000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>54.9500<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>62.8000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>70.6500<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>78.5000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>86.3500<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>94.2000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>102.050<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>109.900 <span style="">&nbsp;&nbsp;&nbsp;</span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>117.750<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>125.600<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>133.450<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>141.300<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>149.150<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>157.000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>164.850<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>172.700<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>180.550<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>188.400<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>196.250<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>204.100<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>211.950<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>219.800<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>227.650<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>235.500<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>243.350<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>251.200 <span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>259.050<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>266.900<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>274.750<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>282.600<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>290.450<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>298.300<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>306.150<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>314.000<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>321.850<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>329.700<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>337.550<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>345.400<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>353.250<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>361.100<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>368.950<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>376.800<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>384.650<span style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>392.500 <span style="">&nbsp;&nbsp;&nbsp;</span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;</span>...<span style="">&nbsp; </span>3925.00000</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp>Mesh
+          multiplier<span style="">&nbsp;&nbsp; </span>CPU seconds</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;</span>--- Number of modes =<span style="">&nbsp;
+
+
+
+          </span>16</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.200E-01</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;</span>--- Number of modes =<span style="">&nbsp;
+
+
+
+          </span>16</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>0.100E-01</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>I<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>K<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>ALPHA<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>PHASE SPEED<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+          </span>GROUP SPEED</samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>1<span style="">&nbsp; </span>0.8624469531E-01
+
+
+
+
+          -0.3393680437E-33<span style="">&nbsp;&nbsp; </span>1457.060120<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1442.191128<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>2<span style="">&nbsp; </span>0.8582756287E-01
+
+
+
+
+          -0.2258264739E-34<span style="">&nbsp;&nbsp; </span>1464.141611<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1458.363347<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>3<span style="">&nbsp; </span>0.8562779133E-01
+
+
+
+
+          -0.7903258864E-35<span style="">&nbsp;&nbsp; </span>1467.557486<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1459.982403<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>4<span style="">&nbsp; </span>0.8545321184E-01
+
+
+
+
+          -0.2063707986E-29<span style="">&nbsp;&nbsp; </span>1470.555681<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1459.772119<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>5<span style="">&nbsp; </span>0.8527102515E-01
+
+
+
+
+          -0.3869615292E-29<span style="">&nbsp;&nbsp; </span>1473.697612<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1460.007439<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>6<span style="">&nbsp; </span>0.8510362497E-01
+
+
+
+
+          -0.3647388043E-26<span style="">&nbsp;&nbsp; </span>1476.596399<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1461.303669<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>7<span style="">&nbsp; </span>0.8495175125E-01
+
+
+
+
+          -0.1793622439E-23<span style="">&nbsp;&nbsp; </span>1479.236205<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1462.170030<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>8<span style="">&nbsp; </span>0.8479899358E-01
+
+
+
+
+          -0.3873153170E-21<span style="">&nbsp;&nbsp; </span>1481.900915<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1462.347048<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp;&nbsp; </span>9<span style="">&nbsp; </span>0.8465055475E-01
+
+
+
+
+          -0.4836458160E-19<span style="">&nbsp;&nbsp; </span>1484.499499<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1461.666057<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>10<span style="">&nbsp; </span>0.8450362764E-01
+
+
+
+          -0.4794435113E-17<span style="">&nbsp;&nbsp; </span>1487.080610<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1462.889869<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>11<span style="">&nbsp; </span>0.8435766539E-01
+
+
+
+          -0.3328862832E-15<span style="">&nbsp;&nbsp; </span>1489.653674<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1463.381675<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>12<span style="">&nbsp; </span>0.8421539792E-01
+
+
+
+          -0.1526837394E-13<span style="">&nbsp;&nbsp; </span>1492.170188<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1463.060233<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>13<span style="">&nbsp; </span>0.8407682246E-01
+
+
+
+          -0.5076531997E-12<span style="">&nbsp;&nbsp; </span>1494.629584<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1463.714231<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>14<span style="">&nbsp; </span>0.8393863717E-01
+
+
+
+          -0.1285683019E-10<span style="">&nbsp;&nbsp; </span>1497.090141<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1464.761578<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>15<span style="">&nbsp; </span>0.8380272668E-01
+
+
+
+          -0.2261354744E-09<span style="">&nbsp;&nbsp; </span>1499.518108<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1465.064585<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><span
+            style="">&nbsp; </span>16<span style="">&nbsp; </span>0.8366989890E-01
+
+
+
+          -0.2750609980E-08<span style="">&nbsp;&nbsp; </span>1501.898625<span
+            style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1465.355728<span
+            style="">&nbsp;&nbsp;&nbsp; </span></samp></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><samp><o:p>&nbsp;</o:p></samp></p>
+      <br>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">If the
+        program aborts in some way, examine the print file which is
+        produced. Frequently an expected line has been omitted and the
+        environmental file is therefore misinterpreted. </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">The
+        message "FAILURE TO CONVERGE IN SECANT" occurs when KRAKEN
+        requires more than 500 iterations to converge to a mode.<span
+          style="">&nbsp; </span>Usually less than 20 iterations are
+        needed but convergence to interfacial modes (Scholte or Stoneley
+        waves) can be exceptionally slow,especially at higher
+        frequencies. The simplest solution is to exclude interfacial
+        modes by setting the lower phase-speed limit to the minimum
+        p-wave speed in the problem.<span style="">&nbsp; </span>Alternately,
+
+
+
+        you can increase the value of MAXNIT which controls the MAXimum
+        Number of ITerations in the root finder.</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">*****
+        Group speed *****</p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+      <p style="font-family: monospace;" class="MsoPlainText">KRAKEN and
+        KRAKENC compute group speed using the formula in Ch. 5 of
+        Jensen, Kuperman, Porter, and Schmidt, Computational Ocean
+        Acoustics. Note that this formula is only valid for acoustic
+        problems (with no elasticity). It also does not address the role
+        of interfacial or boundary scatter. In these cases, the value
+        displayed is not reliable.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+        </o:p></p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <style>
+<!--
+.MsoPlainText
+	{font-size:10.0pt;
+	font-family:"Courier New";}
+.Section1
+	{page:Section1;}
+-->
+  </style>
+    <title>BELLHOP</title>
+  </head>
+  <body style="color: rgb(0, 0, 0); background-color: rgb(255, 255,
+    255);" class="Normal" link="#000099" lang="EN-US" vlink="#990099"
+    alink="#000099">
+    <div style="font-family: Helvetica,Arial,sans-serif;"
+      class="Section1">
+      <h1>BELLHOP</h1>
+      <br>
+      <h2><a href="#Overview_">Overview</a></h2>
+      <h2><a href="#Sample_Input_Environmental_File:_">Sample Input</a></h2>
+      <h2><a href="#Description_of_Inputs_">Description of Inputs</a></h2>
+      <h3 style="margin-left: 40px;"><a
+          href="#7_-_SOURCERECEIVER_DEPTHS_AND_RANGES">Source/Receiver
+          Depths and Ranges</a></h3>
+      <h3 style="margin-left: 40px;"><a href="#8_-_RUN_TYPE">Run Type</a></h3>
+      <h3 style="margin-left: 40px;"><a href="#9_-_BEAM_FAN">Beam Fan</a></h3>
+      <h3 style="margin-left: 40px;"><a
+          href="#10_-_NUMERICAL_INTEGRATOR_INFO">Numerical Integrator
+          Info</a></h3>
+      <h2><a href="#Running_BELLHOP_">Running BELLHOP</a></h2>
+      <br>
+      <br>
+      <h2><a name="Overview_"></a>Overview<br>
+      </h2>
+      <p style="font-family: monospace;" class="MsoPlainText"><span
+          style="font-weight: bold;">BELLHOP</span><acronym> </acronym>computes
+acoustic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        fields in oceanic environments via beam tracing. The environment
+        treated consists of an acoustic medium with a sound speed that
+        may depend on range and depth.<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">A
+        theoretical description may be found in:</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">Michael B. Porter and Homer P. Bucker,
+        ``Gaussian beam tracing for computing ocean acoustic fields,'' <span
+          style="font-style: italic;">J. Acoust. Soc. Amer. </span><span
+          style="font-weight: bold;">82</span>, 1349--1359 (1987).</p>
+      <p style="font-family: monospace; margin-left: 40px;"
+        class="MsoPlainText">Michael B. Porter and Yong-Chun Liu,
+        “Finite-Element Ray Tracing'', Proceedings of the International
+        Conference on Theoretical and Computational Acoustics, Eds. D.
+        Lee and M. H. Schultz, pp. 947-956, World Scientific (1994). </p>
+      <p style="font-family: monospace;" class="MsoPlainText">The
+        following programs are used with BELLHOP :</p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">BELLHOP</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Main program for doing Gaussian beam tracing</p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTRAY</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Produces plots of central rays of beams<br>
+      </p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTARR</span>
+        &nbsp;&nbsp;&nbsp; Produces plots of arrivals (the echo pattern)
+      </p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTATI</span>
+        &nbsp;&nbsp;&nbsp; Produces plots of the altimetry</p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTBTY</span>
+        &nbsp;&nbsp;&nbsp; Produces plots of the bathymetry<br>
+      </p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">ANGLES</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Given
+the
+source
+and
+receiver
+sound
+speeds,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        computes the angle of the limiting ray.</p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTSSP</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Plots the sound speed profile<br>
+      </p>
+      <p style="margin-left: 40px; font-family: monospace;"
+        class="MsoPlainText"><span style="font-weight: bold;">PLOTSSP2D</span>
+        &nbsp; Plots the range-dependent sound speed profile</p>
+      <p style="font-family: monospace;" class="MsoPlainText">BELLHOP
+        produces pressure fields in the NRL standard format and can
+        therefore be plotted using the MATLAB script, plotshd.m.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">The steps
+        in running the program are as follows:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        1. Set up your environmental file and run PLOTSSP to make sure
+        the SSP looks reasonable.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        2. Do a ray trace.&nbsp; That is, </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+A.
+Run
+BELLHOP
+with
+the
+ray
+trace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        option to calculate about 50 rays.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+B.
+Run
+PLOTRAY
+to
+make
+sure
+you
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        have the angular coverage you expect.&nbsp; Do the rays behave
+        irregularly? If so reduce the step-size and try again.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        3. Re-run BELLHOP using the coherent, incoherent or semicoherent
+        option for transmission loss. (Use the default number of beams.)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        4. Run plotshd.m to plot a full range-depth field plot.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        5. Double the number of beams and check convergence.</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Files:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Description</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Input<br>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*.ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENVironmental data</p>
+      <p style="font-family: monospace;" class="MsoPlainText">Output<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        *.PRT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PRinT file<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        *.RAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RAY&nbsp;&nbsp; file<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        *.SHD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SHaDe file</p>
+      <h2 style="font-family: monospace;"><a
+          name="Sample_Input_Environmental_File:_"></a>Sample Input
+        (Environmental) File:<br>
+        <br>
+      </h2>
+      <p style="font-family: monospace;" class="MsoPlainText">'Munk
+        profile'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! TITLE<br>
+        50.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! FREQ (Hz)<br>
+        1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! NMEDIA<br>
+        'SVN'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! SSPOPT (Analytic or C-linear interpolation)<br>
+        51&nbsp; 0.0&nbsp; 5000.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !
+        DEPTH of bottom (m)<br>
+        &nbsp;&nbsp;&nbsp; 0.0&nbsp; 1548.52&nbsp; /<br>
+        &nbsp; 200.0&nbsp; 1530.29&nbsp; /<br>
+        &nbsp; 250.0&nbsp; 1526.69&nbsp; /<br>
+        &nbsp; 400.0&nbsp; 1517.78&nbsp; /<br>
+        &nbsp; 600.0&nbsp; 1509.49&nbsp; /<br>
+        &nbsp; 800.0&nbsp; 1504.30&nbsp; /<br>
+        &nbsp;1000.0&nbsp; 1501.38&nbsp; /<br>
+        &nbsp;1200.0&nbsp; 1500.14&nbsp; /<br>
+        &nbsp;1400.0&nbsp; 1500.12&nbsp; /<br>
+        &nbsp;1600.0&nbsp; 1501.02&nbsp; /<br>
+        &nbsp;1800.0&nbsp; 1502.57&nbsp; /<br>
+        &nbsp;2000.0&nbsp; 1504.62&nbsp; /<br>
+        &nbsp;2200.0&nbsp; 1507.02&nbsp; /<br>
+        &nbsp;2400.0&nbsp; 1509.69&nbsp; /<br>
+        &nbsp;2600.0&nbsp; 1512.55&nbsp; /<br>
+        &nbsp;2800.0&nbsp; 1515.56&nbsp; /<br>
+        &nbsp;3000.0&nbsp; 1518.67&nbsp; /<br>
+        &nbsp;3200.0&nbsp; 1521.85&nbsp; /<br>
+        &nbsp;3400.0&nbsp; 1525.10&nbsp; /<br>
+        &nbsp;3600.0&nbsp; 1528.38&nbsp; /<br>
+        &nbsp;3800.0&nbsp; 1531.70&nbsp; /<br>
+        &nbsp;4000.0&nbsp; 1535.04&nbsp; /<br>
+        &nbsp;4200.0&nbsp; 1538.39&nbsp; /<br>
+        &nbsp;4400.0&nbsp; 1541.76&nbsp; /<br>
+        &nbsp;4600.0 &nbsp;1545.14&nbsp; /<br>
+        &nbsp;4800.0&nbsp; 1548.52&nbsp; /<br>
+        &nbsp;5000.0&nbsp; 1551.91&nbsp; /<br>
+        'V'&nbsp; 0.0<br>
+        1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! NSD<br>
+        1000.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! SD(1:NSD) (m)<br>
+        2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! NRD<br>
+        0.0 5000.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ! RD(1:NRD) (m)<br>
+        501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! NRR<br>
+        0.0&nbsp; 100.0 /&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;! RR(1:NR ) (km)<br>
+        'R'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! Run-type: 'R/C/I/S'<br>
+        51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ! NBEAMS<br>
+        -11.0 11.0
+        /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ! ALPHA(1:NBEAMS) (degrees)<br>
+        200.0&nbsp; 5500.0&nbsp; 101.0&nbsp;&nbsp;&nbsp; ! STEP
+        (m)&nbsp; ZBOX (m)&nbsp; RBOX (km)</p>
+      <h2 style="font-family: monospace;"><a
+          name="Description_of_Inputs_"></a>Description of Inputs</h2>
+      <p style="font-family: monospace;" class="MsoPlainText"></p>
+      <p style="font-family: monospace;">The <a
+          href="EnvironmentalFile.html">first 6 blocks</a> in the ENVFIL
+        are common to all the programs in the Acoustics Toolbox. The
+        following blocks should be appended for
+        BELLHOP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+      </p>
+      <h3 style="font-family: monospace;"><a
+          name="7_-_SOURCERECEIVER_DEPTHS_AND_RANGES"></a>&nbsp;(7) -
+        SOURCE/RECEIVER DEPTHS AND RANGES</h3>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+        <span style="font-style: italic;"> NSD</span><br
+          style="font-style: italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          SD(1:NSD)</span><br style="font-style: italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NRD</span><br
+          style="font-style: italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;RD(1:NRD)</span><br style="font-style:
+          italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NR</span><br
+          style="font-style: italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(1:NR
+          )</span></p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        NSD:&nbsp; The number of source depths<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SD(): The
+        source depths (m)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        NRD:&nbsp; The number of receiver depths<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RD(): The
+        receiver depths (m)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        NR:&nbsp;&nbsp; The number of receiver ranges<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        R():&nbsp; The receiver ranges (km)</p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">This data is read in using list-directed
+        I/O you can type it just about any way you want, e.g. on one
+        line or split onto several lines.&nbsp; Also if the depths or
+        ranges are equally spaced then you can type just the first and
+        last depths followed by a '/' and the intermediate depths will
+        be generated automatically.<br>
+      </p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">You can specify a receiver at zero range;
+        however, the BELLHOP field is singular there--- the pressure is
+        returned as zero.<br>
+      </p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">Some of the subroutines that calculate the
+        beam influence allow an arbitrary vector of receiver ranges;
+        others require it to be equally spaced in range. In particular,
+        only the following allow an arbitrary range vector:</p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">&nbsp;&nbsp;&nbsp; 'G' GeoHatCart<br>
+        &nbsp;&nbsp;&nbsp; 'B' GeoGaussianCart<br>
+        &nbsp;&nbsp;&nbsp; CerveyRayCen<br>
+      </p>
+      <h3 style="font-family: monospace;"><a name="8_-_RUN_TYPE"></a>&nbsp;(8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        - RUN TYPE</h3>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+        <span style="font-style: italic;"> OPTION</span></p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OPTION(1:1): 'R' generates a ray file<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'E' generates an eigenray file<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'A' generates an amplitude-delay file (ascii)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'a' generate&nbsp; an amplitude-delay file (binary)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'C'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Coherent&nbsp;&nbsp;&nbsp;&nbsp; TL calculation<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'I&nbsp; Incoherent&nbsp;&nbsp; TL calculation<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'S' Semicoherent TL calculation<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        (Lloyd mirror source pattern)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OPTION(2:2): 'G' Geometric hat
+        beams&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in Cartesian coordinates
+        (default)<br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; '^' Geometric
+        hat beams&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in Cartesian coordinates
+        (same as 'G' but easier to remember)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        'g' Geometric hat beams&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in
+        ray-centered coordinates<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'B' Geometric Gaussian beams in Cartesian coordinates<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'b' Geometric Gaussian beams in ray-centered coordinates<br>
+      </p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPTION(3:3):
+'*'
+read
+in
+a
+source
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        beam pattern file<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'O' don't (omni-directional) (default)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OPTION(4:4):
+'R'
+point
+source
+(cylindrical
+coordinates)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        (default)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'X' line&nbsp; source (Cartesian coordinates)</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        OPTION(5:5): 'R' rectilinear grid (default)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'I' irregular grid</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">The ray file and eigenray files have the
+        same simple ascii format and can be plotted using the Matlab
+        script plotray.m.<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">The eigenray option seems to generate a lot
+        of questions. The way this works is that BELLHOP simply writes
+        the trajectories for all the beams that contribute at a given
+        receiver location. To get a useful picture you normally want to
+        use a very fine fan, only one receiver location, and the
+        geometric beam option. See the examples in at/tests.<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">The amplitude-delay file can be used with
+        the Matlab script stackarr.m to 'stack the arrivals', i.e. to
+        convolve them with the source spectrum and plot the channel
+        response. stackarr.m can also be used to simple plot the impulse
+        response. We loosely refer to the amplitudes of the arrivals or
+        echoes here; however, these values are really complex numbers
+        that provide the amplitude and phase of each echo.<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">For TL calculations, the output is in the
+        shdfil format used by all the codes in the Acoustics Toolbox and
+        can be plotted using the Matlab script, plotshd.m. (Use toasc.f
+        to convert the binary shade files to ascii format for use by
+        plotshd.m or whatever plot package you're using.)<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">The pressure field is normally calculated
+        on a rectilinear grid formed by the receiver ranges and depths.
+        If an irregular grid is selected, then the receiver ranges and
+        depths are interpreted as a coordinate pair for the receivers.
+        This option is useful for reverberation calculations where the
+        receivers need to follow the bottom terrain. This option has not
+        been used much. The plot routines (plotarr) have not been
+        modified to accomodate it. There may be some other limitations.<br>
+      </p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">There are actually several different types
+        of Gaussian beam options (OPTION(2:2)) implemented in the code.
+        Only the two described above are fully maintained.</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">The source beam pattern file has the format</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        NSBPPts<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; angle1&nbsp; power1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; angle2&nbsp; power2<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</p>
+      <p style="font-family: monospace; margin-left: 80px;"
+        class="MsoPlainText">with angle following the BELLHOP
+        convention, i.e. declination angle in degrees (so that 90
+        degrees points to the bottom). The power is in dB. To match a
+        standard point source calculation one would used anisotropic
+        source with 0 dB for all angles. (See at/tests/BeamPattern for
+        an example.)<br>
+      </p>
+      <h3 style="font-family: monospace;"><a name="9_-_BEAM_FAN"></a>&nbsp;(9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        - BEAM FAN</h3>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+        <span style="font-style: italic;"> NBEAMS ISINGLE</span><br
+          style="font-style: italic;">
+        <span style="font-style: italic;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          ALPHA(1:NBEAMS)</span></p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Description:</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <span style="font-family: monospace;">NBEAMS: Number of beams</span><span
+          style="font-family: monospace;"><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(use
+0
+to
+have
+the
+program
+calculate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          a value automatically, but conservatively).</span></p>
+      <p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ISINGLE:
+If
+the
+option
+to
+compute
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          a single beam in the fan is selected (top option)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+then
+this
+selects
+the
+index
+of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          the beam that is traced.<br>
+        </span></p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ALPHA():
+Beam
+angles
+(negative
+angles
+toward
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        surface)</p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">For a ray trace you can type in a sequence
+        of angles or you can type the first and last angles followed by
+        a '/'.&nbsp; For a TL calculation, the rays must be equally
+        spaced otherwise the results will be incorrect.</p>
+      <h3 style="font-family: monospace;"><a
+          name="10_-_NUMERICAL_INTEGRATOR_INFO"></a>&nbsp;(10) -
+        NUMERICAL INTEGRATOR INFO</h3>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Syntax:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <span style="font-style: italic;">STEP ZBOX RBOX</span><var><br>
+        </var></p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Description:</p>
+      <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <var></var>STEP:&nbsp; The step size used for tracing the rays
+        (m). (Use 0 to let BELLHOP choose the step size.)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ZBOX:&nbsp; The maximum depth to trace a
+        ray&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (m).<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        RBOX:&nbsp; The maximum range to trace a
+        ray&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (km).</p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">The required step size depends on many
+        factors.&nbsp; This includes frequency, size of features in the
+        SSP (such as surface ducts), range of receivers, and whether a
+        coherent or incoherent TL calculation is performed.&nbsp; If you
+        use STEP=0.0 BELLHOP will use a default step-size and tell you
+        what it picked.&nbsp; You should then halve the step size until
+        the results are convergent to your required accuracy.&nbsp; To
+        obtain a smooth ray trace you should use the spline SSP
+        interpolation and a step-size less than the smallest distance
+        between SSP data points. Rays are traced until they exit the box
+        ( ZBOX, RBOX ).&nbsp; By setting ZBOX less than the water depth
+        you can eliminate bottom reflections. Make ZBOX, RBOX a bit (say
+        1%) roomy too make sure rays are not killed the moment they hit
+        the bottom or are just reaching your furthest receiver.<br>
+      </p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText">The default step size has generally been
+        OK; however, with the paraxial (Cerven) beams it was too
+        aggressive on one simple test. The paraxial beams are generally
+        much wider than the geometric beams so a given receiver gets
+        contributions from beams with much more distance to the central
+        ray. It is assumed that that increases the sensitivity to the
+        accuracy of the ray trace (and its normals) which determine the
+        phase of these distant beams as observed at the receive.<br>
+      </p>
+      <br>
+      <h2><a name="Running_BELLHOP_"></a>Running BELLHOP</h2>
+      <p style="font-family: monospace;">The main issue to be aware of
+        is that ray tracing is very sensitive to environmental
+        interpolation (both boundary and volume). The Gaussian beam
+        options reduce that sensitivity significantly; however, one
+        should still be attentive to this issue. The spline
+        interpolation option to the SSP should be used with particular
+        caution. In some cases, the spline fit is very smooth as
+        desired; in other cases, the spline introduces large wiggles
+        between ssp points, in its effort to produce a smooth curve. Use
+        PLOTSSP to see how your fit looks.<br>
+      </p>
+      <p style="font-family: monospace;">BELLHOP numerically integrates
+        the ray equations to trace a ray through the ocean. To avoid
+        artifacts at discontinuties in the SSP, the step size is
+        dynamically adjusted to make sure a step always lands on an SSP
+        point, rather than stepping over it. (The beam curvature needs
+        to be adjusted at each such point.) It's better to not use more
+        points to describe the SSP than necessary to capture the physics
+        because BELLHOP will end up using lots of small steps to have
+        each ray land on the SSP points. Similarly, BELLHOP uses the
+        altimetry and bathymetry points to define segments in range, and
+        adjusts the step size so that the rays land on each segment
+        boundary.<br>
+      </p>
+      <p style="font-family: monospace;">BELLHOP has no direct
+        capability for modeling elastic wave propagation; however,
+        elastic boundaries can be treated using BOUNCE to generate an
+        equivalent reflection coefficient.<br>
+      </p>
+      <p style="font-family: monospace;">You can have BELLHOP use a
+        range-dependent SSP by creating a separate SSPFIL containing
+        that SSP data in a matrix form. (See <a
+          href="RangeDepSSPFile.htm">Range-Dependent SSP File)</a>. The
+        range-dependent SSPFIL is read if you select 'Q' (quadrilateral)
+        for the SSP interpolation. The depths for the SSP points are
+        read from the ENVFIL; the ranges are specified in the SSPFIL.
+        See the example in at/tests/Gulf.<br>
+      </p>
+      <p style="font-family: monospace;">BELLHOP will produce some
+        artifacts for receivers very close the the surface or bottom,
+        because a beam is essentially folded onto itself upon
+        reflection. The zone of overlap (which depends on the fatness of
+        the beam) is not treated with a lot of care. You can minimize
+        such artifacts by making the beams narrow, which in turn can
+        often be done by using lots of rays. If you want to explore some
+        behavior of the field for a receiver on the bottom, you
+        generally should offset it a little bit. Alternatively, you can
+        use reciprocity and interchange the role of the source and the
+        receiver; sources near the bottom are not a problem.<br>
+      </p>
+      <p style="font-family: monospace;"><br>
+      </p>
+      <h2>Frequently Asked Questions</h2>
+      <p style="font-family: monospace;"></p>
+      <p style="font-family: monospace;"><i>Why is it that when I do an
+          eigenray run, the rays do not seem to go through the receiver
+          location?</i><br>
+      </p>
+      <p style="font-family: monospace;">An eigenray is a ray that
+        connects the source and receiver. To find it precisely requires
+        a root-finding process to identify the launch angle that
+        generates a ray passing though the receiver location. The
+        receiver position is a nonlinear and often discontinuous
+        function of the launch angle, which complicates the root
+        finding. Bellhop adopts a quick and lazy implementation and
+        simply modifies the ray trace option to write only the rays that
+        contribute to the receiver. Strictly speaking, these are not
+        eigenrays. The number of such contributing rays depends on the
+        type of beam that has been selected in Bellhop. If you use
+        Geometric Hat-Shaped beams then typically you will get two
+        contributing rays that bracket the receiver. This is usually the
+        type of beam you would want to use to get the best picture of
+        the eigenrays. If you use Gaussian beams then beams further away
+        from the receiver may contribute.<br>
+      </p>
+      <p style="font-family: monospace;">Regardless of the type of beam,
+        the beam width typically increases with arclength. To get
+        contributing rays resembling eigenrays you will want them to
+        have narrow beamwidths. The beam width (for a geometric beam) is
+        defined by the spacing between adjacent rays. So here finally is
+        the answer to the question: use a *LOT* of rays/beams to get
+        narrow beams. An eigenray trace is typically very quick because
+        you're looking at a single (or few) receivers. Use at least 1000
+        rays. Don't be afraid to use 10,000 or even a million rays. Each
+        ray is traced independently so using a lot of rays does not
+        increase the memory requirements. The run time will go up, but
+        that is not usually a problem for a single receiver. Keep in
+        mind that a real channel can produce a lot of micro-multipath
+        and the idealized view of a high-frequency field being derived
+        some a simple sum of a few paths is, well, idealized. You will
+        tend to get less complicated eigenray pictures with smoother
+        profiles, since each kink in the SSP or bathymetry contributes
+        to the Pachinko <span style="caret-color: rgb(34, 34, 34);
+          color: rgb(34, 34, 34); font-family: sans-serif; font-size:
+          14px; font-style: normal; font-variant-caps: normal;
+          font-weight: normal; letter-spacing: normal; orphans: auto;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: auto; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px; text-decoration: none;">(<span lang="ja">&#12497;&#12481;&#12531;&#12467;</span>)</span><span
+          style="caret-color: rgb(34, 34, 34); color: rgb(34, 34, 34);
+          font-family: sans-serif; font-size: 14px; font-style: normal;
+          font-variant-caps: normal; font-weight: normal;
+          letter-spacing: normal; orphans: auto; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: auto; word-spacing: 0px; -webkit-text-size-adjust:
+          auto; -webkit-text-stroke-width: 0px; background-color:
+          rgb(255, 255, 255); text-decoration: none; display: inline
+          !important; float: none;"><span class="Apple-converted-space">
+          </span></span>effect on the rays.<br>
+      </p>
+      <p style="font-family: monospace;"><i><br>
+        </i></p>
+      <p style="font-family: monospace;"><i>Why is the launch angle in
+          the arrival file not one of the launch angles selected in the
+          Bellhop input file?</i><br>
+      </p>
+      <p style="font-family: monospace;">Bellhop aggregates arrivals
+        that have similar delay times. This reduces the storage
+        requirements in both memory and in the output file. It also
+        reduces the computation required in convolving a source waveform
+        with the channel impulse response as defined by the arrivals.
+        Finally, it presents a less confusing plot of the channel
+        impulse response.<br>
+      </p>
+      <p style="font-family: monospace;">The aggregation is based on a
+        wavelength tolerance. The angles written in the arrivals file
+        are also an average of contributing rays and therefore do not
+        necessarily correspond to the launch angles.<br>
+      </p>
+      <div class="" style="color: rgb(0, 0, 0); font-size: 13px;
+        font-style: normal; font-variant-caps: normal; font-weight:
+        normal; letter-spacing: normal; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; word-spacing:
+        0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width:
+        0px; text-decoration: none;">
+        <p><tt>The reason you get multiple arrivals that are all really
+            part of a single arrival is because of:</tt></p>
+      </div>
+      <div class="" style="color: rgb(0, 0, 0); font-size: 13px;
+        font-style: normal; font-variant-caps: normal; font-weight:
+        normal; letter-spacing: normal; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; word-spacing:
+        0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width:
+        0px; text-decoration: none;">
+        <p><tt><span class="Apple-tab-span" style="white-space: pre;">	</span></tt><tt>1)
+
+
+            with the geometric beam, it creates an arrival for each of a
+            pair of rays that bracket the receiver.</tt></p>
+      </div>
+      <div class="" style="color: rgb(0, 0, 0); font-size: 13px;
+        font-style: normal; font-variant-caps: normal; font-weight:
+        normal; letter-spacing: normal; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; word-spacing:
+        0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width:
+        0px; text-decoration: none;">
+        <p><tt><span class="Apple-tab-span" style="white-space: pre;">	</span></tt><tt>2)
+
+
+            with Gaussian beams you further get contributions from rays
+            that are within a few beam widths of the receiver</tt></p>
+      </div>
+      <div class="" style="color: rgb(0, 0, 0); font-size: 13px;
+        font-style: normal; font-variant-caps: normal; font-weight:
+        normal; letter-spacing: normal; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; word-spacing:
+        0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width:
+        0px; text-decoration: none;">
+        <p><tt><span class="Apple-tab-span" style="white-space: pre;">	</span></tt><tt>3)
+
+
+            with more complicated SSPs the ray fan can become unsmooth,
+            producing a sort of micro-multipath.</tt></p>
+      </div>
+      <br class="Apple-interchange-newline">
+      <p style="font-family: monospace;"> </p>
+      <p style="font-family: monospace;"><i>Why am I getting a message
+          about there being insufficient storage for the ray trajectory?</i><br>
+      </p>
+      <p style="font-family: monospace;">Storage is pre-allocated for
+        each ray based on the MaxN parameter in BellhopMod. (Dynamic
+        allocation is a bit complicated because one doesn't know the
+        number of ray steps needed in advance.) You can easily change
+        MaxN. Bellhop doesn't use a lot of memory so you can make MaxN a
+        large number. However, in unusual circumstances a ray can outrun
+        the MaxN limit, using up a lot of CPU time in the process. When
+        that happens, it usually indicates some kind of problem. So MaxN
+        is a kind of governor that prevents infinite loops. It rarely
+        happens, but when it does, it is often when a curvilinaer
+        boundary is used. The curvilinear option is a bit odd in that it
+        uses a piecewise linear approximation to adjust ray steps to
+        land on the boundaries. However, it adjusts the angle of the
+        reflected ray using a higher-order fit to the boundary.
+        Sometimes that inconsistency causes confusion in the logic that
+        detects a ray crossing the interface and then Bellhop may make a
+        large number of infinitesimal steps trying to get the ray back
+        into the water column. If you get this error, it is a good idea
+        to do a ray trace plot to see if there is a ray getting stuck at
+        a boundary. You can also look in the ray file itself and see if
+        there is a ray with a lot of steps that has gotten stuck.<br>
+      </p>
+      <p style="font-family: monospace;"><i><br>
+        </i></p>
+      <p style="font-family: monospace;"><i>Why does plotray.m not show
+          the rays at the point where they actually hit the bottom?</i><br>
+      </p>
+      <p style="font-family: monospace;">When the number of steps in a
+        ray is very large, Bellhop may (depending on the version)
+        sub-sample the rays so that the file is not too large. The
+        sub-sampled rays may not include the steps where the ray hits
+        the bottom. It is trivial to change the routine that writes the
+        rays to turn that feature on or off. In recent versions, I've
+        tended to disable that feature to avoid confusion.<br>
+      </p>
+      <p style="font-family: monospace;"><i><br>
+        </i></p>
+      <p style="font-family: monospace;"><i>What is causing the error
+          message about a ray exiting the box where the bathymetry,
+          altimetry, or SSP is defined?</i><br>
+      </p>
+      <p style="font-family: monospace;">The ray box (rBox, zBox) is a
+        mask that traps rays that exit that box. The environment (SSP,
+        bathymetry, altimetry) needs to be defined for any place where
+        the rays get to. Usually the bathymetry and altimetry are the
+        key limits in the vertical direction. If, for example, your
+        bathymetry dips below the lowest tabulated depth for the SSP,
+        you could have problems. Similarly, if rBox is larger than the
+        greatest range of the bathymetry, altimetry, or SSP then the ray
+        enters a domain where the environment is not defined, causing an
+        error.<br>
+      </p>
+      <p style="font-family: monospace;">The ray box is defined in terms
+        of an absolute value, so the limits of the ray are z in [ -zBox,
+        +zBox ] and r in [ -rBox, +rBox ].<br>
+        BELLHOP and BELLHOP3D can trace rays that turn around and go
+        back to the source. They may then travel to negative ranges. If
+        you did not define the bathymetry for negative ranges, then you
+        will also get this error message. These rays, including the
+        negative ranges, are indeed physical--- you should think of the
+        range slice as a slice through a 3D environment with negative
+        ranges just being along the 180 degree radial. In this case,
+        make sure your bathymetry covers the domain [ -rBox, rBox ].<br>
+      </p>
+      <p style="font-family: monospace;">Of course, this message can
+        also happen when the rBox limit fails to trap an outgoing ray
+        before it gets past the last bathymetry point. You would then
+        need to reduce rBox or increase the coverage of your bathymetry
+        to include larger ranges.<br>
+      </p>
+      <p style="font-family: monospace;"><br>
+      </p>
+      <p style="margin-left: 80px; font-family: monospace;"
+        class="MsoPlainText"><br>
+      </p>
+    </div>
+  </body>
+</html>

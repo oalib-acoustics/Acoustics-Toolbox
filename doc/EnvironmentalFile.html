@@ -1,0 +1,1541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="content-type">
+    <title>Description of Environmental File</title>
+  </head>
+  <body>
+    <h1 style="font-family: monospace;">Description of Environmental
+      File</h1>
+    <h3 style="margin-left: 40px; font-family: monospace;"><o:p><a
+          href="#1_-_Title">1. Title</a></o:p></h3>
+    <h3 style="margin-left: 40px; font-family: monospace;"><o:p><a
+          href="#2_-_Frequency">2. Frequency</a></o:p></h3>
+    <h3 style="margin-left: 40px; font-family: monospace;"><o:p><a
+          href="#3_-_Number_of_Media_">3. Number of Media</a></o:p></h3>
+    <h3 style="margin-left: 40px; font-family: monospace;"><o:p><a
+          href="#4_-_Options">4. Top Option</a></o:p></h3>
+    <h4 style="margin-left: 80px; font-family: monospace;"><a
+        href="#4a_-_Top_Halfspace_Properties_">Top Halfspace Properties</a></h4>
+    <h4 style="margin-left: 80px; font-family: monospace;"><a
+        href="#4b_-_Top_Reflection_Coefficient_">Top Reflection
+        Coefficient</a></h4>
+    <h3 style="margin-left: 40px; font-family: monospace;"><o:p><a
+          href="#5a_-_Sound_Speed_Profile_">5. Sound Speed Profile<br>
+        </a></o:p></h3>
+    <h3 style="margin-left: 40px; font-family: monospace;"><a
+        href="#6_-_Bottom_Option_">6. Bottom Option</a></h3>
+    <h4 style="margin-left: 80px; font-family: monospace;"><a
+        href="#6a_-_Bottom_Halfspace_Properties_">Bottom Halfspace
+        Properties</a></h4>
+    <h4 style="margin-left: 80px; font-family: monospace;"><a
+        href="#6b_-_Bottom_Reflection_Coefficient_">Bottom Reflection
+        Coefficient</a></h4>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+    <p style="font-family: monospace;" class="MsoPlainText">The
+      following can be repeated as many times as wanted in a single
+      ENVFIL. KRAKEN and KRAKENC will generate a separate MODFIL for
+      each case stopping when it detects an end-of-file.</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+      </o:p></p>
+    <h3 style="font-family: monospace;"><a name="1_-_Title"></a>(1) -
+      Title</h3>
+    <div style="margin-left: 40px; font-family: monospace;">Syntax:</div>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>TITLE</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TITLE: Title of run
+      enclosed in sinqle quotes.</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+      </o:p></p>
+    <h3 style="font-family: monospace;"><a name="2_-_Frequency"></a>(2)
+      - Frequency</h3>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>FREQ</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>FREQ: Frequency in Hz.</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+      </o:p></p>
+    <h3 style="font-family: monospace;"><a name="3_-_Number_of_Media_"></a>(3)
+-
+Number
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      of Media<br>
+    </h3>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>NMEDIA</var><br>
+    </p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>NMEDIA: Number of
+      media.</p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText">The problem is divided into media within
+      which it is<span style=""> </span>assumed that the material
+      properties vary smoothly. A new<span style=""> </span>medium
+      should be used at fluid/elastic interfaces or at<span style=""> </span>interfaces
+where
+the
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      density changes discontinuously. The<span style=""> </span>number
+      of media in the problem is defined excluding the<span style=""> </span>upper
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      and lower half-space.<br>
+      <o:p></o:p></p>
+    <div style="margin-left: 40px; font-family: monospace;">
+      <p>BELLHOP is limited to one medium (NMEDIA=1) and actually
+        ignores this parameter.</p>
+    </div>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p></o:p></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+      </o:p></p>
+    <h3 style="font-family: monospace;"><a name="4_-_Options"></a>(4) -
+      Top Option</h3>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>TOPOPT</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TOPOPT(1:1): Type of
+      interpolation to be used for the SSP.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'C' for C-linear,<br>
+      <span style=""></span>'N' for N2-linear (n the index of
+      refraction),<br>
+      'P' for PCHIP (Piecewise Cubic Hermite Interpolating Polynomial),<br>
+      'S' for cubic Spline,<br>
+      'Q' for Quadrilatteral 2D SSP (BELLHOP&nbsp;&nbsp; only; reads the
+      SSP from a file)<br>
+      'H' for Hexahedral&nbsp;&nbsp;&nbsp;&nbsp; 3D SSP (BELLHOP3D only;
+      reads the SSP from a file)<br>
+      'A' for Analytic.<span style=""></span><br>
+      &nbsp;&nbsp;&nbsp; The user must modify the analytic formulas in
+      ANALYT.FOR then re-compile and link. </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">If your not sure which option to take, I'd
+      suggest<span style=""> </span>you use 'C'.<span style="">&nbsp;
+        The 'N' option is virtually identical to 'C'. It's provided</span>
+      <span style=""></span>to facilitate precise inter-model
+      comparisons with codes that use a certain numerical technique that
+      requires that type of interpolation. Both these piecewise-linear
+      approximations can produce false caustics in BELLHOP; however, the
+      Gaussian beam option in BELLHOP mitigates that effect to some
+      degree.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Option 'S' is a little
+      dangerous because splines<span style=""> </span>yield a poor fit
+      to certain kinds of curves,<span style=""> </span>e.g. curves
+      with sharp bends.<span style="">&nbsp; </span>If you insist<span
+        style=""> </span>on splines, you can fix a bad fit by dividing
+      the<span style=""> </span>water column into two 'media' at the
+      bend.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">Option 'P' is a recently added option that is
+      intended to provide a smooth interpolation without the artifacts
+      that sometimes come with cubic splines. We will need to get some
+      more experience with this, but the expectation is that this will
+      often be the best choice for BELLHOP by providing a smoother
+      profile free of false caustics.<br>
+      <o:p></o:p></p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">If 'A' is selected, then only the first line
+      of block (5) for the SSP is used and the tabulated SSP itself is
+      omitted.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Run PLOTSSP to check
+      that the SSP looks the way you<span style=""> </span>thought it
+      should. Apart from potential typos,<span style=""> </span>this
+      will also show up fit-problems.</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+      </o:p></p>
+    <div style="margin-left: 80px; font-family: monospace;">TOPOPT(2:2):
+      Type of top boundary condition<br>
+    </div>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">'V' VACUUM above top<br>
+      'A' ACOUSTO-ELASTIC half-space.<br>
+      &nbsp;Requires another line with the halfspace parameters as
+      described in block (4a).<br>
+      'R' Perfectly RIGID<br>
+      'F' <a href="ReflectionCoefficientFile.htm">Reflection
+        coefficient from a FILE</a><br>
+      <br>
+      These files for complicated, multi-layered media can be generated
+      using BOUNCE. (Available in KRAKENC, SCOOTER, and BELLHOP. Not
+      available in KRAKEN and SPARC.) For a Top Reflection Coefficient,
+      the file should have the extension '.TRC'. For KRAKEN/KRAKENC this
+      option for tabulated reflection coefficients is <span style=""></span>somewhat
+experimental
+at
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      this time. A complicated reflection coefficient may well cause <span
+        style=""></span>problems for the mode-finder. Finally, a
+      reflection coefficient <span style=""></span>tabulated only for
+      real angles does not provide a good result <span style=""></span>for
+complex
+angles
+of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      incidence. This happens when the sediment <span style=""></span>sound
+speed
+is
+less
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      than the water sound speed. In that case, the modes are evanescent
+      in the upper part of the water column and therefore have a complex
+      angle of incidence.</p>
+    <div style="margin-left: 160px; font-family: monospace;"> </div>
+    <div style="margin-left: 120px; font-family: monospace;">
+      <p class="MsoPlainText"><o:p></o:p><span style=""></span>For open
+        ocean problems option 'V' should be used for the top BC.<span
+          style=""></span><br>
+      </p>
+    </div>
+    <div style="margin-left: 160px; font-family: monospace;"></div>
+    <span style="font-family: monospace;"><br>
+    </span>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TOPOPT(3:3):
+      Attenuation units.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'N' Nepers/m.<br>
+      <span style=""></span>'F' dB/(kmHz)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>(F as in Freq. dependent)<br>
+      <span style=""></span>'M' dB/m<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>(M as in per Meter)<br>
+      'm' dB/m<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>(m as in per Meter) Scaled with frequency; quadratically,
+      then linearly above fT<br>
+      <span style=""></span>'W' dB/wavelength<span style="">&nbsp;&nbsp;
+      </span>(W as in per Wavelength)<br>
+      <span style=""></span>'Q' quality factor<br>
+      <span style=""></span>'L' Loss parameter (a.k.a. loss tangent)</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><o:p></o:p><span style=""></span>KRAKEN
+      ignores material attenuation<span style=""> </span>in elastic
+      media. (KRAKENC treats<span style=""> </span>it properly).<br>
+      The option 'm' for attenuation is a new one designed to capture a
+      power-law frequency dependence. You provide an attenuation in dB/m
+      at the frequency specified above (FREQ). Then in a broadband run,
+      with multiple frequencies that attenuation as automatically scaled
+      according to the power that you specify.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><i><b>The power-law scaling is based on the
+          frequency to a power beta, up to a transition frequency, fT.
+          Above fT, the scaling is linear with frequency. The parameters
+          that control this are specified in the first line of block (5)
+          and block (6) and allow a different beta and fT to be
+          specified independently for every layer. The actual
+          attenuation in dB/m is the value at the reference frequency
+          given in block (2) above.<br>
+        </b></i></p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">If you use 'm' without doing a broadband run,
+      then 'M' and 'm' will do the same thing, i.e. interpret your
+      attenuation as dB/m at the given frequency.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TOPOPT(4:4): Added
+      volume attenuation.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'T' Thorp attenuation
+      formula.<br>
+      'F' Francois-Garrison formula (more accurate).<br>
+      'B' Biological layer (fish).<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">If you invoke this option, volume attenuation
+      is added to the explicitly specified attenuation (ap, as).<br>
+      The Francois-Garrison formula depends on salinity (S), temperature
+      (T), pH, and depth (z_bar). That information is then provided on
+      the line immediately following, e.g.:<br>
+      &nbsp;&nbsp; 19.3 33.5 7.5 4000.7&nbsp;&nbsp; !&nbsp; T, Salinity,
+      pH, z_bar<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>TOPOPT(5:5): Altimetry
+      option; Slow/robust root-finder.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'~' Read in a <a
+        href="ATI_BTY_File.htm">*.ati file</a> containing the top
+      altimetry. (BELLHOP only; '*' was used earlier and still works)<br>
+      '_' Flat surface, i.e. no altimetry file. (BELLHOP only; this is
+      the default if blank)<br>
+      &nbsp;'.' As in: I want all the modes and I don't<span style=""> </span>care
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      how long it takes. Period.<br>
+    </p>
+    <div style="margin-left: 120px; font-family: monospace;"> The '.'
+      option works only with KRAKENC, which sometimes has trouble
+      finding a complete set of modes in the complex plane.<br>
+      <br>
+      <br>
+      <br>
+    </div>
+    <div style="margin-left: 80px; font-family: monospace;">TOPOPT(6:6):
+      Single beam (BELLHOP only)
+      <p style="margin-left: 120px; font-family: monospace;"
+        class="MsoPlainText"><span style=""></span>'I' Calculate only a
+        single beam from the specified fan.<br>
+        &nbsp;&nbsp;&nbsp; The actual beam number is specified after
+        NBEAMS, under<br>
+        &nbsp;&nbsp;&nbsp; the section describing the beam fan.<br>
+        ' ' Default: trace all beams<br>
+      </p>
+    </div>
+    <div style="margin-left: 80px; font-family: monospace;">
+      <blockquote>
+        <blockquote>
+          <blockquote>
+            <div align="left">Broadband run (currently implemented in
+              KRAKEN and SCOOTER)<br>
+            </div>
+            'B' Select a broadband run where multiple frequencies are
+            specified.<br>
+            The actual frequencies are given as a vector in the last two
+            lines of the envfil using the standard format:<br>
+            <br>
+            2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            ! Nfreq<br>
+            50 500 /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ! freqVec( 1 : Nfreq
+            )<br>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+    </div>
+    <br>
+    <br>
+    <div style="margin-left: 80px; font-family: monospace;">
+      <div align="left">TOPOPT(7:7): Use 0 (zero) to disable stabilizing
+        attenuation in SCOOTER </div>
+    </div>
+    <h4 style="font-family: monospace;"><a
+        name="4a_-_Top_Halfspace_Properties_"></a>(4a) - Top Halfspace
+      Properties<br>
+    </h4>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>ZT<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>CPT<span style="">&nbsp; </span>CST<span style="">&nbsp;
+        </span>RHOT<span style="">&nbsp; </span>APT<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>AST</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <div style="margin-left: 80px; font-family: monospace;">
+      <p><span style=""></span>ZT:<span style="">&nbsp;&nbsp; </span>Depth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        (m).<br>
+        CPT:<span style="">&nbsp; </span>Top P-wave speed (m/s).<br>
+        CST:<span style="">&nbsp; </span>Top S-wave speed (m/s).<br>
+        RHOT: Top density (g/cm3).<br>
+        APT:<span style="">&nbsp; </span>Top P-wave attenuation. (units
+        as given by Option(3:3) )<br>
+        AST:<span style="">&nbsp; </span>Top S-wave attenuation. (<span
+          style="">&nbsp; </span>"<span style="">&nbsp;&nbsp; </span>"<span
+          style="">&nbsp;&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>"<span style="">&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>"&nbsp;&nbsp;&nbsp;&nbsp; )</p>
+      <br>
+    </div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span>This line should only be included if
+      TOPOPT(2:2)='A', i.e. if the user has specified a homogeneous
+      halfspace for the top BC.</div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span></div>
+    <h4 style="font-family: monospace;"><a
+        name="4c_-_Twersky_Scatter_Parameters_"></a>(4b) - Biological
+      Layer Parameters (for attenuation due to fish)<br>
+    </h4>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>NBioLayers<br>
+        Z1<span style="">(1)&nbsp; </span>Z2(1)<span style="">&nbsp; </span>f0(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        &nbsp; Q(1) &nbsp; a0(1)</var><br>
+      <var><var>Z1<span style="">(2)&nbsp; </span>Z2(2)<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </span>f0(2) &nbsp; Q(2) &nbsp; a0(2)</var><br>
+        .<br>
+        .<br>
+        .<br>
+        Z1<span style="">(NBioLayers)&nbsp; </span>Z2(</var><var><var><span
+            style="">NBioLayers</span></var>)<span style="">&nbsp; </span>f0(</var><var><var><span
+            style="">NBioLayers</span></var>) &nbsp; Q(</var><var><var><span
+            style="">NBioLayers</span></var>) &nbsp; a0(</var><var><var><span
+            style="">NBioLayers</span></var>)</var><br>
+      <var><var></var></var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:<br>
+    </p>
+    <span style=""></span><span style=""></span>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; z1:
+        Top&nbsp;&nbsp;&nbsp; of layer (m)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; z2: Bottom of layer
+        (m)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f0: Resonance
+        frequency (Hz)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Q:&nbsp; Quality
+        factor<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a0: Amplitude in
+        dB/km at resonance but scaled by Q^2<br>
+      </span></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The loss
+        becomes a = a0 / [ ( 1 - f0^2 / freq^2 )^2 + 1 / Q^2 ] dB / km
+        (formula suggested by Orest Diachok).<br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; The units here in dB/km
+        are not affected by the attenuation units selected in TopOpt( 3
+        : 3 ).<br>
+      </span></p>
+    <h3 style="font-family: monospace;"><a
+        name="5a_-_Sound_Speed_Profile_"></a>(5) - Sound Speed Profile<br>
+    </h3>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>NMESH<span
+          style="">&nbsp; </span>SIGMA<span style="">&nbsp; </span>Z(NSSP)<br>
+        Z(1)<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>CP(1)<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>CS(1)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>RHO(1)<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>AP(1)<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>AS(1)<br>
+        <span style=""></span>Z(2)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>CP(2)<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>CS(2)<span
+          style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>RHO(2)<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>AP(2)<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>AS(2)<br>
+        <span style=""></span>.<br>
+        <span style=""></span>.<br>
+        <span style=""></span>.<br>
+        <span style=""></span>Z(NSSP)<span style="">&nbsp; </span>CP(NSSP)<span
+          style="">&nbsp; </span>CS(NSSP)<span style="">&nbsp; </span>RHO(NSSP)<span
+          style="">&nbsp; </span>AP(NSSP)<span style="">&nbsp; </span>AS(NSSP)</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>NMESH:<span style="">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>Number of mesh points used in the internal discretization.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>The number of mesh
+      points should be about 10<span style=""> </span>per vertical
+      wavelength in acoustic media. In<span style=""> </span>elastic
+      media, the number needed can vary quite<span style=""> </span>a
+      bit; 20 per wavelength is a reasonable<span style=""> </span>starting
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      point. For elastic media, the wavelength associated with the shear
+      wave speed is the reference; this is always shorter than that for
+      the p-wave.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>The number of mesh<span
+        style=""> </span><span style=""></span>points used depends on
+      the initial mesh and the<span style=""> </span>number of times it
+      is refined (doubled).<span style="">&nbsp; </span>The <span
+        style=""></span>number of mesh doublings can vary from 1 to 5<span
+        style=""> </span>depending on the parameter RMAX described<span
+        style=""> </span><span style=""></span>below.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>If you type 0 for the
+      number of mesh points,<span style=""> </span>the code will
+      calculate NMESH automatically.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">BELLHOP ignores this parameter as it's not
+      relevant to its numerical technique.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>SIGMA:<span style="">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>RMS roughness at the interface (ignored by BELLHOP and
+      SPARC)<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><o:p></o:p>Z(NSSP): Depth at bottom of medium
+      (m).<br>
+      &nbsp;&nbsp; This value is used to detect the last SSP point<span
+        style=""> </span>when reading in the profile that follows/<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Z():<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>Depth (m).<br>
+      &nbsp;&nbsp; The surface starts at the first depth point
+      specified. Thus if you have say, XBT data which starts at 50 m
+      below the surface, then you'll need to put in some SSP point at 0
+      m, otherwise the free-surface would be placed at 50 m giving
+      erroneous results. The points Z(1) and Z(NSSP) MUST correspond to
+      the depths of interfaces between media.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><i><b>If the attenuation units were specified
+          with option letter 'm' and a broadband run is selected, then
+          the attenuation is scaled with frequency. The scaling is based
+          on the frequency to a power beta, up to a transition
+          frequency, fT. Above fT, the scaling is linear with frequency.
+          The parameters that control this are specified in the first
+          line of this block using the syntax:</b></i></p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"> <span style=""></span><var>NMESH<span
+          style="">&nbsp; </span>SIGMA<span style="">&nbsp; </span>Z(NSSP)
+
+
+
+
+
+
+
+
+
+
+        beta fT<br>
+      </var></p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>where,<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">&nbsp;&nbsp; BETA:&nbsp;&nbsp; Power for the
+      power law<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">&nbsp;&nbsp; fT:&nbsp;&nbsp;&nbsp;&nbsp;
+      Transition frequency (Hz)<br>
+    </p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><br>
+      CP():<span style="">&nbsp;&nbsp;&nbsp; </span>P-wave speed (m/s).<br>
+      CS():<span style="">&nbsp;&nbsp;&nbsp; </span>S-wave speed (m/s).<br>
+      RHO():<span style="">&nbsp;&nbsp; </span>Density (g/cm3).<br>
+      &nbsp;&nbsp; Density variations within an acoustic medium<span
+        style=""> </span>are at present ignored.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">AP():<span style="">&nbsp;&nbsp;&nbsp; </span>P-wave
+attenuation
+(units
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      as given in Block 2)<br>
+      AS():<span style="">&nbsp;&nbsp;&nbsp; </span>S-wave attenuation
+      ( <span style="">&nbsp;</span>"<span style="">&nbsp;&nbsp; </span>"<span
+        style="">&nbsp;&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>"<span style="">&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>")</p>
+    <div style="margin-left: 80px; font-family: monospace;"><span
+        style=""></span>These lines giving the SSP should be omitted
+      when the 'A' option is used (indicating that an analytic profile
+      is supplied by a user written subroutine).</div>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>The '/' character
+      signals that the remaining data on the<span style=""> </span>line
+      is the same as in the previous line of SSP data. For <span
+        style=""></span>the very first line the default or 'previous'
+      line is:</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>0.0 1500.0 0.0 1.0 0.0
+      0.0</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>This block should be
+      repeated for each subsequent medium.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">Only KRAKEN, SCOOTER, and BOUNCE can use the
+      shear wave information. SPARC and BELLHOP ignore it.<br>
+    </p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p><br>
+        &nbsp;</o:p></p>
+    <h3 style="font-family: monospace;"><a name="6_-_Bottom_Option_"></a>(6)
+-
+Bottom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      Option<br>
+    </h3>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Syntax:</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><var>BOTOPT<span
+          style="">&nbsp; </span>SIGMA<br>
+      </var></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><var>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+        or, if the power-law attenuation option 'm' was selected:<br>
+      </var></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><var>BOTOPT<span
+          style="">&nbsp; </span>SIGMA BETA fT<br>
+      </var></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><br>
+      <var></var></p>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Description:</p>
+    <p style="font-family: monospace;" class="MsoPlainText"><span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BOTOPT(1:1):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      Type of bottom boundary condition.</p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'V' VACUUM below
+      bottom.<br>
+      <span style=""></span>'A' ACOUSTO-ELASTIC half-space.<br>
+      &nbsp;&nbsp;&nbsp; Requires another line with the half-space
+      parameters as described in Block (6a).<span style=""></span><br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>'R' Perfectly RIGID.<br>
+      'G' Grain size<br>
+      'F' <a href="ReflectionCoefficientFile.htm">Reflection
+        coefficient from a FILE</a><br>
+      <br>
+      These files for complicated, multi-layered media can be generated
+      using BOUNCE. (Available in KRAKENC, SCOOTER, and BELLHOP. Not
+      available in KRAKEN and SPARC.) For a Bottom Reflection
+      Coefficient, the file should have the extension '.BRC'. For
+      KRAKEN/KRAKENC this option for tabulated reflection coefficients
+      is <span style=""></span>somewhat experimental at this time. A
+      complicated reflection coefficient may well cause <span style=""></span>problems
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      for the mode-finder. Finally, a reflection coefficient <span
+        style=""></span>tabulated only for real angles does not provide
+      a good result <span style=""></span>for complex angles of
+      incidence. This happens when the sediment <span style=""></span>sound
+speed
+is
+less
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      than the water sound speed. In that case, the modes are evanescent
+      in the upper part of the water column and therefore have a complex
+      angle of incidence. </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText"><br>
+      'P' Precaculated internal reflection coefficient from a FILE
+      (available in KRAKENC and SCOOTER, not KRAKEN).<br>
+      &nbsp;&nbsp;&nbsp; These files are generated using BOUNCE.<br>
+    </p>
+    <p style="margin-left: 120px; font-family: monospace;"
+      class="MsoPlainText">Option 'A' is generally used for ocean bottom
+      modeling.<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">BOTOPT(2:2):<br>
+      &nbsp;&nbsp;&nbsp; '~' Read in a <a href="ATI_BTY_File.htm">*.bty
+        file</a> containing the bottom bathymetry. (BELLHOP only; '*'
+      was used earlier and still works)<br>
+      &nbsp;&nbsp;&nbsp; '_' Flat surface, i.e. no bathymetry file.
+      (BELLHOP only; this is the default if blank)<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>SIGMA:<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </span>Interfacial roughness (m).<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">BETA:&nbsp;&nbsp; Power for the power law<br>
+    </p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText">fT:&nbsp;&nbsp;&nbsp;&nbsp; Transition
+      frequency (Hz)<br>
+    </p>
+    <p style="font-family: monospace;" class="MsoPlainText"><o:p>&nbsp;</o:p></p>
+    <h4 style="font-family: monospace;"><a
+        name="6a_-_Bottom_Halfspace_Properties_"></a>(6a) - Bottom
+      Halfspace Properties from geoacoustic values<br>
+    </h4>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>ZB<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>CPB<span style="">&nbsp; </span>CSB<span style="">&nbsp;
+        </span>RHOB<span style="">&nbsp; </span>APB<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>ASB</var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <div style="margin-left: 80px; font-family: monospace;">
+      <p><span style=""></span>ZB:<span style="">&nbsp;&nbsp; </span>Depth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        (m).<br>
+        CPB:<span style="">&nbsp; </span>Bottom P-wave speed (m/s).<br>
+        CSB:<span style="">&nbsp; </span>Bottom S-wave speed (m/s).<br>
+        RHOB: Bottom density (g/cm3).<br>
+        APB:<span style="">&nbsp; </span>Bottom P-wave attenuation.
+        (units as given by TOPOPT(3:3) )<br>
+        ASB:<span style="">&nbsp; </span>Bottom S-wave attenuation. (<span
+          style="">&nbsp; </span>"<span style="">&nbsp;&nbsp; </span>"<span
+          style="">&nbsp;&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>"<span style="">&nbsp;&nbsp; </span>"<span style="">&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>"&nbsp;&nbsp;&nbsp;&nbsp; )</p>
+      <br>
+    </div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span>This line should only be included if
+      BOTOPT(1:1)='A', i.e. if the user has specified a homogeneous
+      halfspace for the bottom BC.<o:p><br>
+        &nbsp;</o:p><br>
+    </div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span>These lines should be contained in a separate
+      '.BRC' file. This file is only required if BOTOPT(2:2)='F', i.e.
+      if the user has specified that the bottom BC is read from a '.BRC'
+      (Bottom Reflection Coefficient) file. </div>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>For KRAKEN/KRAKENC this
+      option for tabulated reflection coefficients is <span style=""></span>somewhat
+experimental
+at
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      this time. A complicated reflection coefficient may well cause <span
+        style=""></span>problems for the mode-finder. Finally, a
+      reflection coefficient <span style=""></span>tabulated only for
+      real angles does not provide a good result <span style=""></span>for
+complex
+angles
+of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      incidence. This happens when the sediment <span style=""></span>sound
+speed
+is
+less
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      than the water sound speed. In that case, the modes are evanescent
+      in the upper part of the water column and therefore have a complex
+      angle of incidence.<br>
+    </p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><br>
+    </p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"> </p>
+    <h4 style="font-family: monospace;"><a
+        name="6a_-_Bottom_Halfspace_Properties_"></a>(6b) - Bottom
+      Halfspace Properties from grain size<br>
+    </h4>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Syntax:</p>
+    <p style="margin-left: 80px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span><var>ZB<span style="">&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </span>MZ<span style=""></span><span style=""></span><span
+          style=""></span><span style=""><br>
+        </span></var></p>
+    <p style="margin-left: 40px; font-family: monospace;"
+      class="MsoPlainText"><span style=""></span>Description:</p>
+    <div style="margin-left: 80px; font-family: monospace;">
+      <p><span style=""></span>ZB:<span style="">&nbsp; </span>Depth
+        (m).<br>
+        MZ:<span style="">&nbsp; </span>Grain size (phi units).<br>
+        <br>
+      </p>
+      <br>
+    </div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span>This line should only be included if
+      BOTOPT(1:1)='G', i.e. if the user has specified a homogeneous
+      halfspace for the bottom BC defined by grain size. The bottom
+      sound speed, attenuation, and density is calculated using formulas
+      from the UW_APL High-Frequency handbook.<o:p><br>
+        &nbsp;</o:p><br>
+    </div>
+    <div style="margin-left: 40px; font-family: monospace;"><span
+        style=""></span><br>
+    </div>
+  </body>
+</html>
