@@ -184,7 +184,7 @@ CONTAINS
       !write( *, * ) 'p', ray%p_tilde, ray%p_hat, rayOut%p_tilde, rayOut%p_hat
       !write( *, * ) 'q', ray%q_tilde, ray%q_hat, rayOut%q_tilde, rayOut%q_hat
 
-      ! Logic below fixes a bug when the |dot product| is infinitessimally greater than 1 (then ACos is complex)
+      ! Logic below fixes a bug when the |dot product| is infinitesimally greater than 1 (then ACos is complex)
       rayOut%phi = ray%phi + 2 * ACOS( MAX( MIN( DOT_PRODUCT( rayn1, e1 ), 1.0D0 ), -1.0D0 ) ) !!!What happens to torsion?
       !write( *, * ) rayn1, e1
       ! write( *, * ) DOT_PRODUCT( rayn1, e1 ), ACOS( MAX( MIN( DOT_PRODUCT( rayn1, e1 ), 1.0D0 ), -1.0D0 ) )
@@ -261,5 +261,3 @@ CONTAINS
     END SUBROUTINE ParabotFormulas
   END SUBROUTINE Reflect3D
 END MODULE Reflect3DMod
-
-

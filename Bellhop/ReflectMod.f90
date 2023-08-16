@@ -120,7 +120,7 @@ CONTAINS
        gamma2   = SQRT( -gamma2Sq )
 
        Refl = ( HS%rho * gamma1 - rho * gamma2 ) / ( HS%rho * gamma1 + rho * gamma2 )
-       ! write( *, * ) abs( Refl ), c, HS%cp, rho, HS%rho       
+       ! write( *, * ) abs( Refl ), c, HS%cp, rho, HS%rho
        IF ( ABS( Refl ) < 1.0E-5 ) THEN   ! kill a ray that has lost its energy in reflection
           ray2D( is1 )%Amp   = 0.0
           ray2D( is1 )%Phase = ray2D( is )%Phase
@@ -154,7 +154,12 @@ CONTAINS
              cco = co * co
              ssi = si * si
 
-             delta   = a * co / si / ( ck * sb * d )    
+             IF ( si /= 0.0 ) THEN
+                delta = a * co / si / ( ck * sb * d )   ! Do we need an abs() on this???
+             ELSE
+                delta = 0.0
+             END IF
+
              pdelta  = real( delta ) / ( ray2D( is )%c / co)
              ddelta  = -a / ( ck*sb*d ) - a*cco / ssi / (ck*sb*d) + a*cco / (ck*b*sb*d) &
                   -a*co / si / (ck*sb*d*d) * (2* HS%rho * HS%rho *si*co-2*co*si)
@@ -172,5 +177,3 @@ CONTAINS
   END SUBROUTINE Reflect2D
 
 END MODULE ReflectMod
-
-

@@ -192,7 +192,6 @@ CONTAINS
 
     USE SourceReceiverPositions
 
-    IMPLICIT NONE
     INTEGER :: IOStat, LRecL
 
     OPEN( FILE = TRIM( FileRoot ) // '.grn', UNIT = GRNFile, STATUS = 'OLD', ACCESS = 'DIRECT', &
@@ -243,7 +242,6 @@ CONTAINS
     USE SourceReceiverPositions
     USE BeamPattern
     USE interpolation
-    IMPLICIT NONE
     INTEGER, INTENT( IN ) :: IratioDelta_r
     INTEGER               :: Isz, Irz, ISR, IRec
     CHARACTER ( LEN=10 )  :: PlotType = '          '
@@ -297,25 +295,24 @@ CONTAINS
     ! Produces an evenly sampled kernel from input G
 
     USE PolyMod
-    IMPLICIT NONE
-    INTEGER, PARAMETER   :: ISize = 3
+    INTEGER, PARAMETER   :: iSize = 3
     COMPLEX, PARAMETER   :: i = ( 0.0, 1.0 )
     INTEGER, INTENT(IN)  :: Nk, Nt
     REAL,    INTENT(IN)  :: k( Nk ), kInterp( Nt ), Atten, AttInt
     COMPLEX, INTENT(IN)  :: G( Nk )
     COMPLEX, INTENT(OUT) :: Ginterp( Nt )
     INTEGER              :: ICenter, IRight, INew, It
-    COMPLEX              :: xinterp, x( ISize ), f( ISize ), Pade
+    COMPLEX              :: xinterp, x( iSize ), f( iSize ), Pade
     CHARACTER   (LEN=80) :: ErrorMessage = '      '
     CHARACTER   (LEN=3 ) :: Option
 
     ! Initialize interpolation data
-    ICenter = ISize / 2 + 1   ! counter to mark center of abscissas used for interpolation
-    IRight  = ISize
-    INew    = ISize
+    ICenter = iSize / 2 + 1   ! counter to mark center of abscissas used for interpolation
+    IRight  = iSize
+    INew    = iSize
 
-    x( 1 : ISize ) = ( k( 1 : ISize ) + i * Atten )**2   ! abscissa
-    f( 1 : ISize ) = G( 1 : ISize )                      ! ordinate
+    x( 1 : iSize ) = ( k( 1 : iSize ) + i * Atten )**2   ! abscissa
+    f( 1 : iSize ) = G( 1 : iSize )                      ! ordinate
 
     DO It = 1, NT ! Main loop: step through values in kInterp
 
@@ -323,7 +320,7 @@ CONTAINS
        DO WHILE ( kInterp( It ) > k( ICenter ) .AND. IRight < Nk )
           ICenter = ICenter + 1
           IRight  = IRight  + 1
-          INew    = MOD( INew, ISize ) + 1   ! this is the next open slot
+          INew    = MOD( INew, iSize ) + 1   ! this is the next open slot
 
           x( INew ) = ( k( IRight ) + i * Atten ) ** 2
           f( INew ) = G( IRight )
@@ -333,9 +330,9 @@ CONTAINS
        IF ( kInterp( It ) <= k( Nk ) ) THEN
           xinterp = ( kInterp( It ) + i * AttInt ) ** 2
           IF ( Option( 3 : 3 ) == 'O' ) THEN
-             Ginterp( It ) = Poly( xinterp, x, f, ISize )   ! polynomial
+             Ginterp( It ) = Poly( xinterp, x, f, iSize )   ! polynomial
           ELSE
-             Ginterp( It ) = Pade( xinterp, x, f, ISize, ErrorMessage )   ! Pade
+             Ginterp( It ) = Pade( xinterp, x, f, iSize, ErrorMessage )   ! Pade
           ENDIF
 
           IF ( ErrorMessage( 1 : 6 ) /= '      ' ) WRITE( PRTFile, * ) ErrorMessage

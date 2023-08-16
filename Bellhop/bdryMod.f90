@@ -28,7 +28,7 @@ MODULE bdrymod
   TYPE BdryPt
      REAL    (KIND=8) :: x( 2 ), t( 2 ), n( 2 )         ! coordinate, tangent, and outward normal for a segment
      REAL    (KIND=8) :: Nodet( 2 ), Noden( 2 )         ! tangent and normal at the node, if the curvilinear option is used
-     REAL    (KIND=8) :: Len, Kappa                     ! length and curvature of a segement
+     REAL    (KIND=8) :: Len, Kappa                     ! length and curvature of a segment
      REAL    (KIND=8) :: Dx, Dxx, Dss                   ! first, second derivatives wrt depth; s is along tangent
      TYPE( HSInfo2 )  :: HS
   END TYPE
@@ -44,7 +44,6 @@ CONTAINS
     INTEGER,            INTENT( IN ) :: PRTFile
     CHARACTER (LEN= 1), INTENT( IN ) :: TopATI
     REAL      (KIND=8), INTENT( IN ) :: DepthT
-    REAL      (KIND=8), ALLOCATABLE  :: phi( : )
     CHARACTER (LEN=80), INTENT( IN ) :: FileRoot
 
     SELECT CASE ( TopATI )
@@ -73,9 +72,21 @@ CONTAINS
        WRITE( PRTFile, * ) 'Number of altimetry points = ', NatiPts
        NatiPts = NatiPts + 2   ! we'll be extending the altimetry to infinity to the left and right
 
-       ALLOCATE( Top(  NatiPts ), phi( NatiPts ), Stat = IAllocStat )
+       ALLOCATE( Top( NatiPts ), Stat = IAllocStat )
        IF ( IAllocStat /= 0 ) &
             CALL ERROUT( 'BELLHOP:ReadATI', 'Insufficient memory for altimetry data: reduce # ati points' )
+
+       WRITE( PRTFile, * )
+       AltiTypeB: SELECT CASE ( atiType( 2 : 2 ) )
+       CASE ( 'S', '' )
+          WRITE( PRTFile, * ) 'Short format (altimetry only)'
+          WRITE( PRTFile, * ) ' Range (km)  Depth (m)'
+       CASE ( 'L' )
+          WRITE( PRTFile, * ) 'Long format (altimetry and geoacoustics)'
+          WRITE( PRTFile, "( ' Range (km)  Depth (m)  alphaR (m/s)  betaR  rho (g/cm^3)  alphaI     betaI', / )" )
+       CASE DEFAULT
+          CALL ERROUT( 'ReadBTY', 'Unknown option for selecting altimetry interpolation' )
+       END SELECT AltiTypeB
 
        WRITE( PRTFile, * )
        WRITE( PRTFile, * ) ' Range (km)  Depth (m)'
@@ -85,13 +96,13 @@ CONTAINS
           SELECT CASE ( atiType( 2 : 2 ) )
           CASE ( 'S', '' )
              READ(  ATIFile, * ) Top( ii )%x
-             IF ( ii < Number_to_Echo .OR. ii == NatiPts ) THEN   ! echo some values
+             IF ( ii < Number_to_Echo .OR. ii == NatiPts - 1 ) THEN   ! echo some values
                 WRITE( PRTFile, FMT = "(2G11.3)" ) Top( ii )%x
              END IF
           CASE ( 'L' )
              READ(  ATIFile, * )                   Top( ii )%x, Top( ii )%HS%alphaR, Top( ii )%HS%betaR, Top( ii )%HS%rho, &
                                                                 Top( ii )%HS%alphaI, Top( ii )%HS%betaI
-             IF ( ii < Number_to_Echo .OR. ii == NatiPts ) THEN   ! echo some values
+             IF ( ii < Number_to_Echo .OR. ii == NatiPts - 1 ) THEN   ! echo some values
                 WRITE( PRTFile, FMT = "(7G11.3)" ) Top( ii )%x, Top( ii )%HS%alphaR, Top( ii )%HS%betaR, Top( ii )%HS%rho, &
                                                                 Top( ii )%HS%alphaI, Top( ii )%HS%betaI
              END IF
@@ -182,13 +193,13 @@ CONTAINS
           SELECT CASE ( btyType( 2 : 2 ) )
           CASE ( 'S', '' )   ! short format
              READ(  BTYFile, * ) Bot( ii )%x
-             IF ( ii < Number_to_Echo .OR. ii == NbtyPts ) THEN   ! echo some values
+             IF ( ii < Number_to_Echo .OR. ii == NbtyPts - 1 ) THEN   ! echo some values
                 WRITE( PRTFile, FMT = "(2G11.3)" ) Bot( ii )%x
              END IF
           CASE ( 'L' )       ! long format
              READ(  BTYFile, * )                   Bot( ii )%x, Bot( ii )%HS%alphaR, Bot( ii )%HS%betaR, Bot( ii )%HS%rho, &
                                                                 Bot( ii )%HS%alphaI, Bot( ii )%HS%betaI
-             IF ( ii < Number_to_Echo .OR. ii == NbtyPts ) THEN   ! echo some values
+             IF ( ii < Number_to_Echo .OR. ii == NbtyPts - 1 ) THEN   ! echo some values
                 WRITE( PRTFile, FMT="( F10.2, F10.2, 3X, 2F10.2, 3X, F6.2, 3X, 2F10.4 )" ) &
                                                    Bot( ii )%x, Bot( ii )%HS%alphaR, Bot( ii )%HS%betaR, Bot( ii )%HS%rho, &
                                                                 Bot( ii )%HS%alphaI, Bot( ii )%HS%betaI
@@ -320,6 +331,8 @@ CONTAINS
 
           Bdry( ii )%kappa = Bdry( ii )%Dss   !over-ride kappa !!!!!
        END DO
+
+       DEALLOCATE( phi )   ! should happen automatically when phi goes out of scope ...
     ELSE
        Bdry%kappa = 0
     END IF
@@ -375,5 +388,3 @@ CONTAINS
   END SUBROUTINE GetBotSeg
 
 END MODULE bdrymod
-
-

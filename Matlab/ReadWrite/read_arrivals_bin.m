@@ -61,7 +61,7 @@ if strcmp( flag, '''2D''' )
    
    fseek( fid, 8 * marker_len, 0 );			% skip over two record markers
    Nrr      = fread( fid, 1,   'int32'   );	% number of receiver ranges
-   Pos.r.r  = fread( fid, Nrr, 'float32' );	% receiver ranges
+   Pos.r.r  = fread( fid, Nrr, 'float64' );	% receiver ranges
    
    % pre-allocate memory for the Arr arrivals structure array
    

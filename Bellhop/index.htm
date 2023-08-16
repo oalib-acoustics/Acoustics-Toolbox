@@ -51,6 +51,9 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
         Channel Simulator</a><em><font color="#ff0000"><a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/acoustic_channel_simulator_code">&nbsp;</a>
           (January 2014)</font></em><br>
@@ -118,6 +121,9 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
               Toolbox</a>.<em><font color="#ff0000"> (updated 6 July
                 2018)</font></em><br>
           </li>
@@ -125,8 +131,22 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/HLS-2010-1.pdf">Manual</a>
             (rough draft)&nbsp; <span style="font-style: italic;">(31
               January 2011)</span></li>
+          <li>C++ version The Jaffe Lab for Underwater Imaging, Scripps
+            Institution of Oceanography UC San Diego<font
+              face="Helvetica, Arial, sans-serif" size="+3"><span
+                style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
+                font-size: 13px; font-variant-caps: normal; font-weight:
+                400; letter-spacing: normal; text-align: start;
+                text-indent: 0px; text-transform: none; white-space:
+                normal; word-spacing: 0px; -moz-text-size-adjust: auto;
+                -webkit-text-stroke-width: 0px; text-decoration: none;
+                display: inline !important; float: none;"><br>
+              </span></font></li>
           <li> Description of <a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/ICTCP%20ray%20paper.tif">BELLHOP
+
+
+
 
 
 
@@ -139,6 +159,9 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
               algorithm</a></li>
           <li> <a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/GeneralDescription.pdf">General
+
+
+
 
 
 
@@ -167,11 +190,17 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
               version</a> (This is a very preliminary version done as a
             demo by an HLS summer student. It is <b>not</b> for
             production use.)</li>
           <li><a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Modes/python.tgz">Python
+
+
+
 
 
 
@@ -209,6 +238,9 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
             zip file</a></li>
       </ul>
     </blockquote>
@@ -233,7 +265,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       <br>
       <i>&nbsp;9/97</i><br>
       Option to propagate time series directly in Bellhop has been
-      removed and replaced with the option of writing a arrivals file
+      removed and replaced with the option of writing an arrivals file
       containing delays and amplitudes for each arrival. Phase changes
       have been pulled from the delay vector into a complex amplitude.
       Matlab script stackarr.m written to stack up the arrivals taking
@@ -334,7 +366,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     coefficient because the angles of incidence were negative.<br>
     <br>
     The option of having a non-flat surface has been added. The new
-    version optionally reads an AltImetrY file (ATIFIL) with that info.
+    version optionally reads an AltImetry file (ATIFIL) with that info.
     Also a bug was fixed that caused Bellhop to confuse the last SSP
     point with the bottom depth. These are the same when a bathymetry
     file is not used, but with a bathymetry file the use could specify a
@@ -431,12 +463,12 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     when the geometric ray option is invoked as geometric ray theory is
     very sensitive to interpolation issues. This option also requires a
     change in the format of the altimetry and bathymetry files--- an
-    option letter has been added that selects piecewise linear ('L') or
+    option letter has been added that selects piecewise-linear ('L') or
     curvilinear ('C'). The changes have been implemented in both the
     Fortran and Matlab versions of Bellhop.<br>
     <br>
     <i>November 2007</i><br>
-    Bug in the treayment of altimetry/bathymetry files: Bellhop is
+    Bug in the treatment of altimetry/bathymetry files: Bellhop is
     supposed to extend boundaries to infinity in a constant fashion,
     using the values at the endpoints. This was not working properly and
     caused a problem when the user traced rays to a range beyond where
@@ -692,7 +724,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       Bellhop and Bellhop3D have always ignored the density in the
       volume assuming it was seawater and could be treated as a
       constant. That constant was taken as 1.0 gm/cm^2, which is very
-      slighyly off. In running an aero-acoustic problem for the air that
+      slightly off. In running an aero-acoustic problem for the air that
       density is about 1000x too high which led to an incorrect boundary
       reflection coefficient. Both models have been modified to use the
       density as specified in the environmental file including its depth
@@ -978,7 +1010,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     air and water over a meter or so. The reason is that the numerical
     integrator is very inaccurate with sharp gradients in the SSP. You
     can also address that by putting a lot of SSP points in the
-    transition layer. That forces BELLHOP to use a stepsize that lands
+    transition layer. That forces BELLHOP to use a step size that lands
     on each SSP point, i.e. the numerical integrator uses small steps
     through the transition layer. So this is not a bug fix, but an alert
     about properly handling SSPs with extremely strong gradients.
@@ -1032,14 +1064,44 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     past that). This allows more precise treatment for confined cases
     like this.<br>
     <br>
-    <br>
-    <br>
     <i> December 2021</i><i><br>
     </i>A user created a BELLHOP3D bathymetry file with the
     y-coordinates <i>decreasing</i> monitonically. The code assumes x
-    and y coordinates <i>increase</i> monitonically and fails if they
+    and y coordinates <i>increase</i> monotonically and fails if they
     don't. A test has been added to flag this error, which otherwise
     would cause the code to terminate mysteriously.<br>
+    <br>
+    <i> April 2023</i><br>
+    A user found that with the Intel compiler an ASCII arrivals file was
+    wrapped at 80 characters causing the output info to be split between
+    two lines. This in turn affected their reader for the arrival file.
+    It turns out that the Fortran standard does not regulate this and
+    wrapping is not done by gfortran. A switch was added to the Makefile
+    -no-wrap-margin to change this. However, people should be aware that
+    this problem may occur with other compilers. It can also be fixed by
+    adding a logical record length in the OPEN statement for the file or
+    by using an explicit format statement instead of the list-directed
+    output. None of these solutions is ideal.<br>
+    <br>
+    A user converted BELLHOP/BELLHOP3D to C++ and did meticulous checks
+    to make sure ray paths and other outputs were 'identical' with
+    different architectures and between the Fortran and the C++
+    versions. This was a very nice cross-check. Most of the differences
+    had no practical import or they addressed parts of the code that are
+    no longer used or supported. Trivial changes are not reporter here;
+    however, three changes were more significant bugs:<br>
+    1) the ray normal calculation in BELLHOP3D was using the rotation
+    angle ray2%phi (which was uniinitialized). It was supposed to use
+    ray1%phi,<br>
+    2) the ray phase in the 2D Gaussian Cartesian beam was using the
+    (undefined) phase at step iS instead of the correct phase at step
+    iS-1 used for all the other beams,<br>
+    3) the interpolation of the phase (phaseInt) in a zone that had just
+    crossed a caustic was using phaseInt = phase + pi / 2 instead of the
+    correct formula phaseInt = phaseInt + pi / 2.<br>
+    These errors have been corrected and may have affected the
+    interference patterns in the coherent TL plots for different cases.<br>
+    <br>
     <br>
     <br>
     <br>

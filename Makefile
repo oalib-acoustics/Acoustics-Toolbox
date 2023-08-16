@@ -35,7 +35,7 @@
 
 # The make utility tends to get confused with modules because it does not necessarily update the *.mod file
 # when it compiles the *.f90 file. (The *.mod file contains interface information that doesn't necessarily change
-# even then the *.f90 file has changed.)
+# even when the *.f90 file has changed.)
 # As a result, you may find that make keeps compiling a module, that was already compiled.
 # A 'make clean' will fix that
 # ______________________________________________________________________________
@@ -53,13 +53,15 @@
 # According to the latest benchmarks on polyhedron, it looks like -parallel is very helpful
 
 # need -heap-arrays to avoid stack overflows for big runs ...
+# -no-wrap-margin was added to avoid ascii arrival files being wrapped at 80 characters
+
 export FC=ifort
 # export FFLAGS= -O3 -parallel -axSSE4.2 -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
 export FFLAGS= -fast -axAVX                           -parallel              -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
 export FFLAGS= -O3 -axAVX              -funroll-loops -parallel -no-prec-div -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
 export FFLAGS= -O3 -axAVX              -funroll-loops -parallel -no-prec-div -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
 export FFLAGS= -O3 -xHost -qopt-report -funroll-loops -parallel -no-prec-div -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
-export FFLAGS= -O3 -xHost              -funroll-loops           -no-prec-div -nologo -inline-level=2 -assume byterecl -threads -heap-arrays
+export FFLAGS= -O3 -xHost              -funroll-loops           -no-prec-div -nologo -inline-level=2 -assume byterecl -threads -heap-arrays -no-wrap-margin
 
 # recommended settings from POLYHEDRON site
 # export FFLAGS= -O3 -fast           -ipo -nostandard-realloc-lhs
@@ -111,13 +113,14 @@ export FC=gfortran
 # -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib
 # export FFLAGS= -march=corei7 -Bstatic -Waliasing -Wampersand -Wsurprising -Wintrinsics-std -Wno-tabs -Wintrinsic-shadow -Wline-truncation        -std=f2008 -O3 -ffast-math -funroll-all-loops -fomit-frame-pointer
 # export FFLAGS= -march=native          -Waliasing -Wampersand -Wsurprising -Wintrinsics-std -Wno-tabs -Wintrinsic-shadow -Wline-truncation -Wa,-q -std=f2008 -O3 -ffast-math -funroll-all-loops -fomit-frame-pointer -mtune=native
-export FFLAGS= -march=native -Bstatic -Waliasing -Wampersand              -Wintrinsics-std -Wno-tabs -Wintrinsic-shadow -Wline-truncation         -std=gnu  -O2 -ffast-math -funroll-all-loops -fomit-frame-pointer -mtune=native
+# Had a problem with -O2 in the KRAKENC root finder for at/tests/Noise/Sduct. Switching to O1 (4//25/2023)
+export FFLAGS= -march=native -Bstatic -Waliasing -Wampersand              -Wintrinsics-std -Wno-tabs -Wintrinsic-shadow -Wline-truncation         -std=gnu  -O1 -ffast-math -funroll-all-loops -fomit-frame-pointer -mtune=native
 
 # Compilation and run-time diagnostics on:
 # omni.env fails trap=invalid
 # export FFLAGS= -march=native -ffpe-trap=invalid,zero,overflow -Wall                  -std=gnu -O1 -fcheck=all -fbacktrace
 # export FFLAGS= -march=native -ffpe-trap=zero,overflow         -Wall                  -std=gnu -O1 -fcheck=all -fbacktrace
-# export FFLAGS= -march=native -ffpe-trap=zero,overflow         -Wall -pedantic-errors -std=gnu -O1 -fcheck=all -fbacktrace
+#export FFLAGS= -march=native -ffpe-trap=zero,overflow         -Wall -pedantic-errors -std=gnu -O1 -fcheck=all -fbacktrace -finit-real=nan
 
 # Profiling:
 # I read that the -pg flag is needed for profiling, but there's some problem with the library and it doesn't compile

@@ -4,10 +4,10 @@ function varargout = plotshd( varargin )
 % usage:
 % plotshd( filename, m, n, p )
 % (m, n, p) optional subplot spec
-% '.shd' is the default file extension if not specified
+% '.shd' is the default file extension if not specified in the filename
 %
-% plotshd( filename, freq ) to plot field for a specified frequency
-% plotshd( filename, freq, m, n, p ) to plot field for a specified frequency
+% plotshd( filename, freq )          to plot field for a specified frequency
+% plotshd( filename, freq, m, n, p ) to plot field for a specified frequency and subplot
 % mbp
 
 global units jkpsflag
@@ -126,16 +126,18 @@ else   % line plots
       h = plot( rt, tlt );
       xlabel( xlab );
       ylabel( 'TL (dB)' )
+      set( h, 'LineWidth', 2 )
       set( gca, 'YDir', 'Reverse' )
-      title( deblank( PlotTitle ) )
+      title( { deblank( PlotTitle ); [ 'Freq = ' num2str( freq ) ' Hz    z_{src} = ' num2str( Pos.s.z( isz ) ) ' m' ] } )
    else
       % TL vs. depth
       h = plot( tlt', zt );
       set( gca, 'YDir', 'Reverse' )
       set( gca, 'XDir', 'Reverse' )
+      set( h, 'LineWidth', 2 )
       xlabel( 'TL (dB)' )
       ylabel( 'Depth (m)' );
-      title( deblank( PlotTitle ) )
+      title( { deblank( PlotTitle ); [ 'Freq = ' num2str( freq ) ' Hz    z_{src} = ' num2str( Pos.s.z( isz ) ) ' m' ] } )
    end
 end
 

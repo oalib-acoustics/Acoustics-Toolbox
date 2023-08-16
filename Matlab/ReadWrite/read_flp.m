@@ -78,7 +78,7 @@ fprintf( '\n_______________________ \n' )
 [ Pos.r.ro, Pos.Nro ] = readvector( fid );
 
 fprintf( '\n Number of receiver range offsets (array tilt) = %i \n', Pos.Nro )
-fprintf( '\n Receiver range offsets, R.ro (m)\n' );
+fprintf( '\n Receiver range offsets, Rro (m)\n' );
 
 if ( Pos.Nro < 10 )
    fprintf( '%8.2f  \n', Pos.r.ro )   % print all the range offsets

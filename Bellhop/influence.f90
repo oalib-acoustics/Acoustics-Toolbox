@@ -16,14 +16,14 @@ MODULE Influence
   COMPLEX (KIND=8), PRIVATE :: delay
 
 CONTAINS
-  SUBROUTINE InfluenceCervenyRayCen( U, epsilon, alpha, iBeamWindow2, RadiusMax )
+  SUBROUTINE InfluenceCervenyRayCen( U, eps, alpha, iBeamWindow2, RadiusMax )
 
     ! Paraxial (Cerveny-style) beams in ray-centered coordinates
 
     INTEGER,          INTENT( IN    ) :: IBeamWindow2
-    REAL    (KIND=8), INTENT( IN    ) :: alpha, RadiusMax                ! take-off angle
+    REAL    (KIND=8), INTENT( IN    ) :: alpha, RadiusMax             ! take-off angle
     COMPLEX,          INTENT( INOUT ) :: U( NRz_per_range, Pos%NRr )  ! complex pressure field
-    COMPLEX (KIND=8), INTENT( IN    ) :: epsilon
+    COMPLEX (KIND=8), INTENT( IN    ) :: eps
     INTEGER          :: ir1, ir2, KMAHV( MaxN ), KMAH, image
     REAL    (KIND=8) :: nA, nB, nSq, c, zr
     REAL    (KIND=8) :: znV( Beam%Nsteps ), rnV( Beam%Nsteps )   ! ray normal
@@ -32,13 +32,13 @@ CONTAINS
 
 !!! need to add logic related to NRz_per_range
 
-    ! During reflection imag(q) is constant and adjacent normals cannot bracket a segment of the TL
+    ! During reflection imag( q ) is constant and adjacent normals cannot bracket a segment of the TL
     ! line, so no special treatment is necessary
 
     IF ( Beam%Type( 2 : 2 ) == 'C' ) THEN
        epsV( 1 : Beam%Nsteps ) = i * ABS( ray2D( 1 : Beam%Nsteps )%q( 1 ) / ray2D( 1 : Beam%Nsteps )%q( 2 ) )
     ELSE
-       epsV( 1 : Beam%Nsteps ) = epsilon
+       epsV( 1 : Beam%Nsteps ) = eps
     END IF
 
     pVB(    1 : Beam%Nsteps ) = ray2D( 1 : Beam%Nsteps )%p( 1 ) + epsV( 1 : Beam%Nsteps ) * ray2D( 1 : Beam%Nsteps )%p( 2 )
@@ -74,7 +74,7 @@ CONTAINS
 
              ! Compute ray-centered coordinates, (znV, rnV)
 
-             IF ( ABS( znV( iS ) ) < tiny( znV( iS ) ) ) CYCLE Stepping   ! If normal parallel to TL-line, skip to next step on ray
+             IF ( ABS( znV( iS ) ) < EPSILON( znV( iS ) ) ) CYCLE Stepping ! If normal parallel to TL-line, skip to next step on ray
 
              SELECT CASE ( image )     ! Images of beams
              CASE ( 1 )                ! True beam
@@ -153,14 +153,14 @@ CONTAINS
 
   ! **********************************************************************!
 
-  SUBROUTINE InfluenceCervenyCart( U, epsilon, alpha, iBeamWindow2, RadiusMax )
+  SUBROUTINE InfluenceCervenyCart( U, eps, alpha, iBeamWindow2, RadiusMax )
 
     ! Paraxial (Cerveny-style) beams in Cartesian coordinates
 
     INTEGER,          INTENT( IN    ) :: IBeamWindow2
-    REAL    (KIND=8), INTENT( IN    ) :: alpha, RadiusMax                ! take-off angle
+    REAL    (KIND=8), INTENT( IN    ) :: alpha, RadiusMax             ! take-off angle
     COMPLEX,          INTENT( INOUT ) :: U( NRz_per_range, Pos%NRr )  ! complex pressure field
-    COMPLEX (KIND=8), INTENT( IN    ) :: epsilon
+    COMPLEX (KIND=8), INTENT( IN    ) :: eps
     INTEGER          :: KMAHV( MaxN ), KMAH, irA, irB, Image
     REAL    (KIND=8) :: x( 2 ), rayt( 2 ), rayn( 2 ), Tr, Tz, zr, Polarity = 1, &
          c, cimag, cs, cn, csq, gradc( 2 ), crr, crz, czz, rho, deltaz
@@ -169,13 +169,13 @@ CONTAINS
 
     ! need to add logic related to NRz_per_range
 
-    ! During reflection imag(q) is constant and adjacent normals cannot bracket a segment of the TL
+    ! During reflection imag( q ) is constant and adjacent normals cannot bracket a segment of the TL
     ! line, so no special treatment is necessary
 
     IF ( Beam%Type( 2 : 2 ) == 'C' ) THEN
        epsV( 1 : Beam%Nsteps ) = i * ABS( ray2D( 1 : Beam%Nsteps )%q( 1 ) / ray2D( 1 : Beam%Nsteps )%q( 2 ) )
     ELSE
-       epsV( 1 : Beam%Nsteps ) = epsilon
+       epsV( 1 : Beam%Nsteps ) = eps
     END IF
 
     pVB( 1 : Beam%Nsteps ) = ray2D( 1 : Beam%Nsteps )%p( 1 ) + epsV( 1 : Beam%Nsteps ) * ray2D( 1 : Beam%Nsteps )%p( 2 )
@@ -361,7 +361,7 @@ CONTAINS
 
           RcvrDeclAngle = RcvrDeclAngleV( iS )
 
-          ! *** Compute contributions to bracketted receivers ***
+          ! *** Compute contributions to bracketed receivers ***
 
           II = 0
           IF ( irB <= irA ) II = 1   ! going backwards in range
@@ -379,7 +379,7 @@ CONTAINS
                 Amp      = const * W
                 phaseInt = ray2D( iS - 1 )%Phase + phase
                 !!! this should be precomputed
-                IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phase + pi / 2.   ! phase shifts at caustics
+                IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phaseInt + pi / 2.   ! phase shifts at caustics
 
                 CALL ApplyContribution( U( iz, ir ) )
              END IF
@@ -410,7 +410,7 @@ CONTAINS
     qOld         = ray2D( 1 )%q( 1 )       ! used to track KMAH index
     rA           = ray2D( 1 )%x( 1 )       ! range at start of ray
 
-    ! what if never satistified?
+    ! what if never satisfied?
     ! what if there is a single receiver (ir = 0 possible)
     irT = MINLOC( Pos%Rr( 1 : Pos%NRr ), MASK = Pos%Rr( 1 : Pos%NRr ) > rA )   ! find index of first receiver to the right of rA
     ir  = irT( 1 )
@@ -474,7 +474,7 @@ CONTAINS
                    W        = ( RadiusMax - n ) / RadiusMax   ! hat function: 1 on center, 0 on edge
                    Amp      = const * W
                    phaseInt = ray2D( iS - 1 )%Phase + phase
-                   IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phase + pi / 2.   ! phase shifts at caustics
+                   IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phaseInt + pi / 2.   ! phase shifts at caustics
 
                    CALL ApplyContribution( U( iz, ir ) )
                 END IF
@@ -518,7 +518,7 @@ CONTAINS
     qOld         = ray2D( 1 )%q( 1 )       ! used to track KMAH index
     rA           = ray2D( 1 )%x( 1 )       ! range at start of ray
 
-    ! what if never satistified?
+    ! what if never satisfied?
     ! what if there is a single receiver (ir = 0 possible)
 
     irT = MINLOC( Pos%Rr( 1 : Pos%NRr ), MASK = Pos%Rr( 1 : Pos%NRr ) > rA )      ! find index of first receiver to the right of rA
@@ -575,9 +575,9 @@ CONTAINS
 
              RcvrDepths: DO iz = 1, NRz_per_range
                 IF ( Beam%RunType( 5 : 5 ) == 'I' ) THEN
-                   x_rcvr = [ Pos%Rr( ir ), Pos%Rz( ir ) ]   ! irregular   grid
+                   x_rcvr = [ Pos%Rr( ir ), DBLE( Pos%Rz( ir ) ) ]   ! irregular   grid
                 ELSE
-                   x_rcvr = [ Pos%Rr( ir ), Pos%Rz( iz ) ]   ! rectilinear grid
+                   x_rcvr = [ Pos%Rr( ir ), DBLE( Pos%Rz( iz ) ) ]   ! rectilinear grid
                 END IF
                 IF ( x_rcvr( 2 ) < zmin .OR. x_rcvr( 2 ) > zmax ) CYCLE RcvrDepths
 
@@ -593,15 +593,15 @@ CONTAINS
                    const    = Ratio1 * SQRT( ray2D( iS )%c / ABS( q ) ) * ray2D( iS )%Amp
                    W        = EXP( -0.5 * ( n / sigma ) ** 2 ) / ( sigma * A )   ! Gaussian decay
                    Amp      = const * W
-                   phaseInt = ray2D( iS )%Phase + phase
-                   IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phase + pi / 2.  ! phase shifts at caustics
+                   phaseInt = ray2D( iS - 1 )%Phase + phase
+                   IF ( q <= 0.0d0 .AND. qOld > 0.0d0 .OR. q >= 0.0d0 .AND. qOld < 0.0d0 ) phaseInt = phaseInt + pi / 2.  ! phase shifts at caustics
 
                    CALL ApplyContribution( U( iz, ir ) )
                 END IF
              END DO RcvrDepths
           END IF
 
-          ! receiver not bracketted; bump receiver index, ir, towards rB
+          ! receiver not bracketed; bump receiver index, ir, towards rB
           IF ( rB > Pos%Rr( ir ) ) THEN
              IF ( ir >= Pos%NRr        ) EXIT   ! go to next step on ray
              irTT = ir + 1                      ! bump right
@@ -676,7 +676,7 @@ CONTAINS
        IF ( q < 0.0d0 .AND. qOld >= 0.0d0 .OR. q > 0.0d0 .AND. qOld <= 0.0d0 ) phase = phase + pi / 2.
        qold = q
 
-       RcvrRanges: DO WHILE ( ABS( rB - rA ) > 1.0D3 * SPACING( rA ) .AND. rB > Pos%Rr( ir ) )   ! Loop over bracketted receiver ranges
+       RcvrRanges: DO WHILE ( ABS( rB - rA ) > 1.0D3 * SPACING( rA ) .AND. rB > Pos%Rr( ir ) )   ! Loop over bracketed receiver ranges
 
           W     = ( Pos%Rr( ir ) - rA ) / ( rB - rA )
           x     = ray2D( iS - 1 )%x      + W * ( ray2D( iS )%x      - ray2D( iS - 1 )%x )
@@ -756,7 +756,7 @@ CONTAINS
 
     REAL,              PARAMETER       :: pi = 3.14159265
     INTEGER,           INTENT( IN    ) :: NRz, Nr
-    REAL,              INTENT( IN    ) :: r( Nr )         ! ranges
+    REAL     (KIND=8), INTENT( IN    ) :: r( Nr )         ! ranges
     REAL     (KIND=8), INTENT( IN    ) :: Dalpha, freq, c ! angular spacing between rays, source frequency, nominal sound speed
     COMPLEX,           INTENT( INOUT ) :: U( NRz, Nr )    ! Pressure field
     CHARACTER (LEN=5), INTENT( IN    ) :: RunType

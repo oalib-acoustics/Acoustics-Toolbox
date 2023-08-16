@@ -18,7 +18,8 @@ PROGRAM FIELD3D
   INTEGER, PARAMETER   :: SHDFile = 25, MaxM = 7000, MaxSet = 40000 ! MaxSet = 112000 for Channel Islands
   INTEGER              :: M( MaxSet ), MS( 3 ), Msource, Mlimit, iostat, ifreq = 1
   INTEGER              :: iCorner1, isx, isy, isz1, irz1, itheta, NSets, iRec, IElementSource, INode
-  REAL                 :: Rmin, Rmax, freq, freq0, atten = 0
+  REAL        (KIND=8) :: freq, freq0, atten = 0
+  REAL        (KIND=8) :: Rmin, Rmax   ! Receiver ranges
   REAL        (KIND=8) :: TStart, TEnd
   !COMPLEX              :: k( MaxM, MaxSet ), phiR( MaxM, MaxSet ), kS( MaxM, 3 ), phiST( MaxM, 3 )                   
   COMPLEX              :: kS( MaxM, 3 ), phiST( MaxM, 3 )                   
@@ -144,10 +145,10 @@ CONTAINS
 
     ! Reads in all the user input
 
-    INTEGER, PARAMETER :: FLPFile = 5 !, MaxM = 4100
+    INTEGER, PARAMETER :: FLPFile = 5
     CHARACTER (LEN=80), INTENT( IN  ) :: FileRoot
     INTEGER,            INTENT( OUT ) :: Mlimit
-    REAL,               INTENT( OUT ) :: Rmin, Rmax
+    REAL      (KIND=8), INTENT( OUT ) :: Rmin, Rmax
     CHARACTER (LEN= 7), INTENT( OUT ) :: Option
     CHARACTER (LEN=80), INTENT( OUT ) :: Title
     INTEGER :: I, IAllocStat, iElt, iostat
@@ -273,9 +274,9 @@ CONTAINS
     !     The element with the highest value of Enclosure is identified as the source element.
     !     If several elements enclose, the highest numbered element is given posession.
 
-    REAL, INTENT( IN ) :: xs, ys
+    REAL (KIND=8), INTENT( IN ) :: xs, ys
     INTEGER            :: iElt, Node1, Node2, Node3, IdentifySourceElement
-    REAL               :: x1, x2, x3, y1, y2, y3, A1, A2, A3, Delta, Enclosure, EnclosureMax
+    REAL (KIND=8)      :: x1, x2, x3, y1, y2, y3, A1, A2, A3, Delta, Enclosure, EnclosureMax
 
     IdentifySourceElement = 0
     EnclosureMax = 0.0 

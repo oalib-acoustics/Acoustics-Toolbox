@@ -5,10 +5,10 @@ MODULE ArrMod
 
   ! Variables for arrival information
   IMPLICIT NONE
-  REAL,      PARAMETER :: PhaseTol = 0.05  ! arrivals with essentially the same phase are grouped into one
+  REAL,       PARAMETER :: PhaseTol = 0.05  ! arrivals with essentially the same phase are grouped into one
   INTEGER               :: MaxNArr
   INTEGER, ALLOCATABLE  :: NArr( :, : ), NArr3D( :, :, : )
-  REAL         (KIND=4) :: factor = 1.0
+  REAL         (KIND=8) :: factor = 1.0
 
   TYPE Arrival
      INTEGER :: NTopBnc, NBotBnc
@@ -35,7 +35,7 @@ CONTAINS
     Nt     = NArr( id, ir )    ! # of arrivals
     NewRay = .TRUE.
 
-    ! Is this the second bracketting ray of a pair?
+    ! Is this the second bracketing ray of a pair?
     ! If so, we want to combine the arrivals to conserve space.
     ! (test this by seeing if the arrival time is close to the previous one)
     ! (also need that the phase is about the same to make sure surface and direct paths are not joined)
@@ -52,8 +52,8 @@ CONTAINS
              Arr( id, ir, iArr( 1 ) )%A             = SNGL( Amp )       ! amplitude
              Arr( id, ir, iArr( 1 ) )%Phase         = SNGL( Phase )     ! phase
              Arr( id, ir, iArr( 1 ) )%delay         = CMPLX( delay )    ! delay time
-             Arr( id, ir, iArr( 1 ) )%SrcDeclAngle  = SNGL( SrcDeclAngle )  ! angle
-             Arr( id, ir, iArr( 1 ) )%RcvrDeclAngle = SNGL( RcvrDeclAngle ) ! angle
+             Arr( id, ir, iArr( 1 ) )%SrcDeclAngle  = SNGL( SrcDeclAngle )  ! source   declination angle
+             Arr( id, ir, iArr( 1 ) )%RcvrDeclAngle = SNGL( RcvrDeclAngle ) ! receiver declination angle
              Arr( id, ir, iArr( 1 ) )%NTopBnc       = NumTopBnc         ! Number of top     bounces
              Arr( id, ir, iArr( 1 ) )%NBotBnc       = NumBotBnc         !   "       bottom
           ENDIF
@@ -62,8 +62,8 @@ CONTAINS
           Arr(  id, ir, Nt + 1 )%A             = SNGL( Amp )         ! amplitude
           Arr(  id, ir, Nt + 1 )%Phase         = SNGL( Phase )       ! phase
           Arr(  id, ir, Nt + 1 )%delay         = CMPLX( delay )      ! delay time
-          Arr(  id, ir, Nt + 1 )%SrcDeclAngle  = SNGL( SrcDeclAngle )    ! angle
-          Arr(  id, ir, Nt + 1 )%RcvrDeclAngle = SNGL( RcvrDeclAngle )   ! angle
+          Arr(  id, ir, Nt + 1 )%SrcDeclAngle  = SNGL( SrcDeclAngle )    ! source   declination angle
+          Arr(  id, ir, Nt + 1 )%RcvrDeclAngle = SNGL( RcvrDeclAngle )   ! receiver declination angle
           Arr(  id, ir, Nt + 1 )%NTopBnc       = NumTopBnc           ! Number of top     bounces
           Arr(  id, ir, Nt + 1 )%NBotBnc       = NumBotBnc           !   "       bottom
        ENDIF
@@ -92,7 +92,7 @@ CONTAINS
     ! ASCII output file
 
     INTEGER,           INTENT( IN ) :: Nrd, Nr
-    REAL,              INTENT( IN ) :: r( Nr )
+    REAL     (KIND=8), INTENT( IN ) :: r( Nr )
     CHARACTER (LEN=1), INTENT( IN ) :: SourceType
     INTEGER           :: ir, id, iArr
 
@@ -114,8 +114,9 @@ CONTAINS
           DO iArr = 1, NArr( id, ir )
              ! You can compress the output file a lot by putting in an explicit format statement here ...
              ! However, you'll need to make sure you keep adequate precision
+             ! Also, some compilers, e.g. Intel wrap the line at 80 characters
              WRITE( ARRFile, * ) &
-                     factor * Arr( id, ir, iArr )%A,             &
+             SNGL( factor ) * Arr( id, ir, iArr )%A,             &
              SNGL( RadDeg ) * Arr( id, ir, iArr )%Phase,         &
                         REAL( Arr( id, ir, iArr )%delay ),       &
                        AIMAG( Arr( id, ir, iArr )%delay ),       &
@@ -138,7 +139,7 @@ CONTAINS
     ! Binary output file
 
     INTEGER,           INTENT( IN ) :: Nrd, Nr
-    REAL,              INTENT( IN ) :: r( Nr )
+    REAL     (KIND=8), INTENT( IN ) :: r( Nr )
     CHARACTER (LEN=1), INTENT( IN ) :: SourceType
     INTEGER           :: ir, id, iArr
 
@@ -161,8 +162,8 @@ CONTAINS
           DO iArr = 1, NArr( id, ir )
              ! integers written out as reals below for fast reading in Matlab
              WRITE( ARRFile ) &
-                  factor * Arr( id, ir, iArr )%A,             &
-            SNGL( RadDeg * Arr( id, ir, iArr )%Phase ),       &
+          SNGL( factor ) * Arr( id, ir, iArr )%A,             &
+          SNGL( RadDeg ) * Arr( id, ir, iArr )%Phase,         &
                            Arr( id, ir, iArr )%delay,         &
                            Arr( id, ir, iArr )%SrcDeclAngle,  &
                            Arr( id, ir, iArr )%RcvrDeclAngle, &
@@ -196,7 +197,7 @@ CONTAINS
     Nt     = NArr3D( itheta, id, ir )    ! # of arrivals
     NewRay = .TRUE.
 
-    ! Is this the second bracketting ray of a pair?
+    ! Is this the second bracketing ray of a pair?
     ! If so, we want to combine the arrivals to conserve space.
     ! (test this by seeing if the arrival time is close to the previous one)
     ! (also need that the phase is about the same to make sure surface and direct paths are not joined)
@@ -257,9 +258,9 @@ CONTAINS
     ! Writes the arrival data (Amplitude, delay for each eigenray)
     ! ASCII output file
 
-    INTEGER, INTENT( IN ) :: Ntheta, Nrd, Nr
-    REAL,    INTENT( IN ) :: r( Nr )
-    INTEGER               :: itheta, ir, id, iArr
+    INTEGER,       INTENT( IN ) :: Ntheta, Nrd, Nr
+    REAL (KIND=8), INTENT( IN ) :: r( Nr )
+    INTEGER                     :: itheta, ir, id, iArr
 
     WRITE( ARRFile, * ) MAXVAL( NArr3D( 1 : Ntheta,  1 : Nrd, 1 : Nr ) )
 
@@ -279,9 +280,11 @@ CONTAINS
              DO iArr = 1, NArr3D( itheta,  id, ir )
                 ! you can compress the output file a lot by putting in an explicit format statement here ...
                 ! However, you'll need to make sure you keep adequate precision
+                ! Also, some compilers, e.g. Intel wrap the line at 80 characters
+
                 WRITE( ARRFile, * ) &
                      factor * Arr3D( itheta, id, ir, iArr )%A,             &
-                     RadDeg * Arr3D( itheta, id, ir, iArr )%Phase,         &
+                     SNGL( RadDeg ) * Arr3D( itheta, id, ir, iArr )%Phase,         &
                         REAL( Arr3D( itheta, id, ir, iArr )%delay ),       &
                        AIMAG( Arr3D( itheta, id, ir, iArr )%delay ),       &
                               Arr3D( itheta, id, ir, iArr )%SrcDeclAngle,  &
@@ -305,9 +308,9 @@ CONTAINS
     ! Writes the arrival data (amplitude, delay for each eigenray)
     ! Binary output file
 
-    INTEGER, INTENT( IN ) :: Ntheta, Nrd, Nr
-    REAL,    INTENT( IN ) :: r( Nr )
-    INTEGER               :: itheta, ir, id, iArr
+    INTEGER,       INTENT( IN ) :: Ntheta, Nrd, Nr
+    REAL (KIND=8), INTENT( IN ) :: r( Nr )
+    INTEGER                     :: itheta, ir, id, iArr
 
     WRITE( ARRFile ) MAXVAL( NArr3D( 1 : Ntheta,  1 : Nrd, 1 : Nr ) )
 
@@ -328,7 +331,7 @@ CONTAINS
                 ! integers written out as reals below for fast reading in Matlab
                 WRITE( ARRFile ) &
                      factor * Arr3D( itheta, id, ir, iArr )%A,             &
-               SNGL( RadDeg * Arr3D( itheta, id, ir, iArr )%Phase ),       &
+             SNGL( RadDeg ) * Arr3D( itheta, id, ir, iArr )%Phase,         &
                               Arr3D( itheta, id, ir, iArr )%delay,         &
                               Arr3D( itheta, id, ir, iArr )%SrcDeclAngle,  &
                               Arr3D( itheta, id, ir, iArr )%SrcAzimAngle,  &

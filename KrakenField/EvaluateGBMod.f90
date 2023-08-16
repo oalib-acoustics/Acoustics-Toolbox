@@ -16,19 +16,21 @@ CONTAINS
     ! This happens wherever we use DBLE( cA ) instead of the complex cA
 
     USE ElementMod
+    USE FatalError
 
-    INTEGER, PARAMETER :: FLPFile = 5, RAYFile = 21
+    INTEGER, PARAMETER    :: FLPFile = 5, RAYFile = 21
     INTEGER, INTENT( IN ) :: M( * ), MLimit, maxM            ! number of modes, limit on number of modes to propagate
     INTEGER, INTENT( IN ) :: Nr, Ntheta, IElementSource      ! number of receiver ranges and bearing lines
-    REAL,    INTENT( IN ) :: Rmin, Rmax                      ! minimum and maximum receiver ranges in m
-    REAL,    INTENT( IN ) :: xs, ys, freq                    ! source coordinate and frequency
-    REAL,    INTENT( IN ) :: theta( Ntheta )                 ! bearing angles for receivers
+    REAL (KIND=8), INTENT( IN ) :: Rmin, Rmax                ! minimum and maximum receiver ranges in m
+    REAL (KIND=8), INTENT( IN ) :: xs, ys                    ! source coordinate
+    REAL (KIND=8), INTENT( IN ) :: freq                      ! source frequency
+    REAL (KIND=8), INTENT( IN ) :: theta( Ntheta )           ! bearing angles for receivers
     COMPLEX, INTENT( IN ) :: k( maxM, * )                    ! wavenumbers
     COMPLEX, INTENT( IN ) :: PhiR( maxM, * ), Phi( maxM, * ) ! source/receiver mode shapes
     COMPLEX, INTENT( OUT) :: P( Ntheta, Nr )                 ! pressure field
     LOGICAL            :: EXITED
     INTEGER            :: Ialpha, IElement, Iset1, Iset2, Iset3, Iside, Istep, KMAHA, KMAHB, mode, Mprop, Nsteps, Nalpha, N2
-    REAL,             ALLOCATABLE :: RadVec( :, : )
+    REAL    (KIND=8), ALLOCATABLE :: RadVec( :, : )
     REAL    (KIND=8), ALLOCATABLE :: xV( : ), yV( : )
     REAL    (KIND=8)   :: alpha, Dalpha, A1, A2, A3, D12, D13, D23, DB1, DB2, DB3, delta, &
          EpsilonMult, qAT, qBT, tsx, tsy, xa, xb, ya, yb, x1, y1, x2, y2, x3, y3, &
@@ -112,7 +114,10 @@ CONTAINS
              EpsOpt = 0.5 * Hwidth ** 2 
           CASE( 'M' )   ! Minimum width at Rmax
              Hwidth = SQRT( 2.0 * DBLE( cA ) * Rmax ) 
-             EpsOpt = 0.5 * Hwidth ** 2 
+             EpsOpt = 0.5 * Hwidth ** 2
+          CASE DEFAULT
+             EpsOpt = 0.0
+             CALL ERROUT( 'EvaluateBG', 'Unknown option fpr beam type' ) 
           END SELECT
 
           eps   = EpsilonMult * i * EpsOpt 
@@ -174,7 +179,8 @@ CONTAINS
                 ! EltSearch: DO WHILE ( ABS( A1 ) + ABS( A2 ) + ABS( A3 ) > 1.0 + 1e4 * EPSILON( A1 ) )
                 EltSearch: DO WHILE ( A1 < 0.0 .OR. A2 < 0.0 .OR. A3 < 0.0 )
 
-                   ! Identify the side through which exitting       
+                   ! Identify the side through which exitting
+                   Iside = 1   ! just in case none of the following happens
                    IF ( A1 < 0.0 ) Iside = 2 
                    IF ( A2 < 0.0 ) Iside = 3 
                    IF ( A3 < 0.0 ) Iside = 1
@@ -309,7 +315,8 @@ CONTAINS
 
     REAL,             PARAMETER       :: BeamWindow = 5
     INTEGER,          INTENT( IN )    :: KMAHA, KMAHB, Ntheta, NR
-    REAL,             INTENT( IN )    :: RadVec( 2, * ), Rmin, Rmax
+    REAL    (KIND=8), INTENT( IN )    :: RadVec( 2, * )
+    REAL    (KIND=8), INTENT( IN )    :: Rmin, Rmax
     REAL    (KIND=8), INTENT( IN )    :: xA, yA, xiA, etaA, xB, yB, xiB, etaB
     COMPLEX (KIND=8), INTENT( IN )    :: const, phiA, phiB, pA, pB, qA, qB, tauA, tauB, cA, cB
     COMPLEX,          INTENT( INOUT ) :: P( Ntheta, * )

@@ -19,17 +19,19 @@ CONTAINS
 
     INTEGER, INTENT( IN ) :: M( * ), MLimit, maxM             ! number of modes, limit on number of modes to propagate
     INTEGER, INTENT( IN ) :: Nr, Ntheta, IElementSource       ! number of receiver ranges and bearing lines
-    REAL,    INTENT( IN ) :: xs, ys, freq                     ! source coordinate and frequency
-    REAL,    INTENT( IN ) :: RminM, RmaxM                     ! minimum and maximum receiver ranges in m
-    REAL,    INTENT( IN ) :: theta( Ntheta )                  ! bearing angles for receivers
+    REAL (KIND=8), INTENT( IN ) :: xs, ys                     ! source coordinate
+    REAL (KIND=8), INTENT( IN ) :: freq                       ! source frequency
+    REAL (KIND=8), INTENT( IN ) :: RminM, RmaxM               ! minimum and maximum receiver ranges in m
+    REAL (KIND=8), INTENT( IN ) :: theta( Ntheta )            ! bearing angles for receivers
     COMPLEX, INTENT( IN ) :: k( maxM, * )                     ! wavenumbers
     COMPLEX, INTENT( IN ) :: PhiR( maxM, * ), PhiS( maxM, * ) ! source/receiver mode shapes
     COMPLEX, INTENT( OUT) :: P( Ntheta, Nr )                  ! pressure field
     INTEGER               :: Ielement, ir, Itheta, MProp, NewElement, Outside
-    REAL                  :: delta_r, Rin, Rout, RM
+    REAL (KIND=8)         :: delta_r, Rin, Rout, RM
     COMPLEX               :: PhiIn( maxM ), PhiOut( maxM ), const( maxM )
     COMPLEX               :: kIn( maxM ),  kOut( maxM )
-    COMPLEX               :: PhaseInc( maxM ), kAverage( maxM )
+    COMPLEX               :: kAverage( maxM )
+    COMPLEX (KIND=8)      :: PhaseInc( maxM )
     REAL (KIND=8), ALLOCATABLE :: kz2( : ), thetaT( : ), S( : )
     REAL (KIND=8)         :: omega
 
@@ -72,7 +74,7 @@ CONTAINS
 
           RangeStepping: DO ir = 1, Nr ! March forward in range 
              RM = RminM + ( ir - 1 ) * delta_r 
-             IF ( RM == 0.0 ) RM = MIN( 1.0, delta_r )
+             IF ( RM == 0.0 ) RM = MIN( 1.0D0, delta_r )
 
              ! Crossing into new element?                                  
              EltLoop: DO WHILE ( RM > Rout )
@@ -97,8 +99,8 @@ CONTAINS
 
              ! Compute modal contribution at this range
 
-             const( 1 : Mprop ) = const( 1 : Mprop ) * PhaseInc( 1 : Mprop )   ! advance the phase
-             P( Itheta, ir )    = SUM( const( 1 : Mprop ) * phiin( 1 : Mprop ) ) / SQRT( RM * kin( 1 ) )
+             const( 1 : Mprop ) = CMPLX( const( 1 : Mprop ) * PhaseInc( 1 : Mprop ) )   ! advance the phase
+             P( Itheta, ir )    = CMPLX( SUM( const( 1 : Mprop ) * phiin( 1 : Mprop ) ) / SQRT( RM * kin( 1 ) ) )
 
           END DO RangeStepping
        END IF

@@ -193,7 +193,7 @@ END SUBROUTINE EvaluateSSP2D
     ELSE                         ! return SSP info
 
        IF ( x( 2 ) < SSP%z( iSegz ) .OR. x( 2 ) > SSP%z( iSegz + 1 ) ) THEN
-          DO iz = 2, SSP%NPts   ! Search for bracketting Depths
+          DO iz = 2, SSP%NPts   ! Search for bracketing Depths
              IF ( x( 2 ) < SSP%z( iz ) ) THEN
                 iSegz = iz - 1
                 EXIT
@@ -233,7 +233,7 @@ END SUBROUTINE EvaluateSSP2D
     ELSE                        ! return SSP info
 
        IF ( x( 2 ) < SSP%z( iSegz ) .OR. x( 2 ) > SSP%z( iSegz + 1 ) ) THEN
-          DO iz = 2, SSP%NPts   ! Search for bracketting Depths
+          DO iz = 2, SSP%NPts   ! Search for bracketing Depths
              IF ( x( 2 ) < SSP%z( iz ) ) THEN
                 iSegz = iz - 1
                 EXIT
@@ -283,7 +283,7 @@ END SUBROUTINE EvaluateSSP2D
     ELSE                        ! return SSP info
 
        IF ( x( 2 ) < SSP%z( iSegz ) .OR. x( 2 ) > SSP%z( iSegz + 1 ) ) THEN
-          DO iz = 2, SSP%NPts   ! Search for bracketting Depths
+          DO iz = 2, SSP%NPts   ! Search for bracketing Depths
              IF ( x( 2 ) < SSP%z( iz ) ) THEN
                 iSegz = iz - 1
                 EXIT
@@ -347,7 +347,7 @@ END SUBROUTINE EvaluateSSP2D
        ! *** Section to return SSP info ***
 
        IF ( x( 2 ) < SSP%z( iSegz ) .OR. x( 2 ) > SSP%z( iSegz + 1 ) ) THEN
-          DO iz = 2, SSP%NPts   ! Search for bracketting Depths
+          DO iz = 2, SSP%NPts   ! Search for bracketing Depths
              IF ( x( 2 ) < SSP%z( iz ) ) THEN
                 iSegz = iz - 1
                 EXIT
@@ -450,7 +450,7 @@ END SUBROUTINE EvaluateSSP2D
 
        ! check depth-layer contains x( 2 ) in [ SSP%z( iSegz ), SSP%z( iSegz + 1 ) ]
        IF ( x( 2 ) < SSP%z( iSegz ) .OR. x( 2 ) > SSP%z( iSegz + 1 ) ) THEN
-          DO iz = 2, SSP%NPts   ! Search for bracketting Depths
+          DO iz = 2, SSP%NPts   ! Search for bracketing Depths
              IF ( x( 2 ) < SSP%z( iz ) ) THEN
                 iSegz = iz - 1
                 EXIT
@@ -463,7 +463,7 @@ END SUBROUTINE EvaluateSSP2D
        ! However, seems to be no faster
        ! Also, this code caused a problem on at/tests/Gulf for the range-dep. test cases
 !!$     IF ( x( 2 ) < SSP%z( iSegz ) .AND. iSegz > 1 ) THEN
-!!$        DO iz = iSegz - 1, 1, -1   ! Search for bracketting Depths
+!!$        DO iz = iSegz - 1, 1, -1   ! Search for bracketing Depths
 !!$           IF ( x( 2 ) > SSP%z( iz ) ) THEN
 !!$              iSegz = iz
 !!$              EXIT
@@ -472,7 +472,7 @@ END SUBROUTINE EvaluateSSP2D
 !!$     END IF
 !!$
 !!$     IF ( x( 2 ) > SSP%z( iSegz + 1 ) .AND. iSegz < SSP%NPts - 2 ) THEN
-!!$        DO iz = iSegz + 2, SSP%NPts   ! Search for bracketting Depths
+!!$        DO iz = iSegz + 2, SSP%NPts   ! Search for bracketing Depths
 !!$           IF ( x( 2 ) < SSP%z( iz ) ) THEN
 !!$              iSegz = iz - 1
 !!$              EXIT
@@ -489,7 +489,7 @@ END SUBROUTINE EvaluateSSP2D
 
        ! check range-segment contains x( 1 ) in [ SSP%Seg%r( iSSP%Seg ), SSP%Seg%r( iSegr + 1 ) )
        IF ( x( 1 ) < SSP%Seg%r( iSegr ) .OR. x( 1 ) >= SSP%Seg%r( iSegr + 1 ) ) THEN
-          DO iSegT = 2, SSP%Nr   ! Search for bracketting segment ranges
+          DO iSegT = 2, SSP%Nr   ! Search for bracketing segment ranges
              IF ( x( 1 ) < SSP%Seg%r( iSegT ) ) THEN
                 iSegr = iSegT - 1
                 EXIT
@@ -655,7 +655,7 @@ END SUBROUTINE EvaluateSSP2D
        !IF ( x( 1 ) >= SSP%Seg%x( iSegx + 1 ) ) iSegx = MIN( SSP%Nx - 1, iSegx + 1 )   ! bump right
 
        IF ( x( 1 ) < SSP%Seg%x( iSegx ) .OR. x( 1 ) >= SSP%Seg%x( iSegx + 1 ) ) THEN
-!!$          DO iSegxT = 2, SSP%Nx   ! Search for bracketting segment ranges
+!!$          DO iSegxT = 2, SSP%Nx   ! Search for bracketing segment ranges
 !!$             IF ( x( 1 ) < SSP%Seg%x( iSegxT ) ) THEN
 !!$                iSegx = iSegxT - 1
 !!$                EXIT
@@ -672,7 +672,7 @@ END SUBROUTINE EvaluateSSP2D
 
        ! check y-segment contains x( 2 ) in [ SSP%Seg%y( iSegy ), SSP%Seg%y( iSegy + 1 ) )
        IF ( x( 2 ) < SSP%Seg%y( iSegy ) .OR. x( 2 ) >= SSP%Seg%y( iSegy + 1 ) ) THEN
-!!$          DO iSegyT = 2, SSP%Ny   ! Search for bracketting segment ranges
+!!$          DO iSegyT = 2, SSP%Ny   ! Search for bracketing segment ranges
 !!$             IF ( x( 2 ) < SSP%Seg%y( iSegyT ) ) THEN
 !!$                iSegy = iSegyT - 1
 !!$                EXIT
@@ -689,7 +689,7 @@ END SUBROUTINE EvaluateSSP2D
 
        ! check depth-layer contains x( 3 ) in [ SSP%Seg%z( iSegz ), SSP%Seg%z( iSegz + 1 ) ]
        IF ( x( 3 ) < SSP%Seg%z( iSegz ) .OR. x( 3 ) > SSP%Seg%z( iSegz + 1 ) ) THEN
-!!$          DO iz = 2, SSP%Nz   ! Search for bracketting Depths
+!!$          DO iz = 2, SSP%Nz   ! Search for bracketing Depths
 !!$             IF ( x( 3 ) < SSP%Seg%z( iz ) ) THEN
 !!$                iSegz = iz - 1
 !!$                EXIT
@@ -739,8 +739,8 @@ END SUBROUTINE EvaluateSSP2D
 
        c  = c1  + s1 * ( c2 - c1   )   ! interpolation in x
 
-       ! interpolate the attenuation !!!! This will use the wrong segment if the ssp in the envil is sampled at different depths
-       s3 = s3 / ( SSP%z( iSegz + 1 ) - SSP%z( iSegz ) )   ! convert s3 to a proportional distance in thew layer
+       ! interpolate the attenuation !!!! This will use the wrong segment if the ssp in the envfil is sampled at different depths
+       s3 = s3 / ( SSP%z( iSegz + 1 ) - SSP%z( iSegz ) )   ! convert s3 to a proportional distance in the layer
        cimag = AIMAG( ( 1.0D0 - s3 ) * SSP%c( Isegz )  + s3 * SSP%c( Isegz + 1 ) )   ! volume attenuation is taken from the single c(z) profile
 
        cx = ( c2 - c1 ) / ( SSP%Seg%x( iSegx + 1 ) - SSP%Seg%x( iSegx ) )
@@ -748,7 +748,7 @@ END SUBROUTINE EvaluateSSP2D
        ! same thing on cz
        cz1 = cz11 + s2 * ( cz21 - cz11 )
        cz2 = cz12 + s2 * ( cz22 - cz12 )
-       cz  = cz1  + s1 * ( cz2  - cz1  )   ! interpolation in x
+       cz  = cz1  + s1 * ( cz2  - cz1  )   ! interpolation in z
 
        !gradc = [ cx, cy, cz ]
        gradc( 1 ) = cx

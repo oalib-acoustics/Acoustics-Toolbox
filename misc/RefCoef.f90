@@ -55,6 +55,7 @@ CONTAINS
        RBot%phi = DegRad * RBot%phi   ! convert to radians
 
     ELSE   ! should allocate something anyway, since variable is passed
+       IF ( ALLOCATED( RBot ) ) DEALLOCATE( RBot )
        ALLOCATE(  RBot( 1 ), Stat = IAllocStat )
     ENDIF
 
@@ -82,6 +83,7 @@ CONTAINS
        CLOSE( TRCFile )
        RTop%phi = DegRad *  RTop%phi   ! convert to radians
     ELSE   ! should allocate something anyway, since variable is passed
+       IF ( ALLOCATED( RTop ) ) DEALLOCATE( RTop )
        ALLOCATE( RTop( 1 ), Stat = iAllocStat )
     ENDIF
 
@@ -147,7 +149,7 @@ CONTAINS
        ! WRITE( PRTFile, * ) 'angle = ', ThetaIntr, 'upper limit = ', R( iRight )%theta
 
     ELSE
-       ! Search for bracketting abscissas: Log2( NPts ) stabs required for a bracket
+       ! Search for bracketing abscissas: Log2( NPts ) stabs required for a bracket
 
        DO WHILE ( iLeft /= iRight - 1 )
           iMid = ( iLeft + iRight ) / 2
@@ -203,7 +205,7 @@ CONTAINS
        iPower = iTab( iRight )
     ELSE
 
-       ! Search for bracketting abscissas:
+       ! Search for bracketing abscissas:
        ! Log base 2 (NPts) stabs required for a bracket
 
        DO WHILE ( iLeft /= iRight-1 )

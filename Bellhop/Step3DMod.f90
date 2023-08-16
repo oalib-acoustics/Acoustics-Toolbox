@@ -82,7 +82,7 @@ CONTAINS
     
     CALL EvaluateSSP3D( ray1%x, c1, cimag1, gradc1, cxx1, cyy1, czz1, cxy1, cxz1, cyz1, rho, freq, 'TAB' )
     rayt = c1 * ray1%t           ! unit tangent to ray
-    CALL RayNormal_unit( rayt, ray2%phi, e1, e2 )
+    CALL RayNormal_unit( rayt, ray1%phi, e1, e2 )
     CALL Get_c_partials( cxx1, cxy1, cxz1, cyy1, cyz1, czz1, e1, e2, cnn1, cmn1, cmm1 ) ! Compute second partials of c along ray normals
 
     csq1   = c1 * c1
@@ -141,9 +141,9 @@ CONTAINS
        IF ( iSegz /= iSegz0 ) THEN
           nBdry = [ 0D0, 0D0, -SIGN( 1.0D0, ray2%t( 3 ) ) ]   ! inward normal to layer
        ELSE IF ( iSegx /= iSegx0 ) THEN
-          nBdry = [ -SIGN( 1.0D0, ray2%t( 1 ) ), 0D0, 0D0 ]   ! inward normal to x-sgement
+          nBdry = [ -SIGN( 1.0D0, ray2%t( 1 ) ), 0D0, 0D0 ]   ! inward normal to x-segment
        ELSE
-          nBdry = [ 0D0, -SIGN( 1.0D0, ray2%t( 2 ) ), 0D0 ]   ! inward normal to y-sgement
+          nBdry = [ 0D0, -SIGN( 1.0D0, ray2%t( 2 ) ), 0D0 ]   ! inward normal to y-segment
        END IF
        CALL CurvatureCorrection
 
@@ -254,7 +254,7 @@ CONTAINS
     ! This prevents problems when the boundaries are outside the domain of the SSP
     hInt = huge( hInt )
     IF ( ABS( urayt( 3 ) ) > EPSILON( hInt ) ) THEN
-       IF      ( SSP%z( iSegz0     ) > x(  3 ) .AND. iSegz0     > 1  ) THEN
+       IF        ( SSP%z( iSegz0     ) > x(  3 ) .AND. iSegz0     > 1  ) THEN
           hInt = ( SSP%z( iSegz0     ) - x0( 3 ) ) / urayt( 3 )
           ! write( *, * ) 'layer crossing', iSegz0, h1
        ELSE IF ( SSP%z( iSegz0 + 1 ) < x(  3 ) .AND. iSegz0 + 1 < SSP%Nz ) THEN
@@ -292,10 +292,10 @@ CONTAINS
     END IF
 
     IF ( ABS( urayt( 1 ) ) > EPSILON( hxSeg ) ) THEN
-       IF       ( x(  1 ) < xSeg( 1 ) ) THEN
+       IF          ( x(  1 ) < xSeg( 1 ) ) THEN
           hxSeg = -( x0( 1 ) - xSeg( 1 ) ) / urayt( 1 )
           ! write( *, * ) 'segment crossing in x'
-       ELSE IF  ( x(  1 ) > xSeg( 2 ) ) THEN
+       ELSE IF     ( x(  1 ) > xSeg( 2 ) ) THEN
           hxSeg = -( x0( 1 ) - xSeg( 2 ) ) / urayt( 1 )
           ! write( *, * ) 'segment crossing in x'
        END IF
@@ -311,12 +311,12 @@ CONTAINS
        ySeg( 2 ) = MIN( ySeg( 2 ), SSP%Seg%y( iSegy0 + 1 ) )
     END IF
 
-    IF ( ABS( urayt( 2 ) ) > 1000.0 * EPSILON( hySeg ) ) THEN   !!! why 1000.0 here and not for x-crossing?
-       IF       ( x(  2 ) < ySeg( 1 ) ) THEN
+    IF ( ABS( urayt( 2 ) ) > EPSILON( hySeg ) ) THEN
+       IF          ( x(  2 ) < ySeg( 1 ) ) THEN
           hySeg = -( x0( 2 ) - ySeg( 1 ) ) / urayt( 2 )
           !write( *, * ) 'segment crossing in y'
           !write( *, * ) x( 2 ), ySeg( 1 ), ySeg( 2 )
-       ELSE IF  ( x(  2 ) > ySeg( 2 ) ) THEN
+       ELSE IF     ( x(  2 ) > ySeg( 2 ) ) THEN
           hySeg = -( x0( 2 ) - ySeg( 2 ) ) / urayt( 2 )
           !write( *, * ) 'segment crossing in y'
           !write( *, * ) x( 2 ), ySeg( 1 ), ySeg( 2 )

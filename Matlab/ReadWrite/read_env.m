@@ -18,7 +18,7 @@ model = upper( model );   % convert to uppercase
 
 [ TitleEnv, freq, SSP, Bdry, fid ] = read_env_core( envfil );    % read in the environmental file
 
-if( strmatch( model, strvcat( 'SCOOTER', 'KRAKEN', 'KRAKENC', 'KRAKEL', 'SPARC' ), 'exact' ) )
+if( strmatch( model, strvcat( 'SCOOTER', 'KRAKEN', 'KRAKENC', 'KRAKEL', 'SPARC', 'BOUNCE' ), 'exact' ) )
     cInt.Low   = fscanf( fid, '%f', 1 );   % lower phase speed limit
     cInt.High  = fscanf( fid, '%f', 1 );   % upper phase speed limit
     fprintf( '\n cLow = %8.1f m/s  cHigh = %8.1f m/s\n', cInt.Low, cInt.High )

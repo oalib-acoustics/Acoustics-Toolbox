@@ -3,7 +3,7 @@ MODULE Evaluate3DMod
   USE ElementMod 
   IMPLICIT NONE
   REAL,    PARAMETER    :: pi = 3.141592, DegRad = pi / 180.0, RadDeg = 180.0 / pi, c0 = 1500   ! reference sound speed, should be speed at the source depth
-  REAL                  :: tsx, tsy                        ! tangent vector from source
+  REAL (KIND=8)         :: tsx, tsy                        ! tangent vector from source
   COMPLEX, PARAMETER    :: i  = ( 0.0, 1.0 )
 
 CONTAINS
@@ -20,19 +20,20 @@ CONTAINS
     INTEGER, PARAMETER    :: KBarFile = 55, ZBarFile = 56
     INTEGER, INTENT( IN ) :: M( * ), MLimit, maxM             ! number of modes, limit on number of modes to propagate
     INTEGER, INTENT( IN ) :: Nr, Ntheta, IElementSource       ! number of receiver ranges and bearing lines
-    REAL,    INTENT( IN ) :: xs, ys, freq                     ! source coordinate and frequency
-    REAL,    INTENT( IN ) :: RminM, RmaxM                     ! minimum and maximum receiver ranges in m
-    REAL,    INTENT( IN ) :: theta( Ntheta )                  ! bearing angles for receivers
+    REAL (KIND=8), INTENT( IN ) :: xs, ys                     ! source coordinate
+    REAL (KIND=8), INTENT( IN ) :: freq                             ! source frequency
+    REAL (KIND=8), INTENT( IN ) :: RminM, RmaxM               ! minimum and maximum receiver ranges in m
+    REAL (KIND=8), INTENT( IN ) :: theta( Ntheta )            ! bearing angles for receivers
     COMPLEX, INTENT( IN ) :: k( maxM, * )                     ! wavenumbers
     COMPLEX, INTENT( IN ) :: PhiR( maxM, * ), PhiS( maxM, * ) ! source/receiver mode shapes
     COMPLEX, INTENT( OUT) :: P( Ntheta, Nr )                  ! pressure field
     INTEGER               :: iElement, ir, itheta, L, MProp, NewElement, Outside
-    REAL                  :: alpha, delta_r, Rin, Rout, RM
+    REAL (KIND=8)         :: alpha, delta_r, Rin, Rout, RM
     COMPLEX               :: PhiIn( maxM ), PhiOut( maxM ), const( maxM ), PhiInt
     COMPLEX               :: kIn(   maxM ),   kOut( maxM ), T, kInt
     COMPLEX               :: sumk(  MaxM )
     REAL (KIND=8), ALLOCATABLE :: kz2( : ), thetaT( : ), S( : )
-    REAL         (KIND=8) :: omega
+    REAL (KIND=8)         :: omega
 
     ! Open file for eigenfunctions                                  
     ! OPEN ( FILE = 'ZBarFile', UNIT = ZBarFile, STATUS = 'UNKNOWN' ) 
@@ -81,7 +82,7 @@ CONTAINS
 
           RangeStepping: DO ir = 1, Nr 
              RM = RminM + ( ir - 1 ) * delta_r 
-             IF ( RM == 0.0 ) RM = MIN( 1.0, delta_r )
+             IF ( RM == 0.0 ) RM = MIN( 1.0D0, delta_r )
 
              ! Crossing into new element?                                  
              EltLoop: DO WHILE ( RM > ROut ) 
@@ -105,16 +106,16 @@ CONTAINS
 
              IF ( RIn /= ROut ) THEN 
                 alpha = ( RM - RIn ) / ( ROut - RIn ) 
-                alpha = MIN( MAX( alpha,  0.0 ), 1.0 ) 
+                alpha = MIN( MAX( alpha,  0.0D0 ), 1.0D0 )
              ELSE 
                 alpha = 0.0 
              END IF
 
              ! IF ( ir == Nr ) WRITE( ZBarFile, * ) MProp
              Mode: DO L = 1, MProp 
-                kInt      =   kIn( L ) + alpha * (   kOut( L ) -   kIn( L ) ) 
-                PhiInt    = PhiIn( L ) + alpha * ( PhiOut( L ) - PhiIn( L ) ) 
-                sumk( L ) =  sumk( L ) + delta_r * kInt 
+                kInt      = CMPLX(   kIn( L ) + alpha * (   kOut( L ) -   kIn( L ) ) )
+                PhiInt    = CMPLX( PhiIn( L ) + alpha * ( PhiOut( L ) - PhiIn( L ) ) )
+                sumk( L ) = CMPLX(  sumk( L ) + delta_r * kInt )
                 T         = T + PhiInt * const( L ) * EXP( -i * sumk( L ) ) / SQRT( kInt )    
                 ! IF ( ir == Nr ) WRITE( ZBarFile, * ) PhiInt  ! write mode at last range     
              END DO Mode
@@ -143,19 +144,19 @@ CONTAINS
     ! Computes modal information
 
     INTEGER, INTENT( IN  ) :: M( * ), maxM                                ! number of modes
-    REAL,    INTENT( IN  ) :: xs, ys                                      ! source coordinates
+    REAL (KIND=8), INTENT( IN  ) :: xs, ys                                ! source coordinates
     COMPLEX, INTENT( IN  ) :: PhiS( maxM, * ), PhiR( maxM, * )            ! mode shapes
     COMPLEX, INTENT( IN  ) :: k(   maxM, * )
     COMPLEX, INTENT( OUT ) :: kIn( maxM ), kOut( maxM ) ! wavenumbers
     INTEGER, INTENT( OUT ) :: MProp                     ! number of modes propagating
     INTEGER, INTENT( OUT ) :: Outside                   ! side through which radial exits
-    REAL,    INTENT( OUT ) :: RIn, ROut                 ! in and out ranges for the radial
+    REAL (KIND=8), INTENT( OUT ) :: RIn, ROut                 ! in and out ranges for the radial
     COMPLEX, INTENT( OUT ) :: PhiIn( * ), PhiOut( * )   ! mode shapes
     COMPLEX, INTENT( OUT ) :: Const( * )                ! interpolated mode excitation coefficients
     INTEGER :: Inside, IBad, IGood1, IGood2, &
          iCorner1, iCorner2, iCorner3, iCorner4, iElement, &
          iSide, iSet1, iSet2, L, node1, node2
-    REAL    :: R,  RV( 3 ), SV( 3 ), RVC( 3 ), SIn, SOut, x1S, y1S, xCenter, yCenter, &
+    REAL (KIND=8) :: R,  RV( 3 ), SV( 3 ), RVC( 3 ), SIn, SOut, x1S, y1S, xCenter, yCenter, &
          Delta, tx, ty, txC, tyC, alpha
 
     MProp = HUGE( MProp )
@@ -218,11 +219,11 @@ CONTAINS
     ENDIF
 
     sIn      = SV( Inside ) 
-    sIn      = MIN( MAX( sIn,  0.0 ), 1.0 ) 
+    sIn      = MIN( MAX( sIn,  0.0D0 ), 1.0D0 ) 
     RIn      = RV( Inside ) 
 
     SOut     = SV( Outside ) 
-    SOut     = MIN( MAX( SOut, 0.0 ), 1.0 ) 
+    SOut     = MIN( MAX( SOut, 0.0D0 ), 1.0D0 ) 
     ROut     = RV( Outside ) 
 
     ! Get values of modes at Z = sz and (x, y) = intercept points   
@@ -236,17 +237,17 @@ CONTAINS
     R = 0.0 
 
     IF ( RIn /= ROut ) THEN 
-       alpha = ( R - RIn ) / ( ROut - RIn ) 
-       alpha = MIN( MAX( alpha,  0.0 ), 1.0 ) 
+       alpha = ( R - RIn ) / ( ROut - RIn )
+       alpha = MIN( MAX( alpha,  0.0D0 ), 1.0D0 )
     ELSE 
        alpha = 0.0 
     ENDIF
 
     ! following could be updated to do as a single vector operation
     Mode: DO L = 1, MProp 
-       PhiIn(  L ) = PhiS( L, iCorner1 ) + sIn   * ( PhiS( L, iCorner2 ) - PhiS( L, iCorner1 ) )   
-       PhiOut( L ) = PhiS( L, iCorner3 ) + SOut  * ( PhiS( L, iCorner4 ) - PhiS( L, iCorner3 ) )   
-       const(  L ) = PhiIn( L )          + alpha * ( PhiOut( L )         - PhiIn( L ) ) 
+       PhiIn(  L ) = CMPLX( PhiS( L, iCorner1 ) + sIn   * ( PhiS( L, iCorner2 ) - PhiS( L, iCorner1 ) ) )  
+       PhiOut( L ) = CMPLX( PhiS( L, iCorner3 ) + SOut  * ( PhiS( L, iCorner4 ) - PhiS( L, iCorner3 ) ) )
+       const(  L ) = CMPLX( PhiIn( L )          + alpha * ( PhiOut( L )         - PhiIn( L ) ) )
     END DO Mode
 
     ! Obtain values of modes at z = Rd and (x, y)=intercept points      
@@ -266,15 +267,15 @@ CONTAINS
     INTEGER, INTENT( IN  ) :: NewElement
     INTEGER, INTENT( IN  ) :: iElement         ! Current element number
     INTEGER, INTENT( IN  ) :: M( * ), maxM     ! number of modes, max number allowed
-    REAL,    INTENT( IN  ) :: xs, ys           ! source coordinate
+    REAL (KIND=8), INTENT( IN  ) :: xs, ys     ! source coordinate
     COMPLEX, INTENT( IN  ) :: PhiR( maxM, * )  ! mode shapes at each node
     COMPLEX, INTENT( IN  ) :: k(   maxM, * )   ! wavenumbers at each node
     INTEGER, INTENT( OUT ) :: Outside          ! side through which path exits
     INTEGER, INTENT( OUT ) :: MProp            ! number of propagating modes
-    REAL,    INTENT( OUT ) :: ROut             ! range at which path exits
+    REAL (KIND=8), INTENT( OUT ) :: ROut             ! range at which path exits
     COMPLEX, INTENT( OUT ) :: kOut( maxM ), PhiOut( * )   ! modes at exit point
     INTEGER                :: iSide, node1, node2
-    REAL                   :: ROutT, sOut, sT, x1S, y1S, Delta, Tx, Ty
+    REAL (KIND=8)          :: ROutT, sOut, sT, x1S, y1S, Delta, Tx, Ty
 
     ! WRITE( *, * ) '   Crossing into new element = ', NewElement           
 
@@ -306,7 +307,8 @@ CONTAINS
 
           ! *** Radial parallel to side? ***                            
 
-          IF ( Delta == 0.0 ) THEN 
+          IF ( Delta == 0.0 ) THEN
+             ROutT = HUGE( ROutT )
              sT    = HUGE( sT )
           ELSE 
              ROutT = ( x1S * Ty  - y1S * Tx  ) / Delta 
@@ -337,14 +339,14 @@ CONTAINS
 
     INTEGER, INTENT( IN  ) :: iElement, iSide  ! index of the element and side
     INTEGER, INTENT( IN  ) :: M( * ), maxM     ! number of modes, max number allowed
-    REAL,    INTENT( IN  ) :: s                ! proportional distance along the side
+    REAL (KIND=8), INTENT( IN  ) :: s                ! proportional distance along the side
     COMPLEX, INTENT( IN  ) :: PhiR( maxM, * )  ! mode shapes at each node
     COMPLEX, INTENT( IN  ) :: k(   maxM, * )   ! wavenumbers at each node
     INTEGER, INTENT( OUT ) :: MProp            ! number of propagating modes
     COMPLEX, INTENT( OUT ) :: PhiInt( * )      ! interpolated mode shapes
     COMPLEX, INTENT( OUT ) :: kInt( maxM )     ! interpolated wavenumbers
     INTEGER                :: iSet1, iSet2, I, node1, node2 
-    REAL                   :: st
+    REAL (KIND=8)          :: st
 
     node1 = node( iCorner( iSide, 1 ), iElement )
     node2 = node( iCorner( iSide, 2 ), iElement )
@@ -354,12 +356,12 @@ CONTAINS
 
     MProp = MIN( MProp, M( iSet1 ), M( iSet2 ) ) 
 
-    st = MIN( MAX( s, 0.0 ), 1.0 ) ! Extrapolation blocked by making sure s in [0, 1]
+    st = MIN( MAX( s, 0.0D0 ), 1.0D0 ) ! Extrapolation blocked by making sure s in [0, 1]
 
     ! could be updated to use a single vector operation
     Mode: DO I = 1, MProp 
-       kInt(   I ) =    k( I, iSet1 ) + st * (    k( I, iSet2 ) -    k( I, iSet1 ) )  
-       PhiInt( I ) = PhiR( I, iSet1 ) + st * ( PhiR( I, iSet2 ) - PhiR( I, iSet1 ) )  
+       kInt(   I ) = CMPLX(    k( I, iSet1 ) + st * (    k( I, iSet2 ) -    k( I, iSet1 ) ) )
+       PhiInt( I ) = CMPLX( PhiR( I, iSet1 ) + st * ( PhiR( I, iSet2 ) - PhiR( I, iSet1 ) ) )
     END DO Mode
 
   END SUBROUTINE InterpolateModes

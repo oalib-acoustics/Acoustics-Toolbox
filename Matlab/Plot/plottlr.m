@@ -14,14 +14,18 @@ global units
 
 disp( 'PlotTLr uses the first bearing and source depth in the shade file; check OK' )
 itheta = 1;
-isd    = 1;
+isz    = 1;
+ifreq  = 2
+freq   = 100   % 
 
 % read
 
-[ PlotTitle, ~, freq, ~, ~, Pos, pressure ] = read_shd( filename );
+[ PlotTitle, ~, freqvec, ~, ~, Pos, pressure ] = read_shd( filename );
+[ PlotTitle, ~, freqvec, ~, ~, Pos, pressure ] = read_shd( filename, freq );
+%freq = freqvec( ifreq );
 rkm = Pos.r.r / 1000.0;         % convert to km
 
-pressure = pressure( itheta, isd, :, : );
+pressure = pressure( itheta, isz, :, : );
 
 tlt = abs( pressure );	            % this is really the negative of TL
 tlt( tlt == 0 ) = max( max( tlt ) ) / 1e10;      % replaces zero by a small number
@@ -43,13 +47,13 @@ hh = plot( rkm, tlslice', 'b' );
 set( gca, 'YDir', 'Reverse' )   % because view messes up the zoom feature
 xlabel( 'Range (km)' )
 ylabel( 'TL (dB)' )
-title( { deblank( PlotTitle ); [ 'Freq = ' num2str( freq ) ' Hz    Sz = ' num2str( Pos.s.z( isd ) ) ' m' ] } )
+title( { deblank( PlotTitle ); [ 'Freq = ' num2str( freq ) ' Hz    Sz = ' num2str( Pos.s.z( isz ) ) ' m' ] } )
 
 set( hh, 'LineWidth', 2 )
 
 % generate legend
-for ird = 1: length( rdt )
-    legendstr( ird, : ) = [ 'Rz = ', num2str( rdt( ird ) ), ' m' ];
+for irz = 1: length( rdt )
+    legendstr( irz, : ) = [ 'Rz = ', num2str( rdt( irz ) ), ' m' ];
 end
 
 legend( legendstr, 'Location', 'Best' )

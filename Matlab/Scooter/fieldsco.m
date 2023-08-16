@@ -54,12 +54,16 @@ if ( nargin == 1 )
    if ( length( Opt ) <= 3 )
       Opt( 4 : 4 ) = 'O';   % default beampattern is omni
    end
-   
+
+   disp( 'Option line:' )
+   disp( Opt )
+
    % read the range vector
-   [ rr_km, Nrr ] = readvector( fid );
-   
-   rr = 1000 * rr_km;
-   rr( abs( rr ) < realmin ) = 1;   % replace zero range with 1 m to avoid singularity
+   %[ rr_km, Nrr ] = readvector( fid );
+   Rr = readr( fid );
+   Nrr = length( Rr );
+   Rr = 1000 * Rr;   % convert km to m
+   Rr( abs( Rr ) < realmin ) = 1;   % replace zero range with 1 m to avoid singularity
    % fprintf( '\n\n--- FieldSCO --- \n\nRminkm = %d, Rmaxkm = %d, Nrr = %i \n', Rminkm, Rmaxkm, Nrr )
    
    fclose( fid );
@@ -99,7 +103,7 @@ for ifreq = 1 : Nfreq
    
    deltak = ( k( end ) - k( 1 ) ) / ( length( k ) - 1 );
 
-   if ( rr( end ) * deltak > 10 )
+   if ( Rr( end ) * deltak > 10 )
       error( 'The wavenumber sampling is too coarse to accurately calculate the field at the largest range' )
    end
    
@@ -108,7 +112,7 @@ for ifreq = 1 : Nfreq
    end
    
    ck = k + 1i * atten;
-   x  = ck.' * abs( rr );   % this is a matrix of size nk * nrr
+   x  = ck.' * abs( Rr' );   % this is a matrix of size nk * nrr
    
    switch Opt( 1 : 1 )
       case 'X'   % line source
@@ -122,7 +126,7 @@ for ifreq = 1 : Nfreq
          X2 = exp( +1i * ( x - pi / 4 ) );   % e^( +i k r ) matrix
          
          factor1 = sqrt( ck );
-         factor2 = deltak ./ sqrt( 2 * pi * abs( rr ) );
+         factor2 = deltak ./ sqrt( 2 * pi * abs( Rr' ) );
       case 'S'   % point source with cylindrical spreading removed
          X  = exp( -1i * ( x - pi / 4 ) );   % e^( -i k r ) matrix
          X2 = exp( +1i * ( x - pi / 4 ) );   % e^( +i k r ) matrix
@@ -184,7 +188,7 @@ for ifreq = 1 : Nfreq
    end   % next source depth
 end   % next frequency
 
-Pos.r.r  = rr;
+Pos.r.r  = Rr;
 atten    = 0;
 PlotType = 'rectilin  ';
 

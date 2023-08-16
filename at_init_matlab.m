@@ -13,7 +13,7 @@
 % This is your Home where all AT routines are located
 Home = pwd;
 
-addpath( fullfile(Home, 'bin' ) );             % AT binaries
+%addpath( fullfile(Home, 'bin' ) );             % AT binaries
 
 Matdir = fullfile( Home, 'Matlab' );          % AT Matlab routines
 addpath( Matdir );

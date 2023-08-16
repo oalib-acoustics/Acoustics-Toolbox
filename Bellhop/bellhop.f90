@@ -37,7 +37,7 @@ PROGRAM BELLHOP
   CHARACTER ( LEN=80 ) :: FileRoot
 
   ThreeD = .FALSE.
-  
+
   ! get the file root for naming all input and output files
   ! should add some checks here ...
 
@@ -119,6 +119,9 @@ PROGRAM BELLHOP
 
      ALLOCATE( RBot( 1 ), Stat = IAllocStat )   ! bottom reflection coefficient
      ALLOCATE( RTop( 1 ), Stat = iAllocStat )   ! top    reflection coefficient
+
+     NBotPts = 1
+     NTopPts = 1
 
      ! *** Source Beam Pattern ***
      NSBPPts = 2
@@ -226,8 +229,6 @@ SUBROUTINE BellhopCore
      ALLOCATE ( Arr( NRz_per_range, Pos%NRr, 1 ), NArr( NRz_per_range, Pos%NRr ), Stat = IAllocStat )
   END SELECT
 
-  NArr( 1 : NRz_per_range, 1 : Pos%NRr ) = 0
-
   WRITE( PRTFile, * )
 
   SourceDepth: DO is = 1, Pos%NSz
@@ -239,6 +240,9 @@ SUBROUTINE BellhopCore
      CASE ( 'A', 'a' )      ! Arrivals calculation, zero out arrival matrix
         NArr = 0
      END SELECT
+
+     iSegr = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+     iSegz = 1
 
      CALL EvaluateSSP( xs, c, cimag, gradc, crr, crz, czz, rho, freq, 'TAB' )
      RadMax = 5 * c / freq  ! 5 wavelength max radius
@@ -357,9 +361,9 @@ COMPLEX (KIND=8 ) FUNCTION PickEpsilon( BeamType, omega, c, gradc, alpha, Dalpha
   REAL      (KIND=8), INTENT( IN  ) :: epsMultiplier, Rloop ! multiplier, loop range
   CHARACTER (LEN= 2), INTENT( IN  ) :: BeamType
   LOGICAL, SAVE      :: INIFlag = .TRUE.
-  REAL      (KIND=8) :: HalfWidth
+  REAL      (KIND=8) :: HalfWidth = 0.0
   REAL      (KIND=8) :: cz
-  COMPLEX   (KIND=8) :: epsilonOpt
+  COMPLEX   (KIND=8) :: epsilonOpt = 0.0
   CHARACTER (LEN=40) :: TAG
 
   SELECT CASE ( BeamType( 1 : 1 ) )
@@ -385,7 +389,7 @@ COMPLEX (KIND=8 ) FUNCTION PickEpsilon( BeamType, omega, c, gradc, alpha, Dalpha
         ENDIF
      END SELECT
 
-  CASE ( 'G', 'g' )
+  CASE ( 'G', 'g', '^' )
      TAG        = 'Geometric hat beams'
      halfwidth  = 2.0 / ( ( omega / c ) * Dalpha )
      epsilonOpt = i * 0.5 * omega * halfwidth ** 2
@@ -438,6 +442,9 @@ SUBROUTINE TraceRay2D( xs, alpha, Amp0 )
 
   ! Initial conditions
 
+  iSegr = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+  iSegz = 1
+  
   iSmallStepCtr = 0
   CALL EvaluateSSP( xs, c, cimag, gradc, crr, crz, czz, rho, freq, 'TAB' )
   ray2D( 1 )%c         = c
@@ -559,7 +566,7 @@ SUBROUTINE TraceRay2D( xs, alpha, Amp0 )
 
      ! Has the ray left the box, lost its energy, escaped the boundaries, or exceeded storage limit?
      ! There is a test here for when two adjacent ray points are outside the boundaries
-     ! BELLHOP3D handles this differently using a counter-liimit for really small steps.
+     ! BELLHOP3D handles this differently using a counter-limit for really small steps.
      IF ( ABS( ray2D( is + 1 )%x( 1 ) ) > Beam%Box%r .OR. &
           ABS( ray2D( is + 1 )%x( 2 ) ) > Beam%Box%z .OR. ray2D( is + 1 )%Amp < 0.005 .OR. &
           ( DistBegTop < 0.0 .AND. DistEndTop < 0.0 ) .OR. &
@@ -645,7 +652,7 @@ SUBROUTINE Reflect2D( is, HS, BotTop, tBdry, nBdry, kappa, RefC, Npts )
   RN = 2 * kappa / c ** 2 / Th    ! boundary curvature correction
 
   ! get the jumps (this could be simplified, e.g. jump in rayt is roughly 2 * Th * nbdry
-  cnjump = -DOT_PRODUCT( gradc, rayn_tilde - rayn  )
+  cnjump = -DOT_PRODUCT( gradc, rayn_tilde - rayn )
   csjump = -DOT_PRODUCT( gradc, rayt_tilde - rayt )
 
   IF ( BotTop == 'TOP' ) THEN
@@ -687,7 +694,7 @@ SUBROUTINE Reflect2D( is, HS, BotTop, tBdry, nBdry, kappa, RefC, Npts )
      kx = omega * Tg     ! wavenumber in direction parallel      to bathymetry
      kz = omega * Th     ! wavenumber in direction perpendicular to bathymetry (in ocean)
 
-     ! notation below is a bit mis-leading
+     ! notation below is a bit misleading
      ! kzS, kzP is really what I called gamma in other codes, and differs by a factor of +/- i
      IF ( REAL( HS%cS ) > 0.0 ) THEN
         kzS2 = kx ** 2 - ( omega / HS%cS ) ** 2
@@ -776,5 +783,3 @@ SUBROUTINE Reflect2D( is, HS, BotTop, tBdry, nBdry, kappa, RefC, Npts )
 END SUBROUTINE Reflect2D
 
 END PROGRAM BELLHOP
-
-

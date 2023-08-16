@@ -55,28 +55,28 @@ Nsz    = fread( fid, 1, 'int32'   );
 
 Nrz    = fread( fid, 1, 'int32'   );
 Nrr    = fread( fid, 1, 'int32'   );
-freq0  = fread( fid, 1, 'float32' );
-atten  = fread( fid, 1, 'float32' );
+freq0  = fread( fid, 1, 'float64' );
+atten  = fread( fid, 1, 'float64' );
 
 fseek( fid, 3 * 4 * recl, -1 ); %reposition to end of record 3
 freqVec = fread( fid, Nfreq, 'float64' );
 
 fseek( fid, 4 * 4 * recl, -1 ); %reposition to end of record 4
-Pos.theta   = fread( fid, Ntheta, 'float32' );
+Pos.theta   = fread( fid, Ntheta, 'float64' );
 
 if ( PlotType( 1 : 2 ) ~= 'TL' )
     fseek( fid, 5 * 4 * recl, -1 ); %reposition to end of record 5
-    Pos.s.x     = fread( fid, Nsx, 'float32' );
+    Pos.s.x     = fread( fid, Nsx, 'float64' );
     
     fseek( fid, 6 * 4 * recl, -1 ); %reposition to end of record 6
-    Pos.s.y     = fread( fid, Nsy, 'float32' );
+    Pos.s.y     = fread( fid, Nsy, 'float64' );
 else   % compressed format for TL from FIELD3D
     fseek( fid, 5 * 4 * recl, -1 ); %reposition to end of record 5
-    Pos.s.x     = fread( fid, 2,    'float32' );
+    Pos.s.x     = fread( fid, 2,    'float64' );
     Pos.s.x     = linspace( Pos.s.x( 1 ), Pos.s.x( end ), Nsx );
     
     fseek( fid, 6 * 4 * recl, -1 ); %reposition to end of record 6
-    Pos.s.y     = fread( fid, 2,    'float32' );
+    Pos.s.y     = fread( fid, 2,    'float64' );
     Pos.s.y     = linspace( Pos.s.y( 1 ), Pos.s.y( end ), Nsy );
 end
 
@@ -87,7 +87,7 @@ fseek( fid, 8 * 4 * recl, -1 ); %reposition to end of record 8
 Pos.r.z = fread( fid, Nrz, 'float32' );
 
 fseek( fid, 9 * 4 * recl, -1 ); %reposition to end of record 9
-Pos.r.r = fread( fid, Nrr, 'float32' );
+Pos.r.r = fread( fid, Nrr, 'float64' );
 Pos.r.r = Pos.r.r';   % make it a row vector
 
 %%

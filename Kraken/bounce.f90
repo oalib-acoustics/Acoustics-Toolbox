@@ -68,7 +68,7 @@ CONTAINS
     REAL    (KIND=8)  :: Twoh
     COMPLEX (KIND=8)  :: cP2, cS2
     COMPLEX (KIND=8), ALLOCATABLE :: cP( : ), cS( : )
-    CHARACTER (LEN=8) :: TASK
+    CHARACTER (LEN=8) :: Task
 
     cmin          = 1.0E6
     FirstAcoustic = 0
@@ -252,7 +252,7 @@ CONTAINS
     COMPLEX (KIND=8), INTENT( IN    ) :: x
     COMPLEX (KIND=8), INTENT( INOUT ) :: f, g
     INTEGER                  :: Medium
-    REAL (KIND=8)            :: rhoM
+    REAL (KIND=8)            :: rhoM = 1.0
     COMPLEX (KIND=8)         :: P0, P1, P2, h2k2
 
     IF ( FirstAcoustic == 0 ) RETURN

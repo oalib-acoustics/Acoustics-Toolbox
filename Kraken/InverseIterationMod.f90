@@ -26,15 +26,15 @@ MODULE InverseIterationMod
   !        All input arrays are unaltered.                                
   !        EigenVector contains the eigenvector.                                  
   !          Any vector which fails to converge is set to zero.           
-  !        IERR is set to                                                 
+  !        iError is set to                                                 
   !           0       For normal return,                                  
-  !          -1       If the eigenvector fails to converge in 5 iterations
+  !          -1       If the eigenvector fails to converge in MaxIteration iterations
 
   !        RV1, RV2, RV3, RV4, and EigenVector are temporary storage arrays.      
 
   IMPLICIT NONE
-  INTEGER, PARAMETER :: MAXIT = 1
-  INTEGER            :: I, ITER
+  INTEGER, PARAMETER :: MaxIteration = 3  ! Max number of inverse iterations
+  INTEGER            :: I, Iteration
   REAL    (KIND=8)   :: EPS3, EPS4, NORM
 
   INTERFACE inverseiteration
@@ -43,17 +43,17 @@ MODULE InverseIterationMod
 
 CONTAINS
 
-  SUBROUTINE InverseIterationD( N, D, E, IERR, EigenVector ) 
+  SUBROUTINE InverseIterationD( N, D, E, iError, EigenVector ) 
 
     ! double precision, real version
     INTEGER,       INTENT(  IN ) :: N
-    INTEGER,       INTENT( OUT ) :: IERR
+    INTEGER,       INTENT( OUT ) :: iError
     REAL (KIND=8), INTENT(  IN ) :: D( N ), E( N + 1 )
     REAL (KIND=8), INTENT( OUT ) :: EigenVector( N )
     REAL (KIND=8)                :: U, UK, V, XU
     REAL (KIND=8)                :: RV1( N ), RV2( N ), RV3( N ), RV4( N )
 
-    IERR = 0 
+    iError = 0 
 
     ! Compute (infinity) norm of matrix
     ! (this could be pre-calculated for addl speed ...)
@@ -103,7 +103,7 @@ CONTAINS
 
     EigenVector = UK
 
-    DO ITER = 1, MAXIT 
+    DO Iteration = 1, MaxIteration 
 
        ! ***  Back substitution                                         
        DO I = N, 1, -1
@@ -133,24 +133,24 @@ CONTAINS
     END DO   ! next iteration
 
     ! *** Fall through the loop means failure to converge               
-    IERR = -1
+    iError = -1
   END SUBROUTINE InverseIterationD
 
   ! _____________________________________
 
-  SUBROUTINE InverseIterationZ( N, D, E, IERR, EigenVector ) 
+  SUBROUTINE InverseIterationZ( N, D, E, iError, EigenVector ) 
 
     ! double precision, complex version
     
     INTEGER,          INTENT(  IN ) :: N
-    INTEGER,          INTENT( OUT ) :: IERR
+    INTEGER,          INTENT( OUT ) :: iError
     COMPLEX (KIND=8), INTENT(  IN ) :: D( N ), E( N + 1 )
     COMPLEX (KIND=8), INTENT( OUT ) :: EigenVector( N )
     REAL    (KIND=8)                :: UK
     COMPLEX (KIND=8)                :: U, V, XU
     COMPLEX (KIND=8)                :: RV1( N ), RV2( N ), RV3( N ), RV4( N )
 
-    IERR = 0 
+    iError = 0 
 
     ! Compute (infinity) norm of matrix
     ! (this could be pre-calculated for addl speed ...)
@@ -203,7 +203,7 @@ CONTAINS
 
     EigenVector = UK
 
-    DO ITER = 1, MAXIT 
+    DO Iteration = 1, MaxIteration 
 
        ! ***  Back substitution                                         
        DO I = N, 1, -1
@@ -234,7 +234,7 @@ CONTAINS
 
     ! *** Fall through the loop means failure to converge               
 
-    IERR = -1
+    iError = -1
   END SUBROUTINE InverseIterationZ
 
 END MODULE InverseIterationMod

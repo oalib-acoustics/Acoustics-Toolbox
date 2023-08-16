@@ -1071,6 +1071,39 @@
     sometimes needs bigger arrays. To bypass this limit the large arrays<br>
     are now allocated dynamically.<br>
     <br>
+    <i> May 2022</i><br>
+    The Matlab routine evalri.m does the mode sum to compute the complex
+    pressure field. Because of the way Matlab treats matrices with just
+    a single column, it was coming up with a mismatch in the dimensions
+    in the special case where there was just a single mode.<br>
+    <br>
+    <br>
+    March 2023<br>
+    There is logic in KRAKEN/KRAKENC that tries to pick a polarity of
+    the modes in a consistent way. This only matters in the adiabatic
+    approximation for range-dependent cases. The idea of the polarity
+    was motivated by a bowl-shaped profile with the idea that there is a
+    turning point near the surface and that the polarity should be
+    consistent there. However, as coded it would actually find the
+    nearest point to the surface where the mode was oscillatory. For a
+    bowl-shaped profile this is the turning point; however, for other
+    cases it is not. For instance, for an isovelocity problem the mode
+    is oscillatory throughout the water column so this process
+    identifies a value immediately below the surface. This is not a bug
+    per se, but we mention is since the comments referring to the
+    turning point in the code are confusing.<br>
+    <br>
+    In a related issue, we found in KRAKENC that the polarity was not
+    always consistent across mode number even at this index point. The
+    reason for this was that the polarity assumed the mode normalization
+    produced a positive real; however, in KRAKENC the normalization
+    factor is actually a complex number. Fixed. We reiterate that this
+    polarizaiton topic is only relevant to adiabatic normal modes for
+    range-dependent problems.<br>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
   </body>

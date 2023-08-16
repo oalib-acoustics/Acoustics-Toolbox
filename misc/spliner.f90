@@ -32,7 +32,7 @@
 
 ! **************************  O U T P U T  ****************************
 
-!  C(J,I), J=1,...,4;  I=1,...,L=N-1  =  THE POLY COEFFS OF THE CUBI! 
+!  C(J,I), J=1,...,4;  I=1,...,L=N-1  =  THE POLY COEFFS OF THE CUBIC
 !      SPLINE WITH INTERIOR KNOTS TAU(2),...,TAU(N-1).  PRECISELY, IN THE
 !      INTERVAL (TAU(I), TAU(I+1)), THE SPLINE F IS GIVEN BY
 
@@ -247,4 +247,3 @@
 
       RETURN
       END
-

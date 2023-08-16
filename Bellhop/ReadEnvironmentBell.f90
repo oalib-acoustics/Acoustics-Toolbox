@@ -155,16 +155,17 @@ CONTAINS
     END IF
 
     ! *** Beam characteristics ***
-       Beam%Type( 4 : 4 ) = Beam%RunType( 7 : 7 )   ! selects beam shift option
-          
-       SELECT CASE ( Beam%Type( 4 : 4 ) )
-       CASE ( 'S' )
-          WRITE( PRTFile, * ) 'Beam shift in effect'
-       CASE DEFAULT
-          WRITE( PRTFile, * ) 'No beam shift in effect'
-       END SELECT
 
-       IF ( Beam%RunType( 1 : 1 ) /= 'R' ) THEN   ! no worry about the beam type if this is a ray trace run
+    Beam%Type( 4 : 4 ) = Beam%RunType( 7 : 7 )   ! selects beam shift option
+          
+    SELECT CASE ( Beam%Type( 4 : 4 ) )
+    CASE ( 'S' )
+       WRITE( PRTFile, * ) 'Beam shift in effect'
+    CASE DEFAULT
+       WRITE( PRTFile, * ) 'No beam shift in effect'
+    END SELECT
+
+    IF ( Beam%RunType( 1 : 1 ) /= 'R' ) THEN   ! no worry about the beam type if this is a ray trace run
 
        ! Beam%Type( 1 : 1 ) is
        !   'G' or '^' Geometric hat beams in Cartesian coordinates
@@ -438,7 +439,7 @@ CONTAINS
     REAL     (KIND=8), INTENT( IN    ) :: freq               ! frequency
     CHARACTER (LEN=2), INTENT( IN    ) :: AttenUnit
     TYPE( HSInfo ),    INTENT( INOUT ) :: HS
-    REAL     (KIND=8) :: Mz, vr, alpha2_f          ! values related to grain size
+    REAL     (KIND=8)                  :: Mz, vr, alpha2_f          ! values related to grain size
 
     ! Echo to PRTFile user's choice of boundary condition
 
@@ -547,8 +548,8 @@ CONTAINS
 
     LOGICAL,            INTENT( IN ) :: ThreeD
     CHARACTER (LEN=80), INTENT( IN ) :: FileRoot
-    REAL               :: atten
-    CHARACTER (LEN=10) :: PlotType
+    REAL      (KIND=8)               :: atten
+    CHARACTER (LEN=10)               :: PlotType
 
     SELECT CASE ( Beam%RunType( 1 : 1 ) )
     CASE ( 'R', 'E' )   ! Ray trace or Eigenrays
@@ -568,22 +569,20 @@ CONTAINS
 
     CASE ( 'A' )        ! arrival file in ascii format
        OPEN ( FILE = TRIM( FileRoot ) // '.arr', UNIT = ARRFile, FORM = 'FORMATTED' )
-
-       IF ( ThreeD ) THEN
-          WRITE( ARRFile, * ) '''3D'''
-       ELSE
-          WRITE( ARRFile, * ) '''2D'''
-       END IF
-
-       WRITE( ARRFile, * ) freq
+       ! Note that some compilers will wrap an ascii file at 80 characters
+       ! You can add a RECL specifier in the open or use a compiler switch to over-ride
 
        ! write source locations
 
        IF ( ThreeD ) THEN
+          WRITE( ARRFile, * ) '''3D'''
+          WRITE( ARRFile, * ) freq
           WRITE( ARRFile, * ) Pos%NSx,    Pos%Sx(    1 : Pos%NSx )
           WRITE( ARRFile, * ) Pos%NSy,    Pos%Sy(    1 : Pos%NSy )
           WRITE( ARRFile, * ) Pos%NSz,    Pos%Sz(    1 : Pos%NSz )
        ELSE
+          WRITE( ARRFile, * ) '''2D'''
+          WRITE( ARRFile, * ) freq
           WRITE( ARRFile, * ) Pos%NSz,    Pos%Sz(    1 : Pos%NSz )
        END IF
 
@@ -598,21 +597,17 @@ CONTAINS
     CASE ( 'a' )        ! arrival file in binary format
        OPEN ( FILE = TRIM( FileRoot ) // '.arr', UNIT = ARRFile, FORM = 'UNFORMATTED' )
 
-       IF ( ThreeD ) THEN
-          WRITE( ARRFile ) '''3D'''
-       ELSE
-          WRITE( ARRFile ) '''2D'''
-       END IF
-
-       WRITE( ARRFile    ) SNGL( freq )
-
        ! write source locations
 
        IF ( ThreeD ) THEN
+          WRITE( ARRFile ) '''3D'''
+          WRITE( ARRFile    ) SNGL( freq )
           WRITE( ARRFile    ) Pos%NSx,    Pos%Sx(    1 : Pos%NSx )
           WRITE( ARRFile    ) Pos%NSy,    Pos%Sy(    1 : Pos%NSy )
           WRITE( ARRFile    ) Pos%NSz,    Pos%Sz(    1 : Pos%NSz )
        ELSE
+          WRITE( ARRFile ) '''2D'''
+          WRITE( ARRFile    ) SNGL( freq )
           WRITE( ARRFile    ) Pos%NSz,    Pos%Sz(    1 : Pos%NSz )
        END IF
 
@@ -627,7 +622,7 @@ CONTAINS
     CASE DEFAULT
        atten = 0.0
 
-       ! following to set PlotType has alread been done in READIN if that was used for input
+       ! following to set PlotType has already been done in READIN if that was used for input
        SELECT CASE ( Beam%RunType( 5 : 5 ) )
        CASE ( 'R' )
           PlotType = 'rectilin  '
@@ -637,7 +632,7 @@ CONTAINS
           PlotType = 'rectilin  '
        END SELECT
 
-       CALL WriteHeader( TRIM( FileRoot ) // '.shd', Title, REAL( freq ), atten, PlotType )
+       CALL WriteHeader( TRIM( FileRoot ) // '.shd', Title, freq, atten, PlotType )
     END SELECT
 
   END SUBROUTINE OpenOutputFiles

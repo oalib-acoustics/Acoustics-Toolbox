@@ -48,7 +48,9 @@ for icase = 1 : 11
    
    set( gca, 'YDir', 'Reverse' )   % because view messes up the zoom feature
    hold on
-   
+   %plot( rkm, tlt( 1, : ), 'r-' )
+   %plot( rkm, tlt( 2, : ), 'g-' )
+
    % scooter run
    if ( icase ~= 11 )   % scooter can't run kuperm with interfacial roughness
       copyfile( 'fields.flp', [ envfil '.flp' ] );
@@ -58,7 +60,7 @@ for icase = 1 : 11
       filename = [ envfil '.shd.mat' ]; % remove '.mat' to plot standard shdfil
       [ PlotTitle, PlotType, freq, freq0, atten, Pos, p ] = read_shd( filename );
       tlt( 3, : ) = -20.0 * log10( abs( p( ird, : ) ) );
-      plot( Pos.r.r/1000, tlt( 3, : ), 'k' )
+      plot( Pos.r.r / 1000, tlt( 3, : ), 'k' )
       fclose( 'all' );
       title( deblank( PlotTitle ) )
    end

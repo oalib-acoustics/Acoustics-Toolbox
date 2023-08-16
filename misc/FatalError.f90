@@ -23,6 +23,7 @@ MODULE FatalError
     Last = LEN( ErrMsg )
     WRITE( PRTFile, * ) ErrMsg( 1 : Last )
     WRITE( PRTFile, * )
+    CLOSE( PRTFile )
 
     ! Intel Fortran can't handle the following
     ! ERROR STOP 'Fatal Error in ' // WHERE( 1 : Last1 ) // ': ' // ErrMsg( 1 : Last2 )

@@ -12,12 +12,12 @@ MODULE ReadModes
 
 CONTAINS
   
-  SUBROUTINE GetModes( FileRoot, IProf, ifreq, MaxM, rd, Nrd, Comp, k, PhiR, M, freqVec, Nfreq, Title )                                     
+  SUBROUTINE GetModes( FileRoot, IProf, ifreq, MaxM, rd, Nrd, Comp, k, PhiR, M, freqVec, Nfreq, Title )                                   
 
   ! Read in modes and extract values at rcvr depths                   
 
   ! If IProf = 1 then the file is opened and IRecProfile is set to the first record
-  ! For each new profile, the modefile starts with 5 descriptive hearder records
+  ! For each new profile, the modefile starts with 5 descriptive header records
   ! Then, for each frequency:
   !   A record with M, the number of modes
   !   A record with the halfspace properties (attenuation may change with frequency)
@@ -37,14 +37,14 @@ CONTAINS
   COMPLEX, INTENT( OUT ) :: PhiR( MaxM, Nrd )   ! mode shapes
   CHARACTER (LEN=*), INTENT( OUT ) :: Title     ! title in mode file
   CHARACTER (LEN=1), INTENT( IN  ) :: Comp      ! component (vertical, horizontal,...) extracted (ignored if no shear)
-  INTEGER            :: Nfreq, IRecProfile = 1, LRecl, Mode, NMat, NMedia, NTot, N( MaxMedium ), ird( Nrd ) 
-  REAL               :: Z( MaxN ), W( Nrd ), Depth( MaxMedium ), rho( MaxMedium ), Tolerance, wT
-  REAL               :: rhoT, rhoB, depthT, depthB   ! halfspace density, depth
-  COMPLEX            :: cpT, csT, cpB, csB      ! halfspace pressure and shear speeds
-  COMPLEX            :: PhiT( MaxN )
-  CHARACTER (LEN=8)  :: Material( MaxMedium )
-  CHARACTER (LEN=1)  :: BCTop, BCBot            ! boundary condition type for top and bottom
-  CHARACTER (LEN=7)  :: Model                   ! KRAKEN or KRAKENC
+  INTEGER                :: Nfreq, IRecProfile = 1, LRecl, Mode, NMat, NMedia, NTot, N( MaxMedium ), ird( Nrd ) 
+  REAL                   :: Z( MaxN ), W( Nrd ), Depth( MaxMedium ), rho( MaxMedium ), Tolerance, wT
+  REAL                   :: rhoT, rhoB, depthT, depthB   ! halfspace density, depth
+  COMPLEX                :: cpT, csT, cpB, csB      ! halfspace pressure and shear speeds
+  COMPLEX                :: PhiT( MaxN )
+  CHARACTER (LEN=8)      :: Material( MaxMedium )
+  CHARACTER (LEN=1)      :: BCTop, BCBot            ! boundary condition type for top and bottom
+  CHARACTER (LEN=7)      :: Model                   ! KRAKEN or KRAKENC
   SAVE iRecProfile
 
   ! Read the mode header and do some checks
@@ -128,14 +128,14 @@ END SUBROUTINE GetModes
 
 !**********************************************************************C
 
-SUBROUTINE ReadModeHeader( FileRoot, IProf, IRecProfile, LRecl, Title, freqVec, Nfreq, &
+SUBROUTINE ReadModeHeader( FileRoot, iProf, IRecProfile, LRecl, Title, freqVec, Nfreq, &
      NMedia, NTot, NMat, N, Material, Depth, rho, Z )
 
   ! Reads the header information from ModeFile                          
   ! Note T suffix means top
   !      B suffix means bottom                                        
 
-  ! IProf     is a profile number; it is not fully used
+  ! iProf     is a profile number; it is not fully used
   ! FileRoot  is the user-provided file name                             
   ! FileNameT is the temporary name we build
   ! These have to be two separate variables to ensure there
@@ -176,7 +176,7 @@ SUBROUTINE ReadModeHeader( FileRoot, IProf, IRecProfile, LRecl, Title, freqVec, 
   END IF
 
   ! If this is the first profile, reset the record counter to the beginning of the file
-  IF ( IProf == 1 ) THEN
+  IF ( iProf == 1 ) THEN
      IRecProfile = 1   ! set counter pointing to the first record to read
   END IF
 
@@ -227,18 +227,18 @@ SUBROUTINE ReadOneMode( Mode, IRecProfile, NTot, NMat, W, ird, N, Material, NMed
   ! Read in a single eigenfunction and extract receiver values
   ! Results are returned in PhiR
 
-  INTEGER, INTENT( IN ) :: Mode, NMedia, Nrd, N( NMedia ), ird( Nrd ), IRecProfile, NTot, NMat
-  REAL,    INTENT( IN ) :: rd( Nrd ), W( Nrd ), DepthT, DepthB
-  COMPLEX, INTENT( IN ) :: k( * )
+  INTEGER,           INTENT( IN ) :: Mode, NMedia, Nrd, N( NMedia ), ird( Nrd ), IRecProfile, NTot, NMat
+  REAL,              INTENT( IN ) :: rd( Nrd ), W( Nrd ), DepthT, DepthB
+  COMPLEX,           INTENT( IN ) :: k( * )
   CHARACTER (LEN=1), INTENT( IN ) :: Comp
   CHARACTER (LEN=8), INTENT( IN ) :: Material( NMedia )
   CHARACTER (LEN=1), INTENT( IN ) :: BCTop, BCBot
   CHARACTER (LEN=7), INTENT( IN ) :: Model                   ! KRAKEN or KRAKENC
-  COMPLEX, INTENT( OUT) :: PhiR( Nrd )
-  LOGICAL           :: TufLuk 
-  INTEGER           :: iMat
-  COMPLEX           :: Phi( NMat ), gammaT = 0.0, gammaB = 0.0
-  COMPLEX  (KIND=8) :: gamma2
+  COMPLEX,           INTENT( OUT) :: PhiR( Nrd )
+  LOGICAL                         :: TufLuk 
+  INTEGER                         :: iMat
+  COMPLEX                         :: Phi( NMat ), gammaT = 0.0, gammaB = 0.0
+  COMPLEX  (KIND=8)               :: gamma2
 
   READ( ModeFile, REC = IRecProfile + 1 + Mode ) ( Phi( iMat ), iMat = 1, NMat ) 
 

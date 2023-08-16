@@ -48,6 +48,3 @@ CONTAINS
   END SUBROUTINE SubTab_dble
 
 END MODULE SubTabulate
-
-
-

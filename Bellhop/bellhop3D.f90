@@ -125,6 +125,7 @@ SUBROUTINE BellhopCore
   Angles%Dalpha = 0.0
   IF ( Angles%Nalpha /= 1 ) &
      Angles%Dalpha = ( Angles%alpha( Angles%Nalpha ) - Angles%alpha( 1 ) ) / ( Angles%Nalpha - 1 )  ! angular spacing between beams
+
   SELECT CASE ( Beam%RunType( 5 : 5 ) )
   CASE ( 'I' )
      NRz_per_range = 1         ! irregular grid
@@ -169,8 +170,6 @@ SUBROUTINE BellhopCore
      ALLOCATE ( Arr3D( Pos%Ntheta, NRz_per_range, Pos%NRr, 1 ), NArr3D( Pos%Ntheta, NRz_per_range, Pos%NRr ), Stat = IAllocStat )
   END SELECT
 
-  NArr3D( 1 : Pos%Ntheta, 1 : NRz_per_range, 1 : Pos%NRr ) = 0
-  
   ALLOCATE( x_rcvrMat( 2, Pos%Ntheta, Pos%NRr ), t_rcvr( 2, Pos%Ntheta ), Stat = IAllocStat )
   IF ( IAllocStat /= 0 ) CALL ERROUT( 'BELLHOP', &
        'Insufficient memory to x_rcvrMat; reduce Nr or Ntheta' )
@@ -186,11 +185,12 @@ SUBROUTINE BellhopCore
      Source_x: DO isx = 1, Pos%Nsx      ! loop over source x-coordinate
 
         Source_y: DO isy = 1, Pos%Nsy   ! loop over source y-coordinate
-           P = 0.0 !  Zero out field matrix
-           U = 0.0
-           
+           P      = 0.0 ! zero out field matrix
+           U      = 0.0
+           NArr3D = 0   ! zero out arrival matrix by zeroing out number of arrivals
+
            ! IF ( r( 1 ) == 0.0 ) r( 1 ) = 1.0
-           xs_3D = [ Pos%sx( isx ), Pos%sy( isy ), Pos%sz( isz ) ]
+           xs_3D = [ Pos%sx( isx ), Pos%sy( isy ), DBLE( Pos%sz( isz ) ) ]
            WRITE( PRTFile, * )
            WRITE( PRTFile, "( 'xs = ', G11.3, 2X, G11.3, 2X, G11.3 )" ) xs_3D
 
@@ -206,6 +206,7 @@ SUBROUTINE BellhopCore
 
            CALL EvaluateSSP3D( xs_3D, c0, cimag0, gradc, cxx, cyy, czz, cxy, cxz, cyz, rho, freq, 'TAB' )
            ray2D( 1 )%c = c0
+           ray3D( 1 )%c = c0
            CALL PickEpsilon( Beam%Type( 1 : 2 ), omega, c0, Angles%Dalpha, Angles%Dbeta, Beam%rLoop, Beam%epsMultiplier, epsilon ) ! beam constant
 
            ! *** Trace successive beams ***
@@ -265,8 +266,8 @@ SUBROUTINE BellhopCore
                              CASE ( 'G', '^', ' ' )
                                 CALL InfluenceGeoHatCart(      U,       Angles%alpha( ialpha ), Angles%Dalpha )
                              CASE DEFAULT
-                                 CALL ERROUT( 'BELLHOP3D', 'Invalid Run Type' )
-                            END SELECT
+                                CALL ERROUT( 'BELLHOP3D', 'Invalid Run Type' )
+                             END SELECT
                           END IF
 
                        CASE ( '3' )   ! full 3D calculation
@@ -411,8 +412,8 @@ SUBROUTINE PickEpsilon( BeamType, omega, c, Dalpha, Dbeta, rLoop, EpsMultiplier,
   COMPLEX   (KIND=8), INTENT( OUT ) :: epsilon( 2 )         ! beam initial conditions
   CHARACTER (LEN= 2), INTENT( IN  ) :: BeamType
   LOGICAL, SAVE      :: INIFlag = .TRUE.
-  REAL      (KIND=8) :: HalfWidth( 2 ) = [ 0.0, 0.0 ]
-  COMPLEX   (KIND=8) :: epsilonOpt( 2 )
+  REAL      (KIND=8) :: HalfWidth(  2 ) = [ 0.0, 0.0 ]
+  COMPLEX   (KIND=8) :: epsilonOpt( 2 ) = [ 0.0, 0.0 ]
   CHARACTER (LEN=80) :: TAG
 
   SELECT CASE ( BeamType( 1 : 1 ) )
@@ -489,6 +490,9 @@ SUBROUTINE TraceRay2D( alpha, beta, Amp0 )
 
   ! *** Initial conditions ***
 
+  iSegr = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+  iSegz = 1
+
   iSmallStepCtr = 0
   tradial = [ COS( beta ), SIN( beta ) ]
   ray2D( 1 )%x = [ 0.0D0, xs_3D( 3 ) ]
@@ -503,7 +507,13 @@ SUBROUTINE TraceRay2D( alpha, beta, Amp0 )
   ray2D( 1 )%NumTopBnc = 0
   ray2D( 1 )%NumBotBnc = 0
 
-  ! *** Trace the beam ***
+  !IsegTopx = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+  !IsegTopy = 1
+  !IsegBotx = 1
+  !IsegBoty = 1
+  iSegx = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+  iSegy = 1
+  iSegz = 1
 
   CALL GetTopSeg3D( xs_3D )   ! identify the top    segment above the source
   CALL GetBotSeg3D( xs_3D )   ! identify the bottom segment below the source
@@ -782,11 +792,15 @@ SUBROUTINE TraceRay3D( alpha, beta, epsilon, Amp0 )
   INTEGER             :: is, is1
   REAL     ( KIND=8 ) :: DistBegTop, DistEndTop, DistBegBot, DistEndBot, &
                          c, cimag, gradc( 3 ), cxx, cyy, czz, cxy, cxz, cyz, rho   ! soundspeed derivatives
-  REAL     (KIND=8) :: TopnInt( 3 ), BotnInt( 3 )
-  REAL     (KIND=8) :: s1, s2
-  REAL     (KIND=8) :: z_xx, z_xy, z_yy, kappa_xx, kappa_xy, kappa_yy
+  REAL     ( KIND=8 ) :: TopnInt( 3 ), BotnInt( 3 )
+  REAL     ( KIND=8 ) :: s1, s2
+  REAL     ( KIND=8 ) :: z_xx, z_xy, z_yy, kappa_xx, kappa_xy, kappa_yy
 
   ! *** Initial conditions ***
+
+  iSegx = 1   ! this is not really necessary, but ensures the segment search process begins in the same segment for each ray
+  iSegy = 1
+  iSegz = 1
 
   iSmallStepCtr = 0
   ray3D( 1 )%x    = xs_3D

@@ -24,11 +24,12 @@ CONTAINS
     USE ReadModes
 
     INTEGER, INTENT( IN    ) :: Nr, Nrd, NProf            ! number of receiver ranges, depths, number of profiles
-    REAL,    INTENT( IN    ) :: rd( Nrd ), r( Nr )        ! receiver depths, ranges
+    REAL,    INTENT( IN    ) :: rd( Nrd )                 ! receiver depths
+    REAL (KIND=8), INTENT( IN ) :: r( Nr )                ! receiver ranges
     INTEGER, INTENT( INOUT ) :: M                         ! number of modes
     COMPLEX, INTENT( IN    ) :: phiS( M )                 ! mode shapes at source
     COMPLEX, INTENT( INOUT ) :: phi( MaxM, Nrd )          ! mode shapes at receivers
-    REAL,    INTENT( INOUT ) :: rProf( NProf + 1 )        ! ranges of profiles
+    REAL (KIND=8), INTENT( INOUT ) :: rProf( NProf + 1 )  ! ranges of profiles
     COMPLEX, INTENT( OUT   ) :: P( Nrd, Nr )              ! pressure field
     CHARACTER (LEN=50), INTENT( IN ) :: Option            ! Cartesian or cylindrical coordinates
     CHARACTER (LEN=80), INTENT( IN ) :: FileRoot
@@ -70,9 +71,9 @@ CONTAINS
 
              ! Advance to interface
              IF ( ir == 1 ) THEN   ! first range
-                A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) *   RProf( iProf ) )
+                A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) *   RProf( iProf ) ) )
              ELSE
-                A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) * ( RProf( iProf ) - r( ir - 1 ) ) )
+                A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) * ( RProf( iProf ) - r( ir - 1 ) ) ) )
              END IF
 
              ! Here's where we cross over
@@ -84,28 +85,28 @@ CONTAINS
              ! Are there other segments to cross? Advance phase through each segment
              DO WHILE ( r( ir ) > RProf( iProf + 1 ) .AND. iProf < NProf )
                 iProf      = iProf + 1
-                A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) * ( RProf( iProf ) - RProf( iProf - 1 ) ) )
+                A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) * ( RProf( iProf ) - RProf( iProf - 1 ) ) ) )
 
                 IF ( iProf <= NProf ) CALL NewProfile( FileRoot, ifreq, k, phi, M, rd, Nrd, A )
              END DO
 
           ! Advance the remaining distance past the last profile interface
-          A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) * ( r( ir ) - RProf( iProf ) ) )
+          A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) * ( r( ir ) - RProf( iProf ) ) ) )
 
        ELSE  ! no new segment, just advance the phase based on the range step
           IF ( ir == 1 ) THEN   ! first range
-             A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) *   r( ir )  )
+             A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) *   r( ir )  ) )
           ELSE
-             A( 1 : M ) = A( 1 : M ) * EXP( -i * k( 1 : M ) * ( r( ir ) - r( ir - 1 ) ) )
+             A( 1 : M ) = CMPLX( A( 1 : M ) * EXP( -i * k( 1 : M ) * ( r( ir ) - r( ir - 1 ) ) ) )
           END IF
 
        END IF
        ! For each rcvr add up modal contributions
        RcvrDepth: DO ird = 1, Nrd              
           IF ( Option( 1 : 1 ) == 'R' .AND. r( ir ) /= 0.0 ) THEN
-             P( ird, ir ) = SUM( A( 1 : M ) * phi( 1 : M, ird ) ) / SQRT( r( ir ) )
+             P( ird, ir ) = CMPLX( SUM( A( 1 : M ) * phi( 1 : M, ird ) ) / SQRT( r( ir ) ) )
           ELSE
-             P( ird, ir ) = SUM( A( 1 : M ) * phi( 1 : M, ird ) ) 
+             P( ird, ir ) = CMPLX( SUM( A( 1 : M ) * phi( 1 : M, ird ) ) )
           END IF
        END DO RcvrDepth
 
@@ -265,8 +266,8 @@ CONTAINS
     READ( ModeFile, REC = IRecProfile + 1 ) BCTop(1:1), cPT, cST, rhoT, DepthTL, BCBot(1:1), cPB, cSB, rhoB, DepthBL
 
     ! set kTop2, kBot2 based on the frequency
-    IF ( BCTop( 1 : 1 ) == 'A' ) kTop2 = ( 2.0 * pi * freqVec( ifreq ) / cPT ) **2 
-    IF ( BCBot( 1 : 1 ) == 'A' ) kBot2 = ( 2.0 * pi * freqVec( ifreq ) / cPB ) **2
+    IF ( BCTop( 1 : 1 ) == 'A' ) kTop2 = CMPLX( ( 2.0 * pi * freqVec( ifreq ) / cPT ) **2 )
+    IF ( BCBot( 1 : 1 ) == 'A' ) kBot2 = CMPLX( ( 2.0 * pi * freqVec( ifreq ) / cPB ) **2 )
 
     ! do the mode sum to calculate the pressure on the left, PL
     DO mode = 1, MIN( ML, M )  ! There are only M mode coefficients we can use, if ML happens to be larger

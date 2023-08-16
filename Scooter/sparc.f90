@@ -37,7 +37,8 @@ PROGRAM SPARC
   CHARACTER (LEN=8 )   :: TopOpt, BotOpt
   CHARACTER (LEN=4 )   :: Pulse
   CHARACTER (LEN=80)   :: Title
-  REAL,    ALLOCATABLE :: k( : ), Tout( : ), RTSrz( :, : ), RTSrr( :, : )
+  REAL,    ALLOCATABLE :: Tout( : ), RTSrz( :, : ), RTSrr( :, : )
+  REAL (KIND=8), ALLOCATABLE :: k( : )
   COMPLEX, ALLOCATABLE :: Green( :, :, : )
   REAL                 :: Tend
   CHARACTER (LEN=80)   :: FileRoot
@@ -59,6 +60,8 @@ PROGRAM SPARC
   CALL CPU_TIME( Tend )
   WRITE( PRTFile, "( ' CPU TIME: ', G15.5, 's' )" ) Tend - Tstart
 
+  CLOSE( ENVFile )
+  CLOSE( PRTFile )
   STOP
 
 CONTAINS
@@ -83,8 +86,8 @@ CONTAINS
     IF ( HSBot%BC == 'F' .OR. HSTop%BC == 'P' ) &
        CALL ERROUT( 'SPARC', 'The option to read a file for the reflection loss is not implemented in SPARC' )
 
-    cLow  = cLowD   ! converting double to single precision
-    cHigh = cHighD
+    cLow  = REAL( cLowD  )   ! converting double to single precision
+    cHigh = REAL( cHighD )
 
     zMin = SNGL( SSP%Depth( 1              ) )
     zMax = SNGL( SSP%Depth( SSP%NMedia + 1 ) )
@@ -92,7 +95,7 @@ CONTAINS
 
     omega2 = SNGL( ( 2.0 * pi * freq ) ** 2 )
     CALL UpdateSSPLoss( freq, freq )
-    ! update loss in the halfspaces based onthe frequency
+    ! update loss in the halfspaces based on the frequency
     ! depth of 1e20 is a large number to ensure bio loss is not included
 
     IF ( ( HSTop%BC /= 'V' .AND. HSTop%BC /= 'R' ) .OR. &
@@ -243,8 +246,9 @@ CONTAINS
 
     ! Solve system for a sequence of k-values
 
-    INTEGER :: ik, Itout, iG
-    REAL    :: Scale, x
+    INTEGER       :: ik, Itout, iG
+    REAL          :: x
+    REAL (KIND=8) :: Scale
 
     ! Allocate and clear matrices for storing time-series
     SELECT CASE ( TopOpt( 5 : 5 ) )
@@ -258,13 +262,13 @@ CONTAINS
        ALLOCATE( Green( Ntout, Pos%NRz, Nk ) )
     END SELECT
 
-    deltat = tMult / SQRT( 1.0 / crosst**2 + ( 0.5 * cMax * k( Nk ) ) **2 ) ! Courant condition to set time step
+    deltat = REAL( tMult / SQRT( 1.0 / crosst**2 + ( 0.5 * cMax * k( Nk ) ) **2 ) ) ! Courant condition to set time step
     WRITE( PRTFile, * ) 'Time step = ', deltat
     WRITE( PRTFile, * ) 'Estimated fl. pt. ops (billions) = ', ( tout( Ntout ) / deltat ) * Nk * NTot1 / 25000000
 
     Wavenumber: DO ik = 1, Nk
-       x      = k( ik ) ** 2
-       deltat = tMult / SQRT( 1.0 / crosst**2 + ( 0.5 * cMax * k( ik ) ) **2 )
+       x      = REAL( k( ik ) ** 2 )
+       deltat = REAL( tMult / SQRT( 1.0 / crosst**2 + ( 0.5 * cMax * k( ik ) ) **2 ) )
        ! IF ( 10*(ik/10) == ik ) WRITE( 6, * ) 'ik, Nk', ik, Nk
        IF ( MOD( ik - 1, max( Nk / 50, 1 ) ) == 0 ) THEN
           WRITE( PRTFile, FMT = "( 'Wavenumber ', I7, ' of ', I7 )" ) ik, Nk
@@ -306,8 +310,8 @@ CONTAINS
     ! Writes headers for disk files
 
     CHARACTER (LEN=80), INTENT( IN ) :: FileRoot
-    REAL, PARAMETER    :: Atten = 0   ! no stabilizing attenuation in a Sparc run
-    CHARACTER (LEN=10) :: PlotType = 'Green'
+    REAL      (KIND=8), PARAMETER    :: Atten = 0   ! no stabilizing attenuation in a Sparc run
+    CHARACTER (LEN=10)               :: PlotType = 'Green'
 
     SELECT CASE ( TopOpt( 5 : 5 ) )
     CASE ( 'S' )          ! snapshot
@@ -321,7 +325,7 @@ CONTAINS
        IF ( k( 1 ) == 0.0 ) Pos%Rr( 1 ) = 1e20   ! give infinite phase speed where wavenumber vanishes
        Pos%NRr = Nk
 
-       CALL WriteHeader( TRIM( FileRoot ) // '.grn', Title, REAL( freq ), Atten, PlotType )
+       CALL WriteHeader( TRIM( FileRoot ) // '.grn', Title, freq, Atten, PlotType )
     CASE ( 'R' )          ! Horizontal array
        OPEN ( FILE = TRIM( FileRoot ) // '.rts', UNIT = RTSFile, STATUS = 'UNKNOWN', FORM = 'FORMATTED' )
        WRITE( RTSFile, * ) '''' // Title( 1 : 75 ) // ''''
@@ -448,7 +452,7 @@ CONTAINS
 
     ! * Elemental mass matrix *
     Me( 1, 1 ) = ( 3.0 - alpha ) * hElt / ( rhoElt * c2RElt ) / 6.0
-    Me( 1, 2 ) =          alpha  * hElt / ( rhoElt * c2RElt ) / 6.0
+    Me( 1, 2 ) =         alpha   * hElt / ( rhoElt * c2RElt ) / 6.0
     Me( 2, 2 ) = ( 3.0 - alpha ) * hElt / ( rhoElt * c2RElt ) / 6.0
 
     ! * A2 matrix *
@@ -477,8 +481,8 @@ CONTAINS
 
     !     Take a time step
 
-    !     This is the inner loop.  Note that a significant speed-up can
-    !     be obtained by using real arithmetic and eliminating the
+    !     This is the inner loop.
+    !     A significant speed-up can be obtained by using real arithmetic and eliminating the
     !     tridiagonal solver if the Hilbert transform is bypassed and the
     !     explicit solver is used.
 
@@ -522,7 +526,7 @@ CONTAINS
 
     medium = 1          ! Assumes source in first medium
 
-    ST = deltat2 * ST * EXP( -i * rkT * V * time )
+    ST = CMPLX( deltat2 * ST * EXP( -i * rkT * V * time ) )
 
     SourceDepth: DO iS = 1, Pos%NSz
        js = Pos%iSz( iS ) + ( medium - 1 )
@@ -566,7 +570,7 @@ CONTAINS
     ! Three cases: snapshot, vertical time series, horizontal time series
 
     DO WHILE ( Itout <= Ntout .AND. time + deltat >= tout( Itout ) )
-       ! note above can access tout( ntout + 1 ) which is outside array dimension
+       ! note above could access tout( ntout + 1 ) which is outside array dimension
        ! but result is irrelevant
        ! exit statement below added to prevent that
 
@@ -574,7 +578,7 @@ CONTAINS
 
        SELECT CASE ( TopOpt( 5 : 5 ) )
        CASE ( 'S' ) ! Case of a snapshot
-          const = EXP( i * rkT * V * tout( Itout ) )
+          const = CMPLX( EXP( i * rkT * V * tout( Itout ) ) )
 
           DO ir = 1, Pos%NRz
              ! Linear interpolation in depth
@@ -588,7 +592,8 @@ CONTAINS
 
        CASE ( 'D' ) ! Case of an RTS (vertical array)
           ! const = -SQRT( 2.0 ) * deltak * SQRT( rkT ) *  COS(      rkT * r( 1 ) - pi / 4.0 )
-          const =  SQRT( 2.0 ) * deltak * SQRT( rkT ) * EXP( i * ( rkT * ( V * tout( Itout ) - Pos%Rr( 1 ) ) + SNGL( pi ) / 4.0 ) )
+          const = CMPLX( SQRT( 2.0 ) * deltak * SQRT( rkT ) * &
+                  EXP( i * ( rkT * ( V * tout( Itout ) - Pos%Rr( 1 ) ) + SNGL( pi ) / 4.0 ) ) )
 
           DO ir = 1, Pos%NRz
              ! Linear interpolation in depth
@@ -612,10 +617,10 @@ CONTAINS
 
              ! Linear interpolation in time
              U = UT1 + wt * ( UT2 - UT1 )
-             const = SQRT( 2.0 ) * EXP( i * rkT * V * time )
+             const = CMPLX( SQRT( 2.0 ) * EXP( i * rkT * V * time ) )
 
-             RTSrr( 1 : Pos%NRr, Itout ) = RTSrr( 1 : Pos%NRr, Itout ) + REAL( deltak * U *  &
-                  const * EXP( i * ( -rkT * Pos%Rr( 1 : Pos%NRr ) + SNGL( pi ) / 4.0 ) ) ) * SQRT( rkT / Pos%Rr( 1 : Pos%NRr ) )
+             RTSrr( 1 : Pos%NRr, Itout ) = SNGL( RTSrr( 1 : Pos%NRr, Itout ) + REAL( deltak * U *  &
+                  const * EXP( i * ( -rkT * Pos%Rr( 1 : Pos%NRr ) + SNGL( pi ) / 4.0 ) ) ) * SQRT( rkT / Pos%Rr( 1 : Pos%NRr ) ) )
 
           ENDIF
        END SELECT

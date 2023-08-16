@@ -5,7 +5,7 @@ MODULE EvaluateADMod
   INTEGER, PARAMETER, PRIVATE :: MaxM = 20000, MaxNfreq = 1000
   INTEGER, PRIVATE            :: Nfreq
   INTEGER, PRIVATE            :: ir, iProf
-  REAL                        :: rLeft, rMid, wMid
+  REAL      (KIND=8)          :: rLeft, rMid, wMid
   REAL      (KIND=8), PRIVATE :: freqVec( MaxNfreq )
   CHARACTER (LEN=80), PRIVATE :: Title
 
@@ -22,21 +22,22 @@ CONTAINS
     !   S     Scaled cylindrical coordinates ( 1/r fall-off removed )
 
     USE ReadModes
-    REAL,    PARAMETER       :: pi = 3.1415926
-    COMPLEX, PARAMETER       :: i = ( 0.0, 1.0 )
-    INTEGER, INTENT( IN    ) :: Nr, Nrd, NProf, ifreq     ! number of receiver ranges, depths, number of profiles
-    REAL,    INTENT( IN    ) :: rd( Nrd ), r( Nr )        ! receiver depths, ranges
-    INTEGER, INTENT( INOUT ) :: M                         ! number of modes
-    COMPLEX, INTENT( IN    ) :: phiS( M )                 ! mode shapes at source
-    COMPLEX, INTENT( INOUT ) :: phiR( MaxM, Nrd )         ! mode shapes at receivers
-    REAL,    INTENT( INOUT ) :: rProf( NProf + 1 )        ! ranges of profiles
-    COMPLEX, INTENT( OUT   ) :: P( Nrd, Nr )              ! pressure field
-    CHARACTER    (LEN=50), INTENT( IN ) :: Option         ! Cartesian or cylindrical coordinates
-    INTEGER               :: ird, M1
-    REAL                  :: w
-    COMPLEX               :: phiL( MaxM, Nrd ), SUM, kInt( MaxM ), phiINT( MaxM ), kL( MaxM ), kR( MaxM ), kMid( MaxM )
-    COMPLEX      (KIND=8) :: Hank( M ), const( M ), sumk( MaxM ), sumkinv( MaxM )
-    CHARACTER    (LEN=80) :: FileRoot
+    REAL,       PARAMETER       :: pi = 3.1415926
+    COMPLEX,    PARAMETER       :: i = ( 0.0, 1.0 )
+    INTEGER,       INTENT( IN    ) :: Nr, Nrd, NProf, ifreq     ! number of receiver ranges, depths, profiles
+    REAL,          INTENT( IN    ) :: rd( Nrd )                 ! receiver depths
+    REAL (KIND=8), INTENT( IN    ) :: r( Nr )                   ! receiver ranges
+    INTEGER,       INTENT( INOUT ) :: M                         ! number of modes
+    COMPLEX,       INTENT( IN    ) :: phiS( M )                 ! mode shapes at source
+    COMPLEX,       INTENT( INOUT ) :: phiR( MaxM, Nrd )         ! mode shapes at receivers
+    REAL (KIND=8), INTENT( INOUT ) :: rProf( NProf + 1 )        ! ranges of profiles
+    COMPLEX,       INTENT( OUT   ) :: P( Nrd, Nr )              ! pressure field
+    CHARACTER (LEN=50), INTENT( IN ) :: Option                  ! Cartesian or cylindrical coordinates
+    INTEGER                  :: ird, M1
+    REAL  (KIND=8)           :: w
+    COMPLEX                  :: phiL( MaxM, Nrd ), SUM, kInt( MaxM ), phiINT( MaxM ), kL( MaxM ), kR( MaxM ), kMid( MaxM )
+    COMPLEX      (KIND=8)    :: Hank( M ), const( M ), sumk( MaxM ), sumkinv( MaxM )
+    CHARACTER    (LEN=80)    :: FileRoot
 
     ! Initialization
     rProf( NProf + 1 ) = 1e20   ! HUGE( rProf( NProf ) ), but huge produces an underflow later
@@ -71,11 +72,11 @@ CONTAINS
        ENDIF
 
        rMid = 0.5 * ( r( ir ) + rLeft )
-       W    = ( r( ir ) / 1000.0 - rProf( iProf ) ) / ( rProf( iProf + 1 ) - rProf( iProf ) )
+       w    = ( r( ir ) / 1000.0 - rProf( iProf ) ) / ( rProf( iProf + 1 ) - rProf( iProf ) )
        wMid = ( rMid    / 1000.0 - rProf( iProf ) ) / ( rProf( iProf + 1 ) - rProf( iProf ) )
 
-       kInt(    1 : M ) = kL(      1 : M ) + W    * ( kR( 1 : M ) - kL( 1 : M ) )
-       kMid(    1 : M ) = kL(      1 : M ) + wMid * ( kR( 1 : M ) - kL( 1 : M ) )
+       kInt(    1 : M ) = CMPLX( kL(      1 : M ) + W    * ( kR( 1 : M ) - kL( 1 : M ) ) )
+       kMid(    1 : M ) = CMPLX( kL(      1 : M ) + wMid * ( kR( 1 : M ) - kL( 1 : M ) ) )
        sumk(    1 : M ) = sumk(    1 : M ) + kMid( 1 : M ) * ( r( ir ) - rLeft )
        sumkinv( 1 : M ) = sumkinv( 1 : M ) + ( r( ir ) - rLeft ) / kMid( 1 : M )
 
@@ -102,7 +103,7 @@ CONTAINS
 
        ! For each receiver, add up modal contributions
        Depths: DO ird = 1, Nrd
-          phiINT( 1 : M ) = phiL( 1 : M, ird ) + W * ( phiR( 1 : M, ird ) - phiL( 1 : M, ird ) )
+          phiINT( 1 : M ) = CMPLX( phiL( 1 : M, ird ) + W * ( phiR( 1 : M, ird ) - phiL( 1 : M, ird ) ) )
           IF ( Option( 4 : 4 ) /= 'I' )  THEN   ! coherent   case
              P( ird, ir ) =       CMPLX( SUM(       phiINT( 1 : M ) * Hank( 1 : M ) ) )
           ELSE                                  ! incoherent case
@@ -122,7 +123,9 @@ CONTAINS
     USE ReadModes
 
     INTEGER,            INTENT( IN    ) :: NProf, Nrd                      ! max # modes, # receiver depths
-    REAL,               INTENT( IN    ) :: rd( Nrd ), rProf( NProf + 1 ), r( * ) ! receiver depths, profile ranges, receiver ranges
+    REAL,               INTENT( IN    ) :: rd( Nrd )                       ! receiver depths
+    REAL      (KIND=8), INTENT( IN    ) :: rProf( NProf + 1 )              ! profile ranges
+    REAL      (KIND=8), INTENT( IN )    :: r( * )                          ! receiver ranges
     CHARACTER (LEN=80), INTENT( IN    ) :: FileRoot
     INTEGER,            INTENT( IN    ) :: ifreq                                 ! frequency index
     INTEGER,            INTENT( INOUT ) :: M                                     ! # modes
@@ -140,9 +143,9 @@ CONTAINS
 
     rMid             = 0.5 * ( 1000.0 * rProf( iProf + 1 ) + rLeft )
     wMid             = ( rMid / 1000.0 - rProf( iProf ) ) / ( rProf( iProf + 1 ) - rProf( iProf ) )
-    kMid(    1 : M ) = kL(      1 : M ) + wMid  * ( kR( 1 : M ) - kL( 1 : M ) )
-    sumk(    1 : M ) = sumk(    1 : M ) + kMid( 1 : M ) * ( 1000.0 * rProf( iProf + 1 ) - rLeft )
-    sumkinv( 1 : M ) = sumkinv( 1 : M ) + ( 1000.0 * rProf( iProf + 1 ) - rLeft ) / kMid( 1 : M )
+    kMid(    1 : M ) = CMPLX( kL(      1 : M ) + wMid  * ( kR( 1 : M ) - kL( 1 : M ) ) )
+    sumk(    1 : M ) =        sumk(    1 : M ) + kMid( 1 : M ) * ( 1000.0 * rProf( iProf + 1 ) - rLeft )
+    sumkinv( 1 : M ) =        sumkinv( 1 : M ) + ( 1000.0 * rProf( iProf + 1 ) - rLeft ) / kMid( 1 : M )
 
     ! Copy right modes to left
     kL(   1 : M )          = kR(   1 : M )

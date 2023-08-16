@@ -7,6 +7,7 @@
 global units
 units = 'km';
 
+%%
 %makebty;             % make the bathymetry
 
 % Nx2D transmission loss

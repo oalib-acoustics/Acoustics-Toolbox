@@ -76,7 +76,7 @@ CONTAINS
 
        ALLOCATE( TopGlobalx( MAX( NatiPts( 1 ), 3 ) ), Stat = IAllocStat )
        IF ( IAllocStat /= 0 ) &
-            CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
+          CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
 
        TopGlobalx( 3 ) = -999.9
        READ(  ATIFile, * ) TopGlobalx( 1 : NatiPts( 1 ) )
@@ -91,7 +91,7 @@ CONTAINS
 
        ALLOCATE( TopGlobaly( MAX( NatiPts( 2 ), 3 ) ), Stat = IAllocStat )
        IF ( IAllocStat /= 0 ) &
-            CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
+          CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
 
        TopGlobaly( 3 ) = -999.9
        READ(  ATIFile, * ) TopGlobaly( 1 : NatiPts( 2 ) )
@@ -105,7 +105,7 @@ CONTAINS
        ! z values
        ALLOCATE( Top( NatiPts( 1 ), NatiPts( 2 ) ), Temp( NatiPts( 1 ) ), Stat = IAllocStat )
        IF ( IAllocStat /= 0 ) &
-            CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
+          CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory for altimetry data: reduce # ati points' )
 
        WRITE( PRTFile, * )
 
@@ -433,7 +433,7 @@ CONTAINS
 
     IF ( x( 1 ) < xBotSeg( 1 ) .OR. x( 1 ) > xBotSeg( 2 ) ) THEN   ! are we outside the segment?
 
-       ! calculate index of bracketting segment
+       ! calculate index of bracketing segment
        IsegBotT = MAXLOC( Bot( :, 1 )%x( 1 ), Bot( :, 1 )%x( 1 ) < x( 1 ) )
 
 !!$       ! The above MAXLOC is concise, but it's unnecessarily testing every segment
@@ -458,7 +458,7 @@ CONTAINS
 !!$          IsegBotT( 1 ) = IsegBotx
 !!$       END IF
 !!$
-!!$       ! if we didn't find a bracketting segment set the segment to 0 indicating a failure
+!!$       ! if we didn't find a bracketing segment set the segment to 0 indicating a failure
 !!$       IsegBotx = IsegBotT( 1 )
 !!$       xBotSeg  = [ Bot( IsegBotx, 1 )%x( 1 ), Bot( IsegBotx + 1, 1 )%x( 1 ) ] 
 !!$       IF ( x( 1 ) < xBotSeg( 1 ) .OR. x( 1 ) > xBotSeg( 2 ) ) IsegBotT( 1 ) = 0
@@ -689,7 +689,6 @@ CONTAINS
     IF ( CurvilinearFlag( 1 : 1 ) == 'C' ) THEN ! curvilinear option: compute derivative as centered difference between two nodes
 
        ! compute curvatures in each segment
-       ! ALLOCATE( phi( NPts ), Stat = IAllocStat )
 
        ! - sign below because the node normal = ( -mx, -my, 1 )
        DO ix = 1, NPts( 1 ) - 1

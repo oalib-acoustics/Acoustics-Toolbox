@@ -20,7 +20,7 @@ CONTAINS
 
     ! loop over the interpolation points
     DO I = 1, Ni
-       ! search for the bracketting pair of tabulated values
+       ! search for the bracketing pair of tabulated values
        DO WHILE ( xi( I ) > x( iseg + 1 ) )  ! is the xi point to the right of the current segment?
           IF ( iseg < N - 2 ) THEN
              iseg = iseg + 1

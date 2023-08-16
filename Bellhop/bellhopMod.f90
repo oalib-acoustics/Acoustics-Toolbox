@@ -7,7 +7,7 @@ MODULE bellhopMod
   ! Note space is wasted in NumTopBnc, NumBotBnc ...
 
   LOGICAL            :: ThreeD   ! flag to indicate BELLHOP vs BELLHOP3D run
-  INTEGER            :: Nrz_per_range, iStep
+  INTEGER            :: Nrz_per_range, istep
   REAL    ( KIND= 8) :: freq, omega, SrcDeclAngle, SrcAzimAngle, xs_3D( 3 )
   CHARACTER (LEN=80) :: Title
 
@@ -18,9 +18,9 @@ MODULE bellhopMod
   END TYPE rxyz
 
   TYPE BeamStructure
-     INTEGER           :: NBeams, Nimage, Nsteps, iBeamWindow
+     INTEGER           :: NBeams, Nimage = 1, Nsteps, iBeamWindow = 5
      REAL     (KIND=8) :: deltas, epsMultiplier = 1, rLoop
-     CHARACTER (LEN=1) :: Component              ! Pressure or displacement
+     CHARACTER (LEN=1) :: Component = 'P'              ! Pressure or displacement
      CHARACTER (LEN=4) :: Type = 'G S '
      CHARACTER (LEN=7) :: RunType
      TYPE( rxyz )      :: Box
@@ -37,7 +37,7 @@ MODULE bellhopMod
   END TYPE ray2DPt
   TYPE( ray2DPt )     :: ray2D( MaxN )
 
-  ! uncomment COMPLEX below if using paraxial beams !!!
+  !!! uncomment COMPLEX below in place of REAL if using paraxial beams
   TYPE ray3DPt
      REAL    (KIND=8) :: p_tilde( 2 ), q_tilde( 2 ), p_hat( 2 ), q_hat( 2 ), DetQ
      REAL    (KIND=8) :: x( 3 ), t( 3 ), phi, c, Amp, Phase

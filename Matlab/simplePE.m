@@ -87,7 +87,7 @@ is = 1;    % index of source depth
 zs = Pos.s.z( is );			% source depth
 
 freq_vec = linspace( 10, 100, 901 );
-freq_vec = freq;
+freq_vec = freq;   % this forces a run for a single frequency
 nfreq    = length( freq_vec );
 
 %%

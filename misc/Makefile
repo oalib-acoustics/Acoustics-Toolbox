@@ -57,7 +57,7 @@ PolyMod.o polymod.mod: PolyMod.f90
 AttenMod.o: AttenMod.f90 MathConstants.mod
 	$(FC) -c $(FFLAGS) $<
 
-beampattern.o beampattern.mod: beampattern.f90 fatalerror.mod
+beampattern.o beampattern.mod: beampattern.f90 fatalerror.mod monotonicmod.mod
 	$(FC) -c $(FFLAGS) $<
 
 interpolation.o interpolation.mod: interpolation.f90
@@ -97,4 +97,3 @@ splinec.o: splinec.f90
 
 cross_products.o cross_products.mod: cross_products.f90
 	$(FC) -c $(FFLAGS) $< 
-

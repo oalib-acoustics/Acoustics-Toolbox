@@ -22,18 +22,18 @@ PROGRAM FIELD
 
   IMPLICIT NONE
   INTEGER,   PARAMETER :: FLPFile = 5, PRTFile = 6, SHDFile = 25, MaxM = 20000, MaxNfreq = 1000 ! MaxM also in Evaluate, EvaluateAD, EvaluateCM
-  INTEGER              :: iirz, iProf, NProf, NRro, IAllocStat, iRec, iS, M, MLimit, MSrc, IOStat
-  REAL                 :: zMin, zMax, freq0, atten = 0
+  INTEGER              :: ifreq, iirz, iProf, NProf, NRro, IAllocStat, iRec, iS, M, MLimit, MSrc, IOStat
+  REAL                 :: zMin, zMax
+  REAL (KIND=8)        :: freq0, atten = 0, omega, c0
   COMPLEX              :: k( MaxM )
   CHARACTER   (LEN=50) :: Opt
   CHARACTER   (LEN=80) :: SHDTitle, Title, FileRoot
   CHARACTER   (LEN=1 ) :: Comp
   CHARACTER   (LEN=10) :: PlotType = '          '
-  REAL,    ALLOCATABLE :: Rro( : ), rProf( : )   ! Receiver range-offsets (array tilt) and profile ranges
-  COMPLEX, ALLOCATABLE :: phiS( :, : ), phiR( :, : ), P( :, : ), C( : ), Ptemp( : )
+  REAL (KIND=8), ALLOCATABLE :: rProf( : )   ! Profile ranges
+  REAL (KIND=8), ALLOCATABLE :: Rro( : )     ! Receiver range-offsets (array tilt)
+  COMPLEX,       ALLOCATABLE :: phiS( :, : ), phiR( :, : ), P( :, : ), C( : ), Ptemp( : )
   REAL (KIND=8), ALLOCATABLE :: kz2( : ), thetaT( : ), S( : )
-  REAL        (KIND=8) :: omega, c0
-  INTEGER              :: ifreq
 
   ! get the file root for naming all input and output files
   ! should add some checks here ...
@@ -148,7 +148,7 @@ PROGRAM FIELD
 
   !  *** Read in modes ***
 
-  IProf = 1
+  iProf = 1
   allocate( freqVec( MaxNfreq ) )   !!! must match dimension in GetModes.f90 contained in ReadModes.f90
   !!! the treatment of multiple frequencies is ugly here because we don't know the number of frequencies until we read the mode header
   Nfreq = MaxNfreq

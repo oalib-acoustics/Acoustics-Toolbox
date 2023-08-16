@@ -1,6 +1,7 @@
 MODULE WriteRay
 
   ! Compress the ray data keeping every iSkip point, points near surface or bottom, and last point.
+  ! (The subsampling is currently disabled by setting iSkip=1, but the logic is left in for optional use.)
   ! Write to RAYFile.
 
   ! During an eigenray calculation, subsets of the full ray may be passed
@@ -54,7 +55,7 @@ CONTAINS
 
     INTEGER,       INTENT( IN ) :: Nsteps1
     REAL (KIND=8), INTENT( IN ) :: alpha0, beta0   ! take-off angle of this ray
-    
+
     ! if Nx2D run, copy r-z rays to x-y-z rays
 
     IF ( Beam%RunType( 6 : 6 ) == '2' ) THEN
@@ -69,7 +70,6 @@ CONTAINS
 
     N2    = 1
     iSkip = MAX( Nsteps1 / MaxNRayPoints, 1 )
-    iSkip = 1
 
     Stepping: DO is = 2, Nsteps1
        ! ensure that we always write ray points near boundary reflections
@@ -92,4 +92,3 @@ CONTAINS
   END SUBROUTINE WriteRay3D
 
 END MODULE WriteRay
-

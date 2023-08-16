@@ -61,8 +61,9 @@ CONTAINS
     CALL Sort(   Angles%alpha, Angles%Nalpha )
 
     ! full 360-degree sweep? remove duplicate beam
-    IF ( Angles%Nalpha > 1 .AND. ABS( MOD( Angles%alpha( Angles%Nalpha ) - Angles%alpha( 1 ), 360.0D0 ) ) < 10.0 * TINY( 1.0D0 ) ) &
-         Angles%Nalpha = Angles%Nalpha - 1
+    IF ( Angles%Nalpha > 1 .AND. ABS( MOD( Angles%alpha( Angles%Nalpha ) - Angles%alpha( 1 ), 360.0D0 ) ) < &
+         10.0 * SPACING( 360.0D0 ) ) &
+       Angles%Nalpha = Angles%Nalpha - 1
 
     WRITE( PRTFile, * ) '__________________________________________________________________________'
     WRITE( PRTFile, * )
@@ -78,7 +79,7 @@ CONTAINS
 
     IF ( TopOpt( 6 : 6 ) == 'I' ) THEN
        IF ( Angles%iSingle_alpha < 1 .OR. Angles%iSingle_alpha > Angles%Nalpha ) &
-            CALL ERROUT( 'ReadRayElevationAngles', 'Selected beam, iSingl not in [ 1, Angles%Nalpha ]' )
+            CALL ERROUT( 'ReadRayElevationAngles', 'Selected beam, iSingle_alpha not in [ 1, Angles%Nalpha ]' )
     END IF
 
   END SUBROUTINE ReadRayElevationAngles
@@ -114,7 +115,7 @@ CONTAINS
     CALL Sort(   Angles%beta, Angles%Nbeta )
 
     ! full 360-degree sweep? remove duplicate beam
-    IF ( Angles%Nbeta > 1 .AND. ABS( MOD( Angles%beta( Angles%Nbeta ) - Angles%beta( 1 ), 360.0D0 ) ) < 10.0 * TINY( 1.0D0 ) ) &
+    IF ( Angles%Nbeta > 1 .AND. ABS( MOD( Angles%beta( Angles%Nbeta ) - Angles%beta( 1 ), 360.0D0 ) ) < 10.0 * SPACING( 1.0D0 ) ) &
          Angles%Nbeta = Angles%Nbeta - 1
 
     ! Nx2D CASE: beams must lie on rcvr radials--- replace beta with theta
@@ -142,7 +143,7 @@ CONTAINS
 
     IF ( TopOpt( 6 : 6 ) == 'I' ) THEN
        IF ( Angles%iSingle_beta < 1 .OR. Angles%iSingle_beta > Angles%Nbeta ) &
-            CALL ERROUT( 'ReadRayBearingAngles', 'Selected beam, iSingl not in [ 1, Angles%Nbeta ]' )
+            CALL ERROUT( 'ReadRayBearingAngles', 'Selected beam, iSingle_beta not in [ 1, Angles%Nbeta ]' )
     END IF
     Angles%beta  = DegRad * Angles%beta   ! convert to radians
 

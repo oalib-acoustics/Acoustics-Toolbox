@@ -3,6 +3,7 @@ MODULE beampattern
   ! Loads a source beam pattern
 
   USE FatalError
+  USE monotonicMod
   SAVE
   INTEGER, PARAMETER         :: SBPFile = 50
   INTEGER                    :: NSBPPts          ! Number of source beam-pattern points
@@ -51,6 +52,9 @@ CONTAINS
        SrcBmPat( 1, : ) = [ -180.0, 0.0 ]
        SrcBmPat( 2, : ) = [  180.0, 0.0 ]
     ENDIF
+
+    IF ( .NOT. monotonic( SrcBmPat( :, 1 ) , NSBPPts ) ) &
+       CALL ERROUT( 'beampattern : ReadPat', 'Source beam-pattern angles are not monotonic' )
 
     SrcBmPat( :, 2 ) = 10 ** ( SrcBmPat( :, 2 ) / 20 )  ! convert dB to linear scale
 

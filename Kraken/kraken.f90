@@ -72,7 +72,7 @@ PROGRAM KRAKEN
         WRITE( PRTFile, * ) 'Mesh multiplier   CPU seconds'
 
         DO iSet = 1, NSets   ! Main loop: solve the problem for a sequence of meshes
-           N( 1 : SSP%NMedia ) = NG( 1 : SSP%NMedia ) * NV( iSet ) * freq / freq0   ! scaled by frequency
+           N( 1 : SSP%NMedia ) = INT( NG( 1 : SSP%NMedia ) * NV( iSet ) * freq / freq0 )   ! scaled by frequency
            h( 1 : SSP%NMedia ) = ( SSP%Depth( 2 : SSP%NMedia + 1 ) - SSP%Depth( 1 : SSP%NMedia ) ) / N( 1 : SSP%NMedia )
            hV( iSet )      = h( 1 )
            CALL Solve
@@ -90,6 +90,7 @@ PROGRAM KRAKEN
         M       = Min_Loc( 1 )
 
         ! Write eigenvalues to PRTFile and MODFile
+
         WRITE( PRTFile, * )
         WRITE( PRTFile, * ) '   I       k             alpha     Phase Speed     Group Speed'
         WRITE( PRTFile, * ) '         (1/m)           (1/m)        (m/s)           (m/s)'
@@ -541,7 +542,7 @@ CONTAINS
     USE MergeVectorsMod
 
     INTEGER, INTENT( IN ) :: NTotal, NTotal1   ! number of mesh points (where eigenvector is sampled)
-    INTEGER              :: IErr, iPower, iTurningPoint, jj, L, Medium, NzTab
+    INTEGER              :: iError, iPower, iTurningPoint, jj, L, Medium, NzTab
     INTEGER, ALLOCATABLE :: IzTab( : )
     REAL                 :: zTab( Pos%NSz + Pos%NRz ), z( NTotal1 )
     REAL,    ALLOCATABLE :: WTS( : )
@@ -622,6 +623,8 @@ CONTAINS
        END IF
 
        ! Set up the diagonal
+       ! iTurningPoint was intended to be an index of the near surface turning point for bowl shaped profiles
+       ! It is actually the index closest to the surface where the mode is still oscillatory
        iTurningPoint = NTotal
        j   = 1
        L   = Loc( FirstAcoustic ) + 1
@@ -657,9 +660,9 @@ CONTAINS
           d( NTotal1 ) = d( NTotal1 ) / 2.0D0 - REAL( fBot / gBot )
        END IF
 
-       CALL InverseIteration( NTotal1, d, e, IERR, Phi )   ! Inverse iteration to compute eigenvector
+       CALL InverseIteration( NTotal1, d, e, iError, Phi )   ! Inverse iteration to compute eigenvector
 
-       IF ( IERR /= 0 ) THEN
+       IF ( iError /= 0 ) THEN
           WRITE( PRTFile, * ) 'mode = ', mode
           WRITE( PRTFile, * ) 'Warning in KRAKEN - InverseIteration: Inverse iteration failed to converge'
           Phi = 0.0   ! zero out the errant eigenvector

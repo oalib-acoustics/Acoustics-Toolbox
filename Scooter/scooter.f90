@@ -43,8 +43,8 @@ PROGRAM SCOOTER
   COMPLEX (KIND=8),    ALLOCATABLE :: B1( : ), B2( : ), B3( : ), B4( : )
 
   INTEGER              :: ik, NPoints, NTotal1, IAllocStat, ifreq
-  REAL                 :: kMin, kMax, deltak, TStart, TEnd
-  REAL,    ALLOCATABLE :: k( : ), cVec( : )
+  REAL (KIND=8)        :: kMin, kMax, deltak, TStart, TEnd
+  REAL (KIND=8), ALLOCATABLE :: k( : ), cVec( : )   ! wavenumbers and their phase speeds
   REAL     (KIND=8)    :: freq, freq0
   COMPLEX, ALLOCATABLE :: Green( :, :, : )     ! G( NSz, NRz, Nk )
   CHARACTER (LEN=80)   :: Title, FileRoot
@@ -103,7 +103,7 @@ PROGRAM SCOOTER
      CALL UpdateSSPLoss( freq, freq0 )
      CALL UpdateHSLoss(  freq, freq0 )
 
-     N( 1 : SSP%NMedia ) = freq / freq0 * NG( 1 : SSP%NMedia )   ! scale 'global' grid in proportion to frequency
+     N( 1 : SSP%NMedia ) = INT( freq / freq0 * NG( 1 : SSP%NMedia ) )   ! scale 'global' grid in proportion to frequency
 
      ! following done as a loop to avoid mixing vector and scalar in the MAX function
      DO iSSP = 1, SSP%NMedia
@@ -120,8 +120,8 @@ PROGRAM SCOOTER
      CALL Initialize( NPoints )    ! Initialize matrices
 
      ! Set up vector of wavenumber samples, k
-     kMin   = REAL( omega / cHigh )
-     kMAX   = REAL( omega / cLow  )
+     kMin   = omega / cHigh
+     kMAX   = omega / cLow
      Deltak = ( kMax - kMin ) / ( Nk - 1 )
 
      k( 1 : Nk ) = kMin + [ ( ik, ik = 0, Nk - 1 ) ] * Deltak
@@ -133,7 +133,7 @@ PROGRAM SCOOTER
      IF ( ifreq == 1 ) THEN
         Pos%Rr  = cVec   ! phase speed vector goes where r (its conjugate variable) is normally stored in the file
         Pos%NRr = Nk
-        CALL WriteHeader( TRIM( FileRoot ) // '.grn', Title, REAL( freq0 ), REAL( Atten ), PlotType )
+        CALL WriteHeader( TRIM( FileRoot ) // '.grn', Title, freq0, Atten, PlotType )
      END IF
 
      NTotal1 = SUM( N( FirstAcoustic : LastAcoustic ) ) + 1       ! size of matrix for acoustic part
@@ -143,6 +143,8 @@ PROGRAM SCOOTER
      WRITE( PRTFile, "(' CPU Time: ', G15.5, 's   ---cumulative' )" ) Tend - Tstart
   END DO FreqLoop
 
+  CLOSE( ENVFile )
+  CLOSE( PRTFile )
   CLOSE( GRNFile )
 
 CONTAINS
@@ -182,11 +184,11 @@ CONTAINS
     ! Initializes arrays defining difference equations
 
     INTEGER, INTENT( IN ) :: NPoints
-    LOGICAL           :: ElasticFlag = .FALSE.
-    INTEGER           :: Medium, N1
-    REAL     (KIND=8) :: cMinV, two_h, freq
-    COMPLEX  (KIND=8) :: cP( NPoints ), cS( NPoints ), cP2, cS2
-    CHARACTER (LEN=8) :: Task
+    LOGICAL               :: ElasticFlag = .FALSE.
+    INTEGER               :: Medium, N1
+    REAL     (KIND=8)     :: cMinV, two_h, freq
+    COMPLEX  (KIND=8)     :: cP( NPoints ), cS( NPoints ), cP2, cS2
+    CHARACTER (LEN=8)     :: Task
 
     cMin          = HUGE( cMin )
     FirstAcoustic = 0
@@ -391,9 +393,9 @@ CONTAINS
     INTEGER,          INTENT( IN    ) :: Medium
     INTEGER,          INTENT( INOUT ) :: iPower
     COMPLEX (KIND=8), INTENT( IN    ) :: x                ! wavenumber, k^2
-    REAL    (KIND=8) :: two_h
-    COMPLEX (KIND=8) :: xV( 5 ), yV( 5 ), zV( 5 )   ! solution of differential equation at 3 successive steps
-    COMPLEX (KIND=8) :: two_x, xB3, four_h_x
+    REAL    (KIND=8)                  :: two_h
+    COMPLEX (KIND=8)                  :: xV( 5 ), yV( 5 ), zV( 5 )   ! solution of differential equation at 3 successive steps
+    COMPLEX (KIND=8)                  :: two_x, xB3, four_h_x
 
     ! Euler's method for first step
     two_x    = 2.0 * x
@@ -512,13 +514,13 @@ CONTAINS
 
     USE calculateweights
 
-    INTEGER, INTENT( IN  ) :: NPoints, NTotal1, ifreq
-    REAL,    INTENT( IN  ) :: k( Nk )
-    COMPLEX, INTENT( OUT ) :: Green( Pos%NSz, Pos%NRz, Nk )
-    INTEGER          :: ik, iS, iR, l, Medium
-    REAL             :: z( NTotal1 ), rhoElement( NPoints )
-    REAL    (KIND=8) :: rhoh, rhoSz( Pos%NSz )
-    COMPLEX (KIND=8) :: BElement, DF( NTotal1 ), EF( NTotal1 ), x
+    INTEGER,          INTENT( IN  ) :: NPoints, NTotal1, ifreq
+    REAL    (KIND=8), INTENT( IN  ) :: k( Nk )
+    COMPLEX,          INTENT( OUT ) :: Green( Pos%NSz, Pos%NRz, Nk )
+    INTEGER                         :: ik, iS, iR, l, Medium
+    REAL                            :: z( NTotal1 ), rhoElement( NPoints )
+    REAL    (KIND=8)                :: rhoh, rhoSz( Pos%NSz )
+    COMPLEX (KIND=8)                :: BElement, DF( NTotal1 ), EF( NTotal1 ), x
 
     ! Tabulate z coordinates
     z( 1 ) = REAL( SSP%Depth( FirstAcoustic ) )
@@ -602,9 +604,9 @@ CONTAINS
     REAL     (KIND=8), INTENT( IN  ) :: rhoSz( Pos%NSz )
     COMPLEX  (KIND=8), INTENT( IN  ) :: DF( * ), EF( * ), x
     COMPLEX,           INTENT( OUT ) :: Green( Pos%NSz, Pos%NRz, Nk )
-    INTEGER           :: elt, Medium, is, iPower
-    COMPLEX  (KIND=8) :: d( NTotal1 ), e( NTotal1 ), RV1( NTotal1 ), RV2( NTotal1 ), RV4( NTotal1 )
-    COMPLEX  (KIND=8) :: BElement, xT, f, g
+    INTEGER                          :: elt, Medium, is, iPower
+    COMPLEX  (KIND=8)                :: d( NTotal1 ), e( NTotal1 ), RV1( NTotal1 ), RV2( NTotal1 ), RV4( NTotal1 )
+    COMPLEX  (KIND=8)                :: BElement, xT, f, g
 
     ! Complete assembly of matrix by adding in x
     j   = 1

@@ -13,16 +13,25 @@ MODULE SourceReceiverPositions
   INTEGER                     :: Nfreq = 1      ! number of frequencies
   REAL (KIND=8), ALLOCATABLE  :: freqVec( : )   ! frequency vector for braodband runs
 
+  ! Only position depths and their weights are left in single precision below
+  ! These are used for mode interpolation
   TYPE Position
      INTEGER              :: NSx = 1, NSy = 1, NSz = 1, NRz = 1, NRr = 1, Ntheta = 1    ! number of x, y, z, r, theta coordinates
-     REAL                 :: Delta_r, Delta_theta
-     INTEGER, ALLOCATABLE :: iSz( : ), iRz( : )
-     REAL,    ALLOCATABLE :: Sx( : ), Sy( : ), Sz( : )          ! Source x, y, z coordinates
-     REAL,    ALLOCATABLE :: Rr( : ), Rz( : ), ws( : ), wr( : ) ! Receiver r, z coordinates and weights for interpolation
-     REAL,    ALLOCATABLE :: theta( : )                         ! Receiver bearings
+     REAL (KIND=8)              :: Delta_r, Delta_theta
+     INTEGER,       ALLOCATABLE :: iSz( : ), iRz( : )
+     REAL (KIND=8), ALLOCATABLE :: Sx( : ), Sy( : )            ! Source   x, y coordinates
+     REAL (KIND=4), ALLOCATABLE :: Sz( : )                     ! Source   z coordinates
+     REAL (KIND=8), ALLOCATABLE :: Rr( : )                     ! Receiver r coordinates
+     REAL (KIND=4), ALLOCATABLE :: Rz( : )                     ! Receiver z coordinates
+     REAL (KIND=4), ALLOCATABLE :: ws( : ), wr( : )            ! weights for source/receiver interpolation in depth
+     REAL (KIND=8), ALLOCATABLE :: theta( : )                  ! Receiver bearings
   END TYPE Position
 
   TYPE ( Position ) :: Pos   ! structure containing source and receiver positions
+
+  INTERFACE ReadVector
+     MODULE PROCEDURE ReadVector_sngl, ReadVector_dble
+  END INTERFACE ReadVector
 
 CONTAINS
 
@@ -165,7 +174,7 @@ CONTAINS
 
     ! full 360-degree sweep? remove duplicate angle
     IF ( Pos%Ntheta > 1 ) THEN
-       IF ( ABS( MOD( Pos%theta( Pos%Ntheta ) - Pos%theta( 1 ), 360.0 ) ) < 10.0 * TINY( 1.0D0 ) ) &
+       IF ( ABS( MOD( Pos%theta( Pos%Ntheta ) - Pos%theta( 1 ), 360.0D0 ) ) < 10.0 * TINY( 1.0D0 ) ) &
           Pos%Ntheta = Pos%Ntheta - 1
     END IF
 
@@ -182,7 +191,7 @@ CONTAINS
 
   !********************************************************************!
 
-  SUBROUTINE ReadVector( Nx, x, Description, Units )
+  SUBROUTINE ReadVector_sngl( Nx, x, Description, Units )
 
     ! Read a vector x
     ! Description is something like 'receiver ranges'
@@ -224,6 +233,50 @@ CONTAINS
        IF ( Units( 1 : 2 ) == 'km' ) x = 1000.0 * x
     END IF
 
-  END SUBROUTINE ReadVector
+  END SUBROUTINE ReadVector_sngl
 
+  SUBROUTINE ReadVector_dble( Nx, x, Description, Units )
+
+    ! Read a vector x
+    ! Description is something like 'receiver ranges'
+    ! Units       is something like 'km'
+ 
+    INTEGER,   INTENT( OUT ) :: Nx
+    REAL ( KIND = 8 ), ALLOCATABLE, INTENT( OUT ) :: x( : )
+    CHARACTER, INTENT( IN  ) :: Description*( * ), Units*( * )
+    INTEGER                  :: ix
+   
+    WRITE( PRTFile, * )
+    WRITE( PRTFile, * ) '__________________________________________________________________________'
+    WRITE( PRTFile, * )
+
+    READ(  ENVFile, * ) Nx
+    WRITE( PRTFile, * ) '   Number of ' // Description // ' = ', Nx
+
+    IF ( Nx <= 0 ) CALL ERROUT( 'ReadVector', 'Number of ' // Description // 'must be positive'  )
+
+    IF ( ALLOCATED( x ) ) DEALLOCATE( x )
+    ALLOCATE( x( MAX( 3, Nx ) ), Stat = IAllocStat )
+    IF ( IAllocStat /= 0 ) CALL ERROUT( 'ReadVector', 'Too many ' // Description )
+
+    WRITE( PRTFile, * ) '   ', Description // ' (' // Units // ')'
+    x( 2 ) = -999.9
+    x( 3 ) = -999.9
+    READ( ENVFile, * ) x( 1 : Nx )
+
+    CALL SubTab( x, Nx )
+    CALL Sort(   x, Nx )
+
+    WRITE( PRTFile, "( 5G14.6 )" ) '   ', ( x( ix ), ix = 1, MIN( Nx, Number_to_Echo ) )
+    IF ( Nx > Number_to_Echo ) WRITE( PRTFile, "( G14.6 )" ) ' ... ', x( Nx )
+
+    WRITE( PRTFile, * )
+
+    ! Vectors in km should be converted to m for internal use
+    IF ( LEN_TRIM( Units ) >= 2 ) THEN
+       IF ( Units( 1 : 2 ) == 'km' ) x = 1000.0 * x
+    END IF
+
+  END SUBROUTINE ReadVector_dble
+  
 END MODULE SourceReceiverPositions
