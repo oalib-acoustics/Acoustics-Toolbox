@@ -106,6 +106,18 @@ PROGRAM FIELD
   CALL ReadVector( NProf, RProf, 'Profile ranges, RProf', 'km' )
   RProf = RProf / 1000.0   ! convert m back to km (undoing what ReadVector did)
 
+  ! EvaluateAD and EvaluateCM declare their rProf dummy as rProf( NProf + 1 )
+  ! and use the extra element as a range sentinel (EvaluateAD writes it).
+  ! ReadVector only allocates MAX( 3, NProf ) elements, so for NProf >= 3 the
+  ! actual argument is one element too small; extend it and set the sentinel.
+  BLOCK
+    REAL (KIND=8), ALLOCATABLE :: rProfTmp( : )
+    ALLOCATE( rProfTmp( NProf + 1 ) )
+    rProfTmp( 1 : NProf ) = rProf( 1 : NProf )
+    rProfTmp( NProf + 1 ) = HUGE( rProf( 1 ) )
+    CALL MOVE_ALLOC( rProfTmp, rProf )
+  END BLOCK
+
   IF ( NProf == 1      ) THEN
      WRITE( PRTFile, * ) 'Range-independent calculation'
   ELSE
