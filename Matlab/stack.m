@@ -2,6 +2,11 @@
 % Fourier synthesis to make a time series from the transfer function
 % mbp 9/96
 % Updated 2014 to be compatible with the current file formats
+% Updated 2024 "
+
+% This is not so much a general purpose script as an example of how to
+% do things
+% You need to customize this for your particular case ...
 
 % Need to set
 %   Tstart = starting time
@@ -11,9 +16,11 @@
 
 clear all
 
-Tstart   = 32.0;
-shdfile  = 'MunkS';
-c = 1520.0;  % reduction velocity (should exceed fastest possible arrival)
+shdfile = 'MunkS';
+c       = 1520.0;  % reduction velocity (should exceed fastest possible arrival)
+Tstart  = 10000 / c;
+Tstart  = 6;   % frames the Munk time series nicely for a range of 10 km
+Tstart  = 32   % frames the Munk time series nicely for a range of 50 km
 
 %%
 % load source spectrum
@@ -47,23 +54,27 @@ s_freq = linspace( 0.0, f_max_sts - delta_f_sts, length( s_hat ) )';
 % zero out the negative part of the spectrum
 s_hat( Nsamples / 2 : end ) = 0.0;
 
-% figure
+figure
+subplot( 1, 2, 1 )
+plot( t_sts, sts, LineWidth = 2 )
+axis( [ 0 0.5 0 2 ] )
 % plot( t_sts( 1 : 100 ), sts( 1 : 100 ) )
-% xlabel( 'Time (s)' )
-% ylabel( 's(t)' )
-% 
-% figure
-% plot( s_freq, abs( s_hat ) )
-% xlabel( 'Frequency (Hz)' )
-% ylabel( 's(f)' )
+xlabel( 'Time (s)' )
+ylabel( 's(t)' )
 
+subplot( 1, 2, 2 )
+plot( s_freq, abs( s_hat ), LineWidth = 2 )
+xlabel( 'Frequency (Hz)' )
+ylabel( '|s(f)|' )
+
+print -dsvg MunkTSwaveform
 
 %%
 % Main loop
 
-nsd = 1;
+nsz = 1;
 
-for isd = 1 : nsd
+for isz = 1 : nsz
    
    % read in the model transfer function
    
@@ -71,23 +82,27 @@ for isd = 1 : nsd
    
    % dummy read to get the freq vector from the shdfil
    filename = [ shdfile '.shd.mat' ];
-   [ PlotTitle, PlotType, freqVec, atten, Pos, pressure ] = read_shd( filename, 0.0 );
+   freq = 0.0;
+
+   [ PlotTitle, ~, freqVec, ~, ~, Pos, pressure ] = read_shd( filename, freq );
+
    Nfreq = length( freqVec );
    
    for ifreq = 1 : Nfreq
       % read the shdfile
       freq = freqVec( ifreq );
-      [ PlotTitle, PlotType, ~, atten, Pos, pressure ] = read_shd( filename, freq );
-      
-      nrd = length( Pos.r.z );
+
+      [ PlotTitle, ~, freqVec, ~, ~, Pos, pressure ] = read_shd( filename, freq );
+
+      nrz = length( Pos.r.z );
       nrr = length( Pos.r.r );
       
       if ( ifreq == 1 )   % allocate space
-         rmodhat = zeros( Nfreq, nrd, nrr );
-         %rmodhat = ones( Nfreq, nrd, nrr );
+         rmodhat = zeros( Nfreq, nrz, nrr );
+         %rmodhat = ones( Nfreq, nrz, nrr );
       end
       
-      rmodhat( ifreq, 1 : nrd, 1 : nrr ) = squeeze( pressure );
+      rmodhat( ifreq, 1 : nrz, 1 : nrr ) = squeeze( pressure );
    end   % next frequency
    
    %%
@@ -96,7 +111,7 @@ for isd = 1 : nsd
    % remove the start time delay
    
    for ir = 1 : nrr
-      for ird = 1 :nrd
+      for ird = 1 : nrz
          rmodhat( :, ird, ir ) = rmodhat( :, ird, ir ) .* exp( 1i * 2 * pi * Tstart * freqVec );
       end
    end
@@ -148,7 +163,8 @@ for isd = 1 : nsd
    %%
    % save a time series file
    
-   irr = 5;
+   irr = 1;   % select a specific receiver range
+   irr = 5    % select a specific receiver range
    
    RTS = squeeze( rmod( :, 11 : 20 : 201, irr ) );	% can only plot 2D matrix
  
@@ -157,38 +173,42 @@ for isd = 1 : nsd
    % tend   = tstart + T - deltat;
    % tout   = tstart : deltat : tend;
    
-   rd_temp     = Pos.r.z;
-   Pos.r.z = rd_temp( 11 : 20 : 201 );
-   tout        = time;
+   rz_temp = Pos.r.z;
+   Pos.r.z = rz_temp( 11 : 20 : 201 );
+   tout    = time + Tstart;
    
+   RTS = RTS';   %plotts expects RTS( time, rz )
    save( [ shdfile '.rts.mat' ], 'PlotTitle', 'Pos', 'tout', 'RTS' )
    
-   Pos.r.z = rd_temp;   % restore
+   Pos.r.z = rz_temp;   % restore
    
    %%
    rmod_env = abs( hilbert( squeeze( rmod( :, :, irr ) ) ) );
    peak = max( max( rmod_env ) );
    
    figure
-   imagesc( time, Pos.r.z, rmod_env' )
+   imagesc( time + Tstart, Pos.r.z, rmod_env' )
    %caxis( [ -peak/5, peak/5 ] )
    colorbar
    colormap( jet )
    xlabel( 'Time (s)' )
    ylabel( 'Depth (m)' )
-   title( PlotTitle )
-   
+   %title( PlotTitle )
+   axis( [  6 13 0 5000 ] )   % for range 10 km
+   axis( [ 32 40 0 5000 ] )   % for range 50 km
+   print -dsvg MunkTSenv   % -dpng caused cramped or cut-off lables
+
    % calculate the envelope
    
    % normalize
    % clipped log-envelope
-   %for ir = 1:nrr
-   %  temp = 20 * log10( rmod_env( :, ir ) / max( rmod_env( :, ir ) ) ) + 30;
-   %  I = find( temp < 0 );
-   %  temp( I ) = zeros( size( I ) );
-   %  rmod_env( :, ir ) = temp / norm( temp );
-   %end
-   %rmod_env = rmod_env';
+   % for ir = 1 : nrr
+   %   temp = 20 * log10( rmod_env( :, ir ) / max( rmod_env( :, ir ) ) ) + 30;
+   %   I = find( temp < 0 );
+   %   temp( I ) = zeros( size( I ) );
+   %   rmod_env( :, ir ) = temp / norm( temp );
+   % end
+   % rmod_env = rmod_env';
    
    % save for future use ...
    

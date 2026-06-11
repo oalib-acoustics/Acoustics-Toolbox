@@ -48,16 +48,17 @@ PROGRAM BELLHOP3D
   !       efficiency changes for Cerveny beams as well (and in BELLHOP)
   !       space filling or minimum width options are applied to both alpha and beta--- often only want space filling in azimuth
 
-  !    Influend3DGeoHat writes no eigenray info if number of receiver ranges NR=1
+  !    Influence3DGeoHat writes no eigenray info if number of receiver ranges NR=1
   !    r( 1 ) = 1 m in BELLHOP plus logic for reversing
   !    geogaussian should pre-calculate dtauds and dqds like geohat?
   !    fix automatic deltas selection
   !    detect Sz below bottom with bty file
+  !    Problems when the source location sits precisely over a bathy and/or SSP point (Orlando test case)
 
   !    Should probably use a Structure of Arrays instead of an Array of Structures for speed
 
   !    Desired additional features:
-  !       Terrain following option for receiver depth
+  !       Terrain-following option for receiver depth
   !       Variable bottom type vs.lat/long
 
   USE bellhopMod
@@ -114,6 +115,7 @@ SUBROUTINE BellhopCore
   REAL      ( KIND=8 ), ALLOCATABLE :: x_rcvrMat( :, :, : ), t_rcvr( :, : )
   COMPLEX   ( KIND=8 ) :: epsilon( 2 )
   COMPLEX, ALLOCATABLE :: P( :, :, : ), U( :, : )
+  INTEGER :: iProv
 
   CALL CPU_TIME( Tstart )
 
@@ -125,6 +127,39 @@ SUBROUTINE BellhopCore
   Angles%Dalpha = 0.0
   IF ( Angles%Nalpha /= 1 ) &
      Angles%Dalpha = ( Angles%alpha( Angles%Nalpha ) - Angles%alpha( 1 ) ) / ( Angles%Nalpha - 1 )  ! angular spacing between beams
+
+  ! convert range-dependent geoacoustic parameters from user to program units
+!!$  IF ( atiType( 2 : 2 ) == 'L' ) THEN
+!!$     DO iSeg = 1, NatiPts
+!!$        Top( iSeg )%HS%cp = CRCI( 1D20, Top( iSeg )%HS%alphaR, Top( iSeg )%HS%alphaI, freq, freq, 'W ', &
+!!$             betaPowerLaw, ft )   ! compressional wave speed
+!!$        Top( iSeg )%HS%cs = CRCI( 1D20, Top( iSeg )%HS%betaR,  Top( iSeg )%HS%betaI,  freq, freq, 'W ', &
+!!$             betaPowerLaw, ft )   ! shear         wave speed
+!!$     END DO
+!!$  END IF
+
+  IF ( btyType( 2 : 2 ) == 'L' ) THEN
+     DO iProv = 1, NBotProvinces
+        !Bot( iSeg )%HS%cp = CRCI( 1D20, Bot( iSeg )%HS%alphaR, Bot( iSeg )%HS%alphaI, freq, freq, 'W ', &
+        !     betaPowerLaw, ft )   ! compressional wave speed 
+        !Bot( iSeg )%HS%cs = CRCI( 1D20, Bot( iSeg )%HS%betaR,  Bot( iSeg )%HS%betaI,  freq, freq, 'W ', &
+        !     betaPowerLaw, ft )   ! shear         wave speed
+             ! dummy parameters for a layer with a general power law for attenuation
+             ! these are not in play because the AttenUnit for this is not allowed yet
+             !freq0         = freq
+             !zTemp = 0.0
+             betaPowerLaw  = 1.0
+             ft            = 1000.0
+             ! AttenUnit = TopOpt( 3 : 4 )
+             BotProv( iProv )%cp  = CRCI( 1D20, BotProv( iProv )%alphaR, BotProv( iProv )%alphaI, &
+                  freq, freq, AttenUnit, betaPowerLaw, ft )
+             BotProv( iProv )%cs  = CRCI( 1D20, BotProv( iProv )%betaR,  BotProv( iProv )%betaI, &
+                  freq, freq, AttenUnit, betaPowerLaw, ft )
+
+             !BotProv%rho = rhoR
+
+     END DO
+  END IF
 
   SELECT CASE ( Beam%RunType( 5 : 5 ) )
   CASE ( 'I' )
@@ -191,8 +226,8 @@ SUBROUTINE BellhopCore
 
            ! IF ( r( 1 ) == 0.0 ) r( 1 ) = 1.0
            xs_3D = [ Pos%sx( isx ), Pos%sy( isy ), DBLE( Pos%sz( isz ) ) ]
-           WRITE( PRTFile, * )
-           WRITE( PRTFile, "( 'xs = ', G11.3, 2X, G11.3, 2X, G11.3 )" ) xs_3D
+           WRITE( PRTFile, * ) 'Source coordinate'
+           WRITE( PRTFile, "( ' xs = ', G11.3, 2X, G11.3, 2X, G11.3 )" ) xs_3D
 
            ! positions of rcvrs in the x-y plane; this is pre-calculated for InfluenceGeoHatCart
            ! It is not clear that the pre-calculation saves time ...
@@ -215,7 +250,7 @@ SUBROUTINE BellhopCore
               SrcAzimAngle = RadDeg * Angles%beta( ibeta )           ! take-off azimuthal   angle in degrees
               ! if ( ibeta /= 134 ) cycle AzimuthalAngle
               IF ( Angles%iSingle_beta == 0 .OR. ibeta == Angles%iSingle_beta ) THEN    ! Single beam run?
-              !IF ( ibeta == 2 ) THEN    ! Single beam run?
+              !IF ( ibeta == 1 ) THEN    ! Single beam run?
               !IF ( mod( ibeta+1, 2 ) == 0 ) THEN    ! Single beam run?
                 WRITE( PRTFile, FMT = "( 'Tracing azimuthal beam ', I4, F10.2 )" ) ibeta, SrcAzimAngle
                 FLUSH( PRTFile )
@@ -225,7 +260,7 @@ SUBROUTINE BellhopCore
                     SrcDeclAngle = RadDeg *Angles%alpha( ialpha )          ! take-off declination angle in degrees
 
                     IF ( Angles%iSingle_alpha == 0 .OR. ialpha == Angles%iSingle_alpha ) THEN    ! Single beam run?
-                    !IF ( ialpha  == 11 .or. ialpha == 12 ) THEN    ! Single beam run?
+                    ! IF ( ialpha == 12 ) THEN    ! Single beam run?
 
                        !WRITE( PRTFile, FMT = "( '   Tracing declination beam ', I4, F10.2 )" ) ialpha, SrcDeclAngle
                        !flush( prtfile )
@@ -323,8 +358,9 @@ SUBROUTINE BellhopCore
                        ! Optionally dump rays to a disk file
                        IF ( Beam%RunType( 1 : 1 ) == 'R' ) THEN
                           CALL WriteRay3D( Angles%alpha( ialpha ), Angles%beta( ibeta ), Beam%Nsteps )
-                       ENDIF
-                    ENDIF   ! closes iSingle test
+                       END IF
+                       ! end if
+                    END IF   ! closes iSingle test
                  END DO DeclinationAngle
 
                  ! for a 2D TL run, scale the pressure and copy the 2D slice into the radial of the 3D field
@@ -348,7 +384,8 @@ SUBROUTINE BellhopCore
                        Narr = 0   ! this clears out the 2D arrival structure
                     END SELECT
                  END IF
-              ENDIF   ! closes iSingle test
+                 !!!end if
+              END IF   ! closes iSingle test
            END DO AzimuthalAngle
 
            ! *** Scale the complex pressure field ***
@@ -480,13 +517,14 @@ SUBROUTINE TraceRay2D( alpha, beta, Amp0 )
 
   USE ReflectMod
 
-  REAL     (KIND=8), INTENT( IN ) :: alpha, beta, Amp0 ! initial angles, amplitude
-  INTEGER           :: is, is1                   ! index for a step along the ray
-  REAL     (KIND=8) :: x( 3 )                    ! ray coordinate
-  REAL     (KIND=8) :: c, cimag, gradc( 2 ), crr, crz, czz, rho
-  REAL     (KIND=8) :: DistBegTop, DistEndTop, DistBegBot, DistEndBot ! Distances from ray beginning, end to top and bottom
-  REAL     (KIND=8) :: tradial( 2 ), BotnInt( 3 ), TopnInt( 3 ), s1, s2
-  REAL     (KIND=8) :: z_xx, z_xy, z_yy, kappa_xx, kappa_xy, kappa_yy
+  REAL     ( KIND=8 ), INTENT( IN ) :: alpha, beta, Amp0 ! initial angles, amplitude
+  INTEGER             :: is, is1                   ! index for a step along the ray
+  INTEGER             :: iProv                     ! Bottom province index
+  REAL     ( KIND=8 ) :: x( 3 )                    ! ray coordinate
+  REAL     ( KIND=8 ) :: c, cimag, gradc( 2 ), crr, crz, czz, rho
+  REAL     ( KIND=8 ) :: DistBegTop, DistEndTop, DistBegBot, DistEndBot ! Distances from ray beginning, end to top and bottom
+  REAL     ( KIND=8 ) :: tradial( 2 ), BotnInt( 3 ), TopnInt( 3 ), s1, s2
+  REAL     ( KIND=8 ) :: z_xx, z_xy, z_yy, kappa_xx, kappa_xy, kappa_yy
 
   ! *** Initial conditions ***
 
@@ -544,6 +582,13 @@ SUBROUTINE TraceRay2D( alpha, beta, Amp0 )
      IF ( IsegTopx == 0 .OR. IsegTopy == 0 .OR. IsegBotx == 0 .OR. IsegBoty == 0 ) THEN ! we escaped the box
         Beam%Nsteps = is
         EXIT Stepping
+     END IF
+
+     IF ( btyType( 2 : 2 ) == 'L' ) THEN
+        iProv = Bot( IsegBotx, IsegBoty )%Province
+        Bdry%Bot%HS%cp  = BotProv( iProv )%cp   ! grab the geoacoustic info for the new segment
+        Bdry%Bot%HS%cs  = BotProv( iProv )%cs
+        Bdry%Bot%HS%rho = BotProv( iProv )%rho
      END IF
 
      ! Reflections?
@@ -790,6 +835,7 @@ SUBROUTINE TraceRay3D( alpha, beta, epsilon, Amp0 )
   REAL     ( KIND=8 ), INTENT( IN ) :: alpha, beta    ! take-off angles of the ray
   COMPLEX  ( KIND=8 ), INTENT( IN ) :: epsilon( 2 )   ! beam initial conditions
   INTEGER             :: is, is1
+  INTEGER             :: iProv                     ! Bottom province index
   REAL     ( KIND=8 ) :: DistBegTop, DistEndTop, DistBegBot, DistEndBot, &
                          c, cimag, gradc( 3 ), cxx, cyy, czz, cxy, cxz, cyz, rho   ! soundspeed derivatives
   REAL     ( KIND=8 ) :: TopnInt( 3 ), BotnInt( 3 )
@@ -861,6 +907,13 @@ SUBROUTINE TraceRay3D( alpha, beta, epsilon, Amp0 )
      IF ( IsegTopx == 0 .OR. IsegTopy == 0 .OR. IsegBotx == 0 .OR. IsegBoty == 0 ) THEN ! we escaped the box
         Beam%Nsteps = is
         EXIT Stepping
+     END IF
+
+     IF ( btyType( 2 : 2 ) == 'L' ) THEN
+        iProv = Bot( IsegBotx, IsegBoty )%Province
+        Bdry%Bot%HS%cp  = BotProv( iProv )%cp   ! grab the geoacoustic info for the new segment
+        Bdry%Bot%HS%cs  = BotProv( iProv )%cs
+        Bdry%Bot%HS%rho = BotProv( iProv )%rho
      END IF
 
      ! Reflections?

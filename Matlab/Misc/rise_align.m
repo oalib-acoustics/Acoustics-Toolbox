@@ -18,7 +18,7 @@ Npings = size( r, 1 );
 N      = size( r, 2 );
 Offset = fix( Offset );	% offset for leading edge on plot (in samples)
 
-for ping = 1:Npings
+for ping = 1 : Npings
 
     % Calculate shift from correlation peak
 
@@ -34,7 +34,7 @@ for ping = 1:Npings
        shift = mod( J( 1 ) - Offset, N );   % put the peak at Offset
     end
 
-    r_align( ping, : ) = [ r( ping, shift+1:N   ) r( ping, 1:shift   ) ];
+    r_align( ping, : ) = [ r( ping, shift+1 : N   ) r( ping, 1 : shift   ) ];
 
 end   % next ping
 

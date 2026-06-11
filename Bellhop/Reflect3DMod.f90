@@ -23,7 +23,8 @@ CONTAINS
     REAL    (KIND=8) :: rayt_tilde( 3 ), rayn1_tilde( 3 ), rayn2_tilde( 3 ), cn1jump, cn2jump, csjump 
     REAL    (KIND=8) :: c, cimag, gradc( 3 ), cxx, cyy, czz, cxy, cxz, cyz, rho   ! derivatives of sound speed in cartesian coordinates
     REAL    (KIND=8) :: RM, R1, R2, R3, Tg, Th                        ! curvature corrections on reflection
-    COMPLEX (KIND=8) :: gamma1, gamma2, gamma1Sq, gamma2Sq, GK, Refl
+    COMPLEX (KIND=8) :: gamma1, gamma2, gamma1Sq, gamma2Sq, GK
+    COMPLEX  (KIND=8) :: kx, kz, kzP, kzS, kzP2, kzS2, mu, f, g, y2, y4, Refl      ! for tabulated reflection coef.
     TYPE(ReflectionCoef) :: RInt
     REAL    (KIND=8) :: tBdry( 3 )                                    ! tangent to the boundary
     REAL    (KIND=8) :: e1( 3 ), e2( 3 )                              ! ray normals for ray-centered coordinates
@@ -108,14 +109,41 @@ CONTAINS
        ray3D( is1 )%Amp   = ray3D( is )%Amp * RInt%R
        ray3D( is1 )%Phase = ray3D( is )%Phase + RInt%phi
     CASE ( 'A', 'G' )            ! half-space
-       GK       = omega * Tg     ! wavenumber in direction parallel to bathymetry
-       gamma1Sq = ( omega / c     ) ** 2 - GK ** 2 - i * tiny( omega )   ! tiny prevents g95 giving -zero, and wrong branch cut
-       gamma2Sq = ( omega / HS%cP ) ** 2 - GK ** 2 - i * tiny( omega )
-       gamma1   = SQRT( -gamma1Sq )
-       gamma2   = SQRT( -gamma2Sq )
+!!$       GK       = omega * Tg     ! wavenumber in direction parallel to bathymetry
+!!$       gamma1Sq = ( omega / c     ) ** 2 - GK ** 2 - i * tiny( omega )   ! tiny prevents g95 giving -zero, and wrong branch cut
+!!$       gamma2Sq = ( omega / HS%cP ) ** 2 - GK ** 2 - i * tiny( omega )
+!!$       gamma1   = SQRT( -gamma1Sq )
+!!$       gamma2   = SQRT( -gamma2Sq )
+!!$
+!!$       Refl = ( HS%rho * gamma1 - gamma2 ) / ( HS%rho * gamma1 + gamma2 )
+        kx = omega * Tg     ! wavenumber in direction parallel      to bathymetry
+        kz = omega * Th     ! wavenumber in direction perpendicular to bathymetry (in ocean)
 
-       Refl = ( HS%rho * gamma1 - gamma2 ) / ( HS%rho * gamma1 + gamma2 )
-       !write( *, * ) abs( Refl ), c, HS%cp, rho, HS%rho       
+        ! notation below is a bit misleading
+        ! kzS, kzP is really what I called gamma in other codes, and differs by a factor of +/- i
+        IF ( REAL( HS%cS ) > 0.0 ) THEN
+           kzS2 = kx ** 2 - ( omega / HS%cS ) ** 2
+           kzP2 = kx ** 2 - ( omega / HS%cP ) ** 2
+           kzS  = SQRT( kzS2 )
+           kzP  = SQRT( kzP2 )
+           mu   = HS%rho * HS%cS ** 2
+
+           y2 = ( ( kzS2 + kx ** 2 ) ** 2 - 4.0D0 * kzS * kzP * kx ** 2 ) * mu
+           y4 = kzP * ( kx ** 2 - kzS2 )
+
+           f = omega ** 2 * y4
+           g = y2
+        ELSE
+           kzP = SQRT( kx ** 2 - ( omega / HS%cP ) ** 2 )
+
+           ! Intel and GFortran compilers return different branches of the SQRT for negative reals
+           IF ( REAL( kzP ) == 0.0D0 .AND. AIMAG( kzP ) < 0.0D0 ) kzP = -kzP
+           f   = kzP
+           g   = HS%rho
+        ENDIF
+
+        Refl =  - ( rho * f - i * kz * g ) / ( rho * f + i * kz * g )   ! complex reflection coef.
+      !write( *, * ) abs( Refl ), c, HS%cp, rho, HS%rho       
        ! Hack to make a wall (where the bottom slope is more than 80 degrees) be a perfect reflector
        !!!!!!!!!!!
        IF ( ABS( RadDeg * ATAN2( nBdry( 3 ), NORM2( nBdry( 1 : 2 ) ) ) ) < 0 ) THEN   ! was 60 degrees

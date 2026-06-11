@@ -25,7 +25,6 @@ CONTAINS
     INTEGER            :: NPts, NMedia, iostat
     REAL               :: ZMin, ZMax
     REAL      (KIND=8) :: x( 2 ), c, cimag, gradc( 2 ), crr, crz, czz, rho, sigma, Depth
-    CHARACTER (LEN= 2) :: AttenUnit
     CHARACTER (LEN=10) :: PlotType
 
     WRITE( PRTFile, * ) 'BELLHOP/BELLHOP3D'
@@ -59,6 +58,7 @@ CONTAINS
 
     CALL ReadTopOpt( Bdry%Top%HS%Opt, Bdry%Top%HS%BC, AttenUnit, FileRoot )
 
+    write( *, *) 'Atten', AttenUnit
     ! *** Top BC ***
 
     IF ( Bdry%Top%HS%BC == 'A' ) THEN
@@ -137,7 +137,7 @@ CONTAINS
        ! WRITE( PRTFile, '('' frequency = '', G11.4, '' Hz'', / )' ) freq
 
        WRITE( PRTFile, * )
-       WRITE( PRTFile, fmt = '(  '' Step length,       deltas = '', G11.4, '' m'' )' ) Beam%deltas
+       WRITE( PRTFile, fmt = '(  '' Step length,        deltas = '', G11.4, '' m'' )' ) Beam%deltas
        WRITE( PRTFile, * )
        WRITE( PRTFile, fmt = '(  '' Maximum ray x-range, Box%x = '', G11.4, '' m'' )' ) Beam%Box%x
        WRITE( PRTFile, fmt = '(  '' Maximum ray y-range, Box%y = '', G11.4, '' m'' )' ) Beam%Box%y
@@ -554,7 +554,7 @@ CONTAINS
     SELECT CASE ( Beam%RunType( 1 : 1 ) )
     CASE ( 'R', 'E' )   ! Ray trace or Eigenrays
        OPEN ( FILE = TRIM( FileRoot ) // '.ray', UNIT = RAYFile, FORM = 'FORMATTED' )
-       WRITE( RAYFile, * ) '''', Title( 1 : 50 ), ''''
+       WRITE( RAYFile, * ) '''', Title( 1 : 70 ), ''''
        WRITE( RAYFile, * ) freq
        WRITE( RAYFile, * ) Pos%NSx, Pos%NSy, Pos%NSz
        WRITE( RAYFile, * ) Angles%Nalpha, Angles%Nbeta

@@ -57,26 +57,28 @@ end
 % vertical slices
 figure
 
-iskip = round( NProf / 10 );
+iskip = round( NProf / 6 )
 iskip = max( 1, iskip );
 
 NPlots = round( NProf / iskip );
+
 for iplot = 1 : NPlots
-   iprof = 1 + ( iplot - 1 ) * iskip;
+   iProf = 1 + ( iplot - 1 ) * iskip;
    subplot( 1, NPlots, iplot )
-   hh = plot( cmat( :, iprof ), SSP.z );
+   hh = plot( cmat( :, iProf ), SSP.z );
    set( gca, 'YDir', 'Reverse' )
    
-   if ( iprof == 1 )
+   if ( iProf == 1 )
       xlabel( 'Sound Speed (m/s)' )
       ylabel( 'Depth (m)' )
+      title( [ 'R = ' num2str( rProf( iProf ) ) ' km' ] )
    end
    
    set( hh, 'LineWidth', 2 );
    % axis( [ 1490 1540 0 5000 ] )
-   
-   if ( iprof > 1 )
+   if ( iProf > 1 )
       set(gca,'xtick',[],'ytick',[])
+      title( [ num2str( rProf( iProf ) ) ' km' ] )
    end
 
 end

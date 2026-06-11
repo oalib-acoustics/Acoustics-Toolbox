@@ -42,7 +42,7 @@ Bdry.X = x;
 Bdry.Y = y;
 Bdry.depth = z;
 
-interp_type = 'C';
+interp_type = 'CS';
 writebdry3d( btyfil, interp_type, Bdry )
 
 plotbdry3d( btyfil )

@@ -37,7 +37,9 @@ cases = [ ...
    ];
 
 for icase = 1 : size( cases, 1 )
-   directory = deblank( cases( icase, : ) )
+   directory = deblank( cases( icase, : ) );
+   fprintf( '*** Changing to directory %s \n', directory )
+
    eval( [ 'cd ' directory ] )
    clean
    

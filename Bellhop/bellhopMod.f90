@@ -1,7 +1,7 @@
 MODULE bellhopMod
 
   USE MathConstants
-  INTEGER, PARAMETER :: ENVFile = 5, PRTFile = 6, RAYFile = 21, SHDFile = 25, ARRFile = 36, SSPFile = 40, MaxN = 100000
+  INTEGER, PARAMETER :: ENVFile = 5, PRTFile = 6, RAYFile = 21, SHDFile = 25, ARRFile = 36, SSPFile = 40, MaxN = 1000000
 
   ! Reduce MaxN (= max # of steps along a ray) to reduce storage
   ! Note space is wasted in NumTopBnc, NumBotBnc ...
@@ -10,6 +10,7 @@ MODULE bellhopMod
   INTEGER            :: Nrz_per_range, istep
   REAL    ( KIND= 8) :: freq, omega, SrcDeclAngle, SrcAzimAngle, xs_3D( 3 )
   CHARACTER (LEN=80) :: Title
+  CHARACTER (LEN= 2) :: AttenUnit
 
   ! *** Beam structure ***
 

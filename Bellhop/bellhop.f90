@@ -33,7 +33,6 @@ PROGRAM BELLHOP
   
   LOGICAL, PARAMETER   :: Inline = .FALSE.
   INTEGER              :: jj
-  CHARACTER ( LEN=2  ) :: AttenUnit
   CHARACTER ( LEN=80 ) :: FileRoot
 
   ThreeD = .FALSE.
@@ -81,7 +80,7 @@ PROGRAM BELLHOP
 
      ALLOCATE( Pos%sz( Pos%NSz ), Pos%ws( Pos%NSz ), Pos%isz( Pos%NSz ) )
      ALLOCATE( Pos%rz( Pos%NRz ), Pos%wr( Pos%NRz ), Pos%irz( Pos%NRz ) )
-     ALLOCATE( Pos%Rr(  Pos%NRr  ) )
+     ALLOCATE( Pos%Rr( Pos%NRr ) )
 
      Pos%Sz( 1 ) = 50.
      !Pos%Rz     = [ 0, 50, 100 ]
@@ -137,6 +136,7 @@ PROGRAM BELLHOP
      CALL ReadReflectionCoefficient( FileRoot, Bdry%Bot%HS%Opt( 1 : 1 ), Bdry%Top%HS%Opt( 2 : 2 ), PRTFile ) ! (top and bottom)
      SBPFlag = Beam%RunType( 3 : 3 )
      CALL ReadPat( FileRoot, PRTFile )   ! Source Beam Pattern
+
      ! dummy bearing angles
      Pos%Ntheta = 1
      ALLOCATE( Pos%theta( Pos%Ntheta ), Stat = IAllocStat )
@@ -158,7 +158,7 @@ SUBROUTINE BellhopCore
   INTEGER, PARAMETER   :: ArrivalsStorage = 20000000, MinNArr = 10
   INTEGER              :: IBPvec( 1 ), ibp, is, iBeamWindow2, Irz1, Irec, NalphaOpt, iSeg
   REAL                 :: Tstart, Tstop
-  REAL        (KIND=8) :: Amp0, DalphaOpt, xs( 2 ), RadMax, s, &
+  REAL        (KIND=8) :: Amp0, DalphaOpt, xs( 2 ), RadiusMax, s, &
                           c, cimag, gradc( 2 ), crr, crz, czz, rho
   COMPLEX, ALLOCATABLE :: U( :, : )
   COMPLEX     (KIND=8) :: epsilon
@@ -179,20 +179,22 @@ SUBROUTINE BellhopCore
        Angles%Dalpha = ( Angles%alpha( Angles%Nalpha ) - Angles%alpha( 1 ) ) / ( Angles%Nalpha - 1 )  ! angular spacing between beams
 
   ! convert range-dependent geoacoustic parameters from user to program units
+  ! attenuation converted from user units to internal units
+  ! Could have been done when originally read, but will eventually facilitate broadband run with changing freq
   IF ( atiType( 2 : 2 ) == 'L' ) THEN
      DO iSeg = 1, NatiPts
-        Top( iSeg )%HS%cp = CRCI( 1D20, Top( iSeg )%HS%alphaR, Top( iSeg )%HS%alphaI, freq, freq, 'W ', &
+        Top( iSeg )%HS%cp = CRCI( 1D20, Top( iSeg )%HS%alphaR, Top( iSeg )%HS%alphaI, freq, freq, AttenUnit, &
              betaPowerLaw, ft )   ! compressional wave speed
-        Top( iSeg )%HS%cs = CRCI( 1D20, Top( iSeg )%HS%betaR,  Top( iSeg )%HS%betaI,  freq, freq, 'W ', &
+        Top( iSeg )%HS%cs = CRCI( 1D20, Top( iSeg )%HS%betaR,  Top( iSeg )%HS%betaI,  freq, freq, AttenUnit, &
              betaPowerLaw, ft )   ! shear         wave speed
      END DO
   END IF
-   
+
   IF ( btyType( 2 : 2 ) == 'L' ) THEN
      DO iSeg = 1, NbtyPts
-        Bot( iSeg )%HS%cp = CRCI( 1D20, Bot( iSeg )%HS%alphaR, Bot( iSeg )%HS%alphaI, freq, freq, 'W ', &
+        Bot( iSeg )%HS%cp = CRCI( 1D20, Bot( iSeg )%HS%alphaR, Bot( iSeg )%HS%alphaI, freq, freq, AttenUnit, &
              betaPowerLaw, ft )   ! compressional wave speed 
-        Bot( iSeg )%HS%cs = CRCI( 1D20, Bot( iSeg )%HS%betaR,  Bot( iSeg )%HS%betaI,  freq, freq, 'W ', &
+        Bot( iSeg )%HS%cs = CRCI( 1D20, Bot( iSeg )%HS%betaR,  Bot( iSeg )%HS%betaI,  freq, freq, AttenUnit, &
              betaPowerLaw, ft )   ! shear         wave speed
      END DO
   END IF
@@ -245,7 +247,6 @@ SUBROUTINE BellhopCore
      iSegz = 1
 
      CALL EvaluateSSP( xs, c, cimag, gradc, crr, crz, czz, rho, freq, 'TAB' )
-     RadMax = 5 * c / freq  ! 5 wavelength max radius
 
      ! Are there enough beams?
      DalphaOpt = SQRT( c / ( 6.0 * freq * Pos%Rr( Pos%NRr ) ) )
@@ -294,12 +295,12 @@ SUBROUTINE BellhopCore
               SELECT CASE ( Beam%Type( 1 : 1 ) )
               CASE ( 'R' )
                  iBeamWindow2 = Beam%iBeamWindow **2
-                 RadMax       = 50 * c / freq  ! 50 wavelength max radius
-                 CALL InfluenceCervenyRayCen(   U, epsilon, Angles%alpha( ialpha ), iBeamWindow2, RadMax )
+                 RadiusMax       = 30 * c / freq  ! 30 wavelength max radius
+                 CALL InfluenceCervenyRayCen(   U, epsilon, Angles%alpha( ialpha ), iBeamWindow2, RadiusMax )
               CASE ( 'C' )
                  iBeamWindow2 = Beam%iBeamWindow **2
-                 RadMax       = 50 * c / freq  ! 50 wavelength max radius
-                 CALL InfluenceCervenyCart(     U, epsilon, Angles%alpha( ialpha ), iBeamWindow2, RadMax )
+                 RadiusMax       = 30 * c / freq  ! 30 wavelength max radius
+                 CALL InfluenceCervenyCart(     U, epsilon, Angles%alpha( ialpha ), iBeamWindow2, RadiusMax )
               CASE ( 'g' )
                  CALL InfluenceGeoHatRayCen(    U, Angles%alpha( ialpha ), Angles%Dalpha )
               CASE ( 'S' )
@@ -372,15 +373,15 @@ COMPLEX (KIND=8 ) FUNCTION PickEpsilon( BeamType, omega, c, gradc, alpha, Dalpha
      SELECT CASE ( BeamType( 2 : 2 ) )
      CASE ( 'F' )
         TAG        = 'Space filling beams'
-        halfwidth  = 2.0 / ( ( omega / c ) * Dalpha )
-        epsilonOpt = i * 0.5 * omega * halfwidth ** 2
+        HalfWidth  = 2.0 / ( ( omega / c ) * Dalpha )
+        epsilonOpt = i * 0.5 * omega * HalfWidth ** 2
      CASE ( 'M' )
         TAG        = 'Minimum width beams'
-        halfwidth  = SQRT( 2.0 * c * 1000.0 * rLoop / omega )
-        epsilonOpt = i * 0.5 * omega * halfwidth ** 2
+        HalfWidth  = SQRT( 2.0 * c * 1000.0 * rLoop / omega )
+        epsilonOpt = i * 0.5 * omega * HalfWidth ** 2
      CASE ( 'W' )
         TAG       = 'WKB beams'
-        halfwidth = HUGE( halfwidth )
+        HalfWidth = HUGE( HalfWidth )
         cz        = gradc( 2 )
         IF ( cz == 0.0 ) THEN
            epsilonOpt = 1.0D10
@@ -391,21 +392,21 @@ COMPLEX (KIND=8 ) FUNCTION PickEpsilon( BeamType, omega, c, gradc, alpha, Dalpha
 
   CASE ( 'G', 'g', '^' )
      TAG        = 'Geometric hat beams'
-     halfwidth  = 2.0 / ( ( omega / c ) * Dalpha )
-     epsilonOpt = i * 0.5 * omega * halfwidth ** 2
+     HalfWidth  = 2.0 / ( ( omega / c ) * Dalpha )
+     epsilonOpt = i * 0.5 * omega * HalfWidth ** 2
 
   CASE ( 'B' )
      TAG        = 'Geometric Gaussian beams'
-     halfwidth  = 2.0 / ( ( omega / c ) * Dalpha )
-     epsilonOpt = i * 0.5 * omega * halfwidth ** 2
+     HalfWidth  = 2.0 / ( ( omega / c ) * Dalpha )
+     epsilonOpt = i * 0.5 * omega * HalfWidth ** 2
 
   CASE ( 'b' )
      CALL ERROUT( 'BELLHOP', 'Geo Gaussian beams in ray-centered coords. not implemented in BELLHOP' )
 
   CASE ( 'S' )
      TAG        = 'Simple Gaussian beams'
-     halfwidth  = 2.0 / ( ( omega / c ) * Dalpha )
-     epsilonOpt = i * 0.5 * omega * halfwidth ** 2
+     HalfWidth  = 2.0 / ( ( omega / c ) * Dalpha )
+     epsilonOpt = i * 0.5 * omega * HalfWidth ** 2
   END SELECT
 
   PickEpsilon = EpsMultiplier * epsilonOpt
@@ -414,7 +415,7 @@ COMPLEX (KIND=8 ) FUNCTION PickEpsilon( BeamType, omega, c, gradc, alpha, Dalpha
   IF ( INIFlag ) THEN
      WRITE( PRTFile, * )
      WRITE( PRTFile, * ) TAG
-     WRITE( PRTFile, * ) 'halfwidth  = ', halfwidth
+     WRITE( PRTFile, * ) 'HalfWidth  = ', HalfWidth
      WRITE( PRTFile, * ) 'epsilonOpt = ', epsilonOpt
      WRITE( PRTFile, * ) 'EpsMult    = ', EpsMultiplier
      WRITE( PRTFile, * )

@@ -21,7 +21,7 @@ ylabel( 'Reflection Loss (dB)' )
 figure
 plot( thetaBot, abs( RBot ), 'b', 'LineWidth', 3  );
 xlabel( 'angle (degrees)' )
-ylabel( 'Reflection Loss' )
+ylabel( '|R|' )
 
 %set( get( AX( 1 ),'Ylabel'), 'String', '|R|') 
 %set( get( AX( 2 ),'Ylabel'), 'String', 'angle (degrees)' )

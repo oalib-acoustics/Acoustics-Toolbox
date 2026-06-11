@@ -81,9 +81,20 @@ CONTAINS
 
     CALL EvaluateSSP( ray2%x, c2, cimag2, gradc2, crr2, crz2, czz2, rho, freq, 'TAB' )
     ray2%c = c2
-
+    
     IF ( iSegz /= iSegz0 .OR. iSegr /= iSegr0 ) THEN
-       gradcjump =  gradc2 - gradc0
+       SELECT CASE ( SSP%Type )     ! is their a discontinuity in the first derivative?
+       CASE ( 'N', 'C', 'Q', 'H' )  !  N2-linear or C-linear profile option
+          gradcjump =  gradc2 - gradc0
+       CASE ( 'P', 'S' )            !  monotone PCHIP ACS or Cubic spline profile option
+          gradcjump = 0.0
+       CASE ( 'A' )                 !  Analytic profile option
+          gradcjump = 0.0
+       CASE DEFAULT
+          WRITE( PRTFile, * ) 'Profile option: ', SSP%Type
+          CALL ERROUT( 'BELLHOP: Step2D', 'Invalid profile option' )
+       END SELECT
+       
        ray2n     = [ -ray2%t( 2 ), ray2%t( 1 ) ]   ! ray normal
 
        cnjump    = DOT_PRODUCT( gradcjump, ray2n  )
@@ -96,6 +107,7 @@ CONTAINS
        END IF
 
        RN     = RM * ( 2 * cnjump - RM * csjump ) / c2
+
        ray2%p = ray2%p - ray2%q * RN
 
     END IF
@@ -180,7 +192,7 @@ CONTAINS
     ELSE
        iSmallStepCtr = 0                   ! didn't do a small step so reset the counter
     END IF
-
+    
   END SUBROUTINE ReduceStep2D
 
 END MODULE Step

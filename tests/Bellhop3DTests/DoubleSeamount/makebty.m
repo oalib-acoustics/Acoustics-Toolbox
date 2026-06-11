@@ -2,8 +2,8 @@
 seamount_parameters
 
 btyfil = 'DoubleSeamount3D.bty';
-interp_type = 'R';
-interp_type = 'C';
+% interp_type = 'R';
+interp_type = 'CS';
 
 %%
 rmax   = 8000;
@@ -26,6 +26,9 @@ y = linspace( ymin, ymax, ny );
 
 %%
 z = zeros( ny, nx );
+
+% produce a 2D ( X, Y ) grid from 1D ( x, y )
+% z comes out oriented Ny x Nx
 [ X, Y ] = meshgrid( x, y );
 
 z = sub_seamount( seamount, X, Y );

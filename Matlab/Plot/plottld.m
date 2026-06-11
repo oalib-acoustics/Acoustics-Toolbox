@@ -13,9 +13,10 @@ function plottld( varargin )
 %   freq is the frequency (needed if the shdfil has multiple frequencies)
 % mbp
 
-disp( 'PlotTLd uses the first bearing and source depth in the shade file; check OK' )
+% disp( 'PlotTLd uses the first bearing and source depth in the shade file; check OK' )
 itheta = 1;
-isd    = 1;
+isz    = 1;
+%fprintf( '\n itheta = %i, isz = %i \n', itheta, isz )
 
 narginchk( 1, 3 )
 
@@ -44,7 +45,7 @@ end
 %%
 % read
 
-pressure = pressure( itheta, isd, :, : );
+pressure = pressure( itheta, isz, :, : );
 
 tlt = abs( pressure );	            % this is really the negative of TL
 tlt( tlt == 0 ) = max( max( tlt ) ) / 1e10;      % replaces zero by a small number

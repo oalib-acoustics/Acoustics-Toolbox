@@ -22,7 +22,7 @@ ny   = 21;
 x = linspace( xmin, xmax, nx );
 y = linspace( ymin, ymax, ny );
 
-z = zeros( nx, ny );
+z = zeros( ny, nx );
 
 % ydepth = [0 range(y)*1000*tand(th0)];
 ydepth = [ -y*1000*tand(th0)];

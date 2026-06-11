@@ -85,7 +85,7 @@ CONTAINS
           WRITE( PRTFile, * ) 'Long format (altimetry and geoacoustics)'
           WRITE( PRTFile, "( ' Range (km)  Depth (m)  alphaR (m/s)  betaR  rho (g/cm^3)  alphaI     betaI', / )" )
        CASE DEFAULT
-          CALL ERROUT( 'ReadBTY', 'Unknown option for selecting altimetry interpolation' )
+          CALL ERROUT( 'ReadATI', 'Unknown option for selecting altimetry interpolation' )
        END SELECT AltiTypeB
 
        WRITE( PRTFile, * )

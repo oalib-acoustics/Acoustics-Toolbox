@@ -26,12 +26,12 @@ end
 % read header stuff
 
 TITLE       = fgetl(  fid );
-FREQ        = fscanf( fid, '%f', 1 );
+Freq        = fscanf( fid, '%f', 1 );
 Nsxyz       = fscanf( fid, '%f', 3 );
 NBeamAngles = fscanf( fid, '%i', 2 );
 
-DEPTHT      = fscanf( fid, '%f', 1 );
-DEPTHB      = fscanf( fid, '%f', 1 );
+DepthT      = fscanf( fid, '%f', 1 );
+DepthB      = fscanf( fid, '%f', 1 );
 
 Type        = fgetl( fid );
 Type        = fgetl( fid );
@@ -157,7 +157,7 @@ end
 if ( jkpsflag )
    set( gca, 'Units', 'centimeters' )
    set( gca, 'Position', [ 2 2 14.0  7.0 ] )
-   set(gcf, 'PaperPositionMode', 'auto');
+   set( gcf, 'PaperPositionMode', 'auto' );
    
    %set( gcf, 'Units', 'centimeters' )
    %set( gcf, 'PaperPosition', [ 3 3 19.0 10.0 ] )

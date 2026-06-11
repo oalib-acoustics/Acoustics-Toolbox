@@ -19,6 +19,9 @@
 % The BELLHOP noise level is too high for deeper depths. It looks like
 % there is a string of caustics at depth, which may explain the high levels
 
+% Noise directionaliyt: This material has varied over time in terms of the
+% array shading and the number of elements
+
 global units
 units = 'km';
 
@@ -54,6 +57,7 @@ xlabel( 'dB' )
 ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
 drawnow
+
 print -dpng BELLHOP_NL
 
 %%
@@ -81,6 +85,7 @@ xlabel( 'dB' )
 ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
 drawnow
+
 print -dpng KRAKEN_NL
 %%
 % KRAKENC run
@@ -107,6 +112,7 @@ xlabel( 'dB' )
 ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
 drawnow
+
 print -dpng KRAKENC_NL
 
 %%
@@ -133,6 +139,7 @@ title( 'SCOOTER Noise Level' )
 xlabel( 'dB' )
 ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
+drawnow
 
 print -dpng SCOOTER_NL
 
@@ -140,16 +147,16 @@ print -dpng SCOOTER_NL
 % overplot results from all the models as extracted from the SHDFIL
 
 plotshd( 'aetB_TL.shd', 2, 2, 1 )
-caxis( [ 80 130 ] )
+clim( [ 80 130 ] )
 
 plotshd( 'aetK_TL.shd.mat', 2, 2, 2 )
-caxis( [ 80 130 ] )
+clim( [ 80 130 ] )
 
 plotshd( 'aetC_TL.shd.mat', 2, 2, 3 )
-caxis( [ 80 130 ] )
+clim( [ 80 130 ] )
 
 plotshd( 'aetS_TL.shd.mat', 2, 2, 4 )
-caxis( [ 80 130 ] )
+clim( [ 80 130 ] )
 
 figure
 plot( NLB, rd, 'k', 'LineWidth', 3 ); hold on
@@ -165,7 +172,7 @@ ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
 
 legend( 'Bellhop', 'Kraken', 'Krakenc', 'Scooter' )
-
+drawnow
 
 %%
 % Spectral noise vs. depth (analytic)
@@ -187,6 +194,7 @@ title( 'SCOOTER Noise Level (analytic)' )
 xlabel( 'dB' )
 ylabel( 'Depth (m)' )
 axis( [ 50 80 0 6000 ] )
+drawnow
 
 print -dpng SCOOTER_NL_spectral
 

@@ -217,10 +217,10 @@ CONTAINS
     IF ( HSTop%BC == 'A' ) THEN
        IF ( REAL( HSTop%cS ) > 0.0 ) THEN       ! Elastic  top half-space
           ElasticFlag = .TRUE.
-          cMin   = MIN( cMin,  DBLE( HSTop%cS ) )
-          cHigh  = MIN( cHigh, DBLE( HSTop%cS ) )
+          cMin  = MIN( cMin,  DBLE( HSTop%cS ) )
+          cHigh = MIN( cHigh, DBLE( HSTop%cS ) )
        ELSE                                     ! Acoustic top half-space
-          cMin   = MIN( cMin,  DBLE( HSTop%cP ) )
+          cMin  = MIN( cMin,  DBLE( HSTop%cP ) )
           ! cHigh  = MIN( cHigh, DBLE( HSTop%cP ) )
        END IF
     END IF
@@ -340,7 +340,7 @@ CONTAINS
 
                    P( j ) = ( ( hV( iSet ) ** 2 - x2 ) * P( j     ) - &
                               ( hV( iSet ) ** 2 - x1 ) * P( j + 1 ) ) &
-                        / ( x1 - x2 )
+                            / ( x1 - x2 )
                 END DO
              END DO
              x = P( 1 )
@@ -436,7 +436,7 @@ CONTAINS
     REAL    (KIND=8)                  :: f, g
     COMPLEX (KIND=8)                  :: fTop, gTop, fBot, gBot
 
-!!$  IF ( x <= omega2 / cHigh ** 2 ) THEN    ! For a k below the cts spectrum limit, force a zero
+!!$  IF ( x <= omega2 / cHigh ** 2 ) THEN    ! For a k below the spectrum limit, force a zero
 !!$     Delta  = 0.0D0
 !!$     iPower = 0
 !!$     RETURN
@@ -513,12 +513,12 @@ CONTAINS
              IF ( p0 * p1 <= 0.0D0 ) modeCount = modeCount + 1
           END IF
 
-          IF ( ABS( p2 ) > Roof ) THEN   ! Scale if necessary
+          DO WHILE ( ABS( p2 ) > Roof )  ! Scale if necessary
              p0     = Floor * p0
              p1     = Floor * p1
              p2     = Floor * p2
              iPower = iPower - iPowerF
-          END IF
+          END DO
 
        END DO
 
@@ -574,8 +574,8 @@ CONTAINS
 
     ! following lines would merge vectors without sorting and removing duplicates
     ! NzTab = Pos%NSz + Pos%NRz
-    ! zTab( 1           : Pos%NSz ) = Pos%sz( 1 : Pos%NSz )
-    ! zTab( Pos%NSz + 1 : NzTab   ) = Pos%rz( 1 : Pos%NRz )
+    ! zTab( 1           : Pos%NSz ) = Pos%Sz( 1 : Pos%NSz )
+    ! zTab( Pos%NSz + 1 : NzTab   ) = Pos%Rz( 1 : Pos%NRz )
 
     ALLOCATE( WTS( NzTab ), IzTab( NzTab ), PhiTab( NzTab ) )
     CALL Weight( z, NTotal1, zTab, NzTab, WTS, IzTab )
@@ -811,7 +811,12 @@ CONTAINS
     Phi            = ScaleFactor * Phi
     Slow           = ScaleFactor ** 2 * Slow * omega / SQRT( x )
     Perturbation_k = ScaleFactor ** 2 * Perturbation_k
-    VG( mode )     = 1 / Slow
+
+    !IF ( Slow /= Slow ) THEN   ! this is supposed to happen if Slow is a NaN, but doesn't seem to work. Perhaps the compiler intercepts it
+    !   VG( mode ) = 0.0D0
+    !ELSE
+    !   VG( mode ) = 1 / Slow
+    !END IF
 
     CALL ScatterLoss( Perturbation_k, Phi, x )   ! Compute interfacial scatter loss
 

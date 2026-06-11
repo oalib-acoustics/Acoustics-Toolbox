@@ -148,7 +148,10 @@ CONTAINS
        CALL CurvatureCorrection
 
     END IF
-
+!!$    write( *, * ) 'ray0', ray0
+!!$    write( *, * ) ray0%x, ray0%t
+!!$    write( *, * ) 'ray2', ray2
+!!$    write( *, * ) ray2%x, ray2%t
   CONTAINS
     SUBROUTINE CurvatureCorrection
 
@@ -357,7 +360,7 @@ CONTAINS
     IF ( ABS( x( 3 )              ) > Beam%Box%z ) hBoxz = ( Beam%Box%z - ABS(   x0( 3 )                ) ) / ABS( urayt( 3 ) )
     
     h = MIN( h, hInt, hTop, hBot, hxSeg, hySeg, hTopDiag, hBotDiag, hBoxx, hBoxy, hBoxz )  ! take limit set by shortest distance to a crossing
-
+    ! write( *, * ) 'hvec', h, hInt, hTop, hBot, hxSeg, hySeg, hTopDiag, hBotDiag, hBoxx, hBoxy, hBoxz
     IF ( h < 1.0d-4 * Beam%deltas ) THEN   ! is it taking an infinitesimal step?
        h = 1.0d-4 * Beam%deltas            ! make sure we make some motion
        iSmallStepCtr = iSmallStepCtr + 1   ! keep a count of the number of sequential small steps

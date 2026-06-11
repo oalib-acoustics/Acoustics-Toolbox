@@ -68,41 +68,42 @@ for icase = 1 : 3
         % Note that SCOOTER has to be run with stabilizing attenuation disabled
         % ( TopOpt( 6 : 6 ) = '0' )
 
+        if ( icase == 99 )
         NL = spectral_noise( GreenFilenoise, rho_SL_dB, sd, rd, freq );
 
         plot( NL, rd, 'k', 'LineWidth', ifreq );
-        ll = legend( 'SCOOTER analytic' );
+        ll = legend( 'Wavenumber Integration analytic' );
 
         % ll = legend( 'NM Full', 'NMC Full', 'NM Diag', 'NMC Diag' );
-        set(ll,'Location','southeast')
+        set( ll, 'Location', 'southeast' )
         grid
         drawnow
         hold on
 
         % SCOOTER noise from shd
-
         C  = field_noise( [ filenameS '.shd.mat' ], sd, rd, freq );
         NL = 10 * log10( diag( C ) ) + rho_SL_dB;
 
         plot( NL, rd, '--k', 'LineWidth', ifreq );
-        ll = legend( 'SCOOTER analytic', 'SCOOTER field' );
+        ll = legend( 'Wavenumber Integration analytic', 'Wavenumber Integration field' );
         set( ll, 'Location', 'southeast' )
         grid
         axis( [ 4 18 0 50 ] )
         drawnow
-
+        end
         %%
+        % KRAKENC runs
+
+        %if ( icase == 99 )
         % Modal noise vs. depth using full matrix
         NLC = modal_noise_full( ModeFileC, rho_SL_dB, sd, rd, freq, Rmax_km, Component );
 
         plot( NLC( :, end ), rd, 'b', 'LineWidth', ifreq );
-        ll = legend( 'SCOOTER analytic', 'SCOOTER field', 'KRAKENC analytic' );
-        ylabel( 'Receiver depth (m)' )
-        xlabel( 'NL (dB)' )
-        set(gca,'YDir','reverse')
+        ll = legend( 'Wavenumber Integration analytic', 'Wavenumber Integration field', 'KRAKENC analytic' );
+
         %tt = title(filename);
         tt = title( { deblank( filename ); [ 'Sd = ' num2str( sd ) ' m' ] } );
-        set(tt,'Interpreter','none')
+        set( tt, 'Interpreter','none' )
 
         % Modal noise vs. depth using diagonal terms only
         %       NL  = modal_noise_diag( ModeFile,  rho_SL_dB, sd, rd, Rmax_km, Component );
@@ -110,19 +111,24 @@ for icase = 1 : 3
         %       plot( NL(  :, end ), rd, 'g', 'LineWidth', 3 );
         %       plot( NLC( :, end ), rd, 'c', 'LineWidth', 3 );
         %
+
         % KRAKENC noise from shd
 
         C  = field_noise( [ filenameC '.shd.mat' ], sd, rd, freq );
         NL = 10 * log10( diag( C ) ) + rho_SL_dB;
 
         plot( NL, rd, '--b', 'LineWidth', ifreq );
-        ll = legend( 'SCOOTER analytic', 'SCOOTER field', 'KRAKENC analytic', 'KRAKENC field' );
+        ll = legend( 'Wavenumber Integration analytic', 'Wavenumber Integration field', 'KRAKENC analytic', 'KRAKENC field' );
         set( ll, 'Location', 'southeast' )
         grid
         axis( [ 4 18 0 50 ] )
         drawnow
+        %end
+
         %%
-        if ( icase == 1 )
+        % KRAKEN runs
+
+        if ( icase == 99 )
         % Modal noise vs. depth using full matrix
         NL  = modal_noise_full( ModeFile,  rho_SL_dB, sd, rd, freq, Rmax_km, Component );
         % we just take the value from the matrix NL for the largest range
@@ -142,6 +148,11 @@ for icase = 1 : 3
         axis( [ 4 18 0 50 ] )
         drawnow
         end
+
+        ylabel( 'Receiver depth (m)' )
+        xlabel( 'NL (dB)' )
+        set( gca, 'YDir', 'reverse' )
+        drawnow
     end   % next frequency
 
     % set( gca, 'Position', [ 2    2                       14.0       7.0 ] )

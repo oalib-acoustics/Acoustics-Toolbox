@@ -12,11 +12,12 @@ function plottlr( filename, rdt )
 
 global units
 
-disp( 'PlotTLr uses the first bearing and source depth in the shade file; check OK' )
 itheta = 1;
 isz    = 1;
-ifreq  = 2
-freq   = 100   % 
+ifreq  = 2;
+freq   = 100;   % 
+
+% fprintf( '\n PLOTTLR using itheta = %i, isz = %i, ifreq = %i, freq = %f \n', itheta, isz, ifreq, freq )
 
 % read
 

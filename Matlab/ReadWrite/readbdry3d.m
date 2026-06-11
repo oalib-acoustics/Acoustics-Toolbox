@@ -17,7 +17,7 @@ bdryType = fgetl( fid );
 nchars = strfind( bdryType, '''' );   % find quotes
 bdryType = [ bdryType( nchars( 1 ) + 1 : nchars( 2 ) - 1 ) blanks( 2 - ( nchars( 2 ) - nchars( 1 ) ) ) ];
 
-switch ( bdryType )
+switch ( bdryType( 1 : 1 ) )
     case ( 'R' )
         disp( 'Piecewise-linear approximation to boundary' )
     case ( 'C' )
@@ -39,7 +39,7 @@ for ii = 1 : NbdryPtsx
       disp( '   ...' )
    end
    
-   if ( ii < 51 || ii == NbdryPtsx  )   % echo up to 51 values
+   if ( ii < 50 || ii == NbdryPtsx  )   % echo up to 51 values
       fprintf( '%9.5g \n', xBot( ii ) );
    end
 end
@@ -47,10 +47,14 @@ end
 %% y values
 [ yBot, NbdryPtsy ] = readvector( fid );
 
-fprintf( 'Number of boundary points in y = %i \n\n', NbdryPtsy )
+fprintf( '\n Number of boundary points in y = %i \n\n', NbdryPtsy )
 fprintf( ' y (km) \n' )
 
 for ii = 1 : NbdryPtsy
+   if ( ii == NbdryPtsy && ii > 51 )
+      disp( '   ...' )
+   end
+
    if ( ii < 50 || ii == NbdryPtsy )   % echo up to 51 values
          fprintf( '%9.5g \n', yBot( ii ) );
    end

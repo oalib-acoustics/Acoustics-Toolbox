@@ -58,7 +58,7 @@ if ( Comp == 'H' )
 end
 
 if Opt( 4 : 4 ) ~= 'I'   % coherent sum
-  p = phi * phase;
+  p = phi * ( phase * 1i * exp( 1i * pi / 4 ) );
 
 else  % incoherent sum
   nz = size( phi, 1 );

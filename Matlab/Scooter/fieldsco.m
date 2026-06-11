@@ -25,10 +25,14 @@ function fieldsco( filename, PlotTitle, freq, atten, Pos, Gtemp, Opt, Rminkm, Rm
 
 global cmin cmax
 
-if ( isempty( cmin ) )
+%if ( isempty( cmin ) )
+    % disable tapering
    cmin = 1e-10;
    cmax = 1e30;
-end
+%end
+
+%cmin = 1400;
+%cmax = 1510;
 
 % if user is just supplying a file name then read all the variables
 
@@ -55,14 +59,13 @@ if ( nargin == 1 )
       Opt( 4 : 4 ) = 'O';   % default beampattern is omni
    end
 
-   disp( 'Option line:' )
-   disp( Opt )
+   fprintf( '\n Fieldsco option line = %s \n', Opt )
 
    % read the range vector
    %[ rr_km, Nrr ] = readvector( fid );
-   Rr = readr( fid );
+   Rr  = readr( fid );
    Nrr = length( Rr );
-   Rr = 1000 * Rr;   % convert km to m
+   Rr  = 1000 * Rr;   % convert km to m
    Rr( abs( Rr ) < realmin ) = 1;   % replace zero range with 1 m to avoid singularity
    % fprintf( '\n\n--- FieldSCO --- \n\nRminkm = %d, Rmaxkm = %d, Nrr = %i \n', Rminkm, Rmaxkm, Nrr )
    
@@ -225,6 +228,7 @@ if ( Nk < Nwinleft + Nwinright )
    error( [ mfilename, 'phase speed limits for windowing are invalid' ] );
 end
 
+% [ Nwinleft, Nwinright ]
 window  = [ winleft ones( 1, Nk - Nwinleft - Nwinright ) winright ];
 
 G = scalecol( G, window );

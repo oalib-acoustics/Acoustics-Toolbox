@@ -103,23 +103,24 @@ if ( M > 0 )
          
          % pressure formula using Appendix J of Carey and Evans
          % original
-         %phiSR( mode, : ) = ( abs( phiS( mode ) * phiScaled( mode, : ) ) / ...
+         % phiSR( mode, : ) = ( abs( phiS( mode ) * phiScaled( mode, : ) ) / ...
          %   sqrt( -kabs .* ki ) ).^2 * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
          
          % equivalent form
          phiSR( mode, : ) = ( abs( phiS( mode ) * phiScaled( mode, : ) ) ).^2 / ...
             ( kabs * ki ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
          
-         % previous forms assume small ki; this one fixes that
+         % previous forms assumes small ki; this one fixes that
          phiSR( mode, : ) = -4 * 1i * ( abs( phiS( mode ) * phiScaled( mode, : ) ) ).^2 / ...
             ( k^2 - conj( k )^2 ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
-         % this one works
-         phiSR( mode, : ) = ( phiS( mode ) * phiScaled( mode, : ) ).^2 / ...
-            ( -kabs .* ki ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
+
+         % this one works OOPS!! does not work; z^2 ~= abs( z )^2
+         % phiSR( mode, : ) = ( phiS( mode ) * phiScaled( mode, : ) ).^2 / ...
+         %    ( -kabs .* ki ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
          
-         % this one also works
-         % phiSR( mode, : ) = ( abs( phiS( mode ) ) * phiScaled( mode, : ) ) .^2 / ...
-         %   ( -kabs .* ki ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
+         % this form is correct (see my notes)
+         phiSR( mode, : ) = ( abs( phiS( mode ) ) * phiScaled( mode, : ) ) .^2 / ...
+            ( -kabs .* ki ) * ( 1. - exp( 2 * ki * Rmax( ir ) ) );
       end
       
       % modal sum for each receiver

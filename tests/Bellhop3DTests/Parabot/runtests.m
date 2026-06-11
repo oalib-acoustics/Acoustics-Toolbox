@@ -4,6 +4,12 @@
 % note that beams traced with negative azimuthal angles can exit the box
 % where the boundaries are defined
 
+% The Nx2D solution is not expected to match the 3D solutions as it assumes
+% cyclindrical symmetry. The 3D paraboloid is a different geometry
+
+% The Gaussian beam option produces a quite different result because the
+% beams are very wide for this low, 10-Hz frequency
+
 global units
 units = 'km';
 %%

@@ -15,7 +15,7 @@ ny = length( y );
 
 btyfil = 'ParaBot.bty';
 atifil = 'ParaBot.ati';
-interp_type = 'R';
+interp_type = 'RS';
 %interp_type = 'C';
 
 % xmin = -20;

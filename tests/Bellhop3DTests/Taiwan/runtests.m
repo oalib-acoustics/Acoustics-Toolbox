@@ -24,9 +24,11 @@ land_dat  = copper( 60 );
 ocean_land = [ land_dat( 15 : 44, : ) ; ocean ];
 colormap( ocean_land )
 
+
 %%
-%figure
-%plotssp3d Taiwan.ssp
+plotssp3d Taiwan
+caxis( [ 1510 1535 ])
+print -dpng TaiwanSSP
 
 % makebty;             % make the bathymetry
 %%

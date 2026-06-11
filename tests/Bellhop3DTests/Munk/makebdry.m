@@ -1,5 +1,5 @@
 btyfil = 'munk3d.bty';
-interp_type = 'R';
+interp_type = 'RS';
 
 % Write a bathymetry from the workspace variables
 
@@ -20,7 +20,7 @@ ny   = 41;
 x = linspace( xmin, xmax, nx );
 y = linspace( ymin, ymax, ny );
 
-z = zeros( nx, ny );
+z = zeros( ny, nx );
 
 for ix = 1 : nx
    for iy = 1 : ny

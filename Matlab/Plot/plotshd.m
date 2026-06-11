@@ -17,6 +17,8 @@ global units jkpsflag
 %disp( 'PlotShd uses the first frequency, bearing, and source depth in the shade file; check OK' )
 itheta = 1;   % select the index of the receiver bearing
 isz    = 1;   % select the index of the source depth
+% fprintf( '\n    plotshd using itheta = %i, isz = %i', itheta, isz )
+
 filename = varargin{ 1 };
 
 switch nargin
@@ -49,8 +51,8 @@ rt       = Pos.r.r;
 % set labels in m or km
 xlab     = 'Range (m)';
 if ( strcmp( units, 'km' ) )
-   rt      = rt / 1000.0;
-   xlab    = 'Range (km)';
+   rt    = rt / 1000.0;
+   xlab  = 'Range (km)';
 end
 
 if ( nargin == 1 || nargin == 2 )
@@ -108,7 +110,7 @@ if ( size( tlt, 1 ) > 1 && size( tlt, 2 ) > 1 )
    % imagesc produces a better PostScript file, using PostScript fonts
    % however, it ignores the actual r, z, coordinates and assumes they're
    % equispaced
-   %h = imagesc( rt, zt, tlt );
+   % h = imagesc( rt, zt, tlt );
    % h = imagesc( tlt );
    
    h = pcolor( rt, zt, tlt );  ...

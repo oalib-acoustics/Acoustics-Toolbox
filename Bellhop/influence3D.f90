@@ -283,7 +283,13 @@ CONTAINS
                          const = ray3D( is )%Amp / SQRT( ABS( DetQint ) )
                          W     = ( 1 - a ) * ( 1 - b )   ! hat function: 1 on center, 0 on edge
                          Amp   = const * W
-
+!!$                         write( *, * ) is, Amp, const, W
+!!$                         write( *, * ) 'x_rcvr_ray', x_rcvr_ray
+!!$                         write( *, * ) 'e1', e1
+!!$                         write( *, * ) 'e2', e2
+!!$                         Write( *, * ) 'contribution', n, m
+!!$                         write( *, * ) a, b
+!!$                         write( *, * ) 'L1. L2', L1, L2
                          CALL ApplyContribution( alpha, beta, P( itheta, iz, ir ) )
                       END DO ReceiverDepths
                    END DO Radials
@@ -682,6 +688,9 @@ CONTAINS
             ray3D( is )%NumTopBnc, ray3D( is )%NumBotBnc )
     CASE ( 'C'  )     ! coherent TL
        U = U + CMPLX( Amp * EXP( -i * ( omega * delay - phaseInt ) ) )
+
+       !!! write( *, * ) 'abs u', abs( U ), Amp
+
     CASE DEFAULT      ! incoherent/semi-coherent TL
        IF ( Beam%Type( 1 : 1 ) == 'B' ) THEN   ! Gaussian beam
           U = U + SNGL( 2. * pi * ( const * EXP( AIMAG( omega * delay ) ) ) ** 2 * W )

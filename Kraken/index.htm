@@ -1078,7 +1078,7 @@
     in the special case where there was just a single mode.<br>
     <br>
     <br>
-    March 2023<br>
+    <i> March 2023</i><br>
     There is logic in KRAKEN/KRAKENC that tries to pick a polarity of
     the modes in a consistent way. This only matters in the adiabatic
     approximation for range-dependent cases. The idea of the polarity
@@ -1100,6 +1100,28 @@
     factor is actually a complex number. Fixed. We reiterate that this
     polarizaiton topic is only relevant to adiabatic normal modes for
     range-dependent problems.<br>
+    <br>
+    <i> February 2024</i><br>
+    I don't usually recommend using the routine in
+    at/Matlab/noise/modal_noise_diag that omits off-diagonal terms in
+    the analytic formula for modal noise. It is faster, but the
+    approximation is a bit coarse. In any case, there was a bug in that
+    routine for the active formula. (There are several different
+    formulas in there that either assume a small imaginary part in the
+    wavenumber, or have different equivalent implementations.) This is a
+    fairly detailed point, but the latest version corrects an error that
+    implicitly assumed the mode shapes were real.<br>
+    <br>
+    <br>
+    <i> November 2024</i><br>
+    A user pointed out that the Matlab routine used to evaluate the
+    modal sum in range-independent environments was missing a phase
+    factor. The routine involved is at/Matlab/Kraken/evalri.m. The phase
+    factor has been added so that it now matches the Fortran version.
+    This phase factor is typically irrelevant, e.g. for transmission
+    loss calculations or for matched-field processing. However, it
+    matters when individual narrowband fields are summed to produce a
+    broadband timeseries.<br>
     <br>
     <br>
     <br>

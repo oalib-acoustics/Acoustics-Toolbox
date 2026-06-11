@@ -58,6 +58,7 @@ acoustic
 
 
 
+
         fields in 3D oceanic environments via beam tracing. The
         environment treated consists of an acoustic medium with a sound
         speed that may depend on x, y, and z coordinates. Similarly, the
@@ -70,6 +71,7 @@ acoustic
         following programs are used with BELLHOP3D :</p>
       <p style="margin-left: 40px; font-family: monospace;"
         class="MsoPlainText"><span style="font-weight: bold;">BELLHOP3D</span>&nbsp;&nbsp;
+
 
 
 
@@ -123,9 +125,11 @@ speeds,
 
 
 
+
         computes the angle of the limiting ray.</p>
       <p style="margin-left: 40px; font-family: monospace;"
         class="MsoPlainText"><span style="font-weight: bold;">PLOTSSP</span>&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -173,9 +177,11 @@ speeds,
 
 
 
+
         1. Set up your environmental file and run PLOTSSP to make sure
         the SSP looks reasonable.</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
 
 
 
@@ -221,6 +227,7 @@ trace
 
 
 
+
         option to calculate about 50 rays.</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 B.
@@ -248,9 +255,11 @@ you
 
 
 
+
         have the angular coverage you expect.&nbsp; Do the rays behave
         irregularly? If so reduce the step-size and try again.</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
 
 
 
@@ -291,8 +300,10 @@ you
 
 
 
+
         4. Run plotshd.m to plot a full range-depth field plot.</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;
+
 
 
 
@@ -332,11 +343,13 @@ you
 
 
 
+
         Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Description</p>
       <p style="font-family: monospace;" class="MsoPlainText">Input<br>
         &nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*.ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -382,6 +395,7 @@ you
 
 
 
+
         ! FREQ (Hz)<br>
         1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -402,8 +416,10 @@ you
 
 
 
+
         ! NMEDIA<br>
         'CVW'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -469,10 +485,12 @@ you
 
 
 
+
         ! NSx number of source coordinates in x<br>
         0.0 / &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; !
         x coordinate of source (km)<br>
         1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -503,10 +521,12 @@ you
 
 
 
+
         ! NSz<br>
         1000.0 /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; !
         Sz(1 : NSz) (m)<br>
         501&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -537,9 +557,11 @@ you
 
 
 
+
         ! NRr<br>
         0.0&nbsp; 100.0 /&nbsp;&nbsp; &nbsp;&nbsp; ! Rr(1 : NRr ) (km)<br>
         2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -574,11 +596,13 @@ you
 
 
 
+
         ! Nalpha<br>
         -14.66 14.66 /&nbsp;&nbsp;&nbsp; ! alpha1, 2 (degrees)
         Elevation/declination angle fan<br>
         11
         46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -631,8 +655,10 @@ you
 
 
 
+
         Syntax:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -669,9 +695,9 @@ you
         <span style="font-style: italic;">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R(1:NR
           )<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NTheta<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; THETA(
-          1:NTheta )<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ntheta<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; theta(
+          1:Ntheta )<br>
         </span></p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -692,8 +718,10 @@ you
 
 
 
+
         Description:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -732,9 +760,9 @@ you
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rr(): The
         receiver ranges (km)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        NTheta:&nbsp;&nbsp; The number of receiver bearings (radials)<br>
+        Ntheta:&nbsp;&nbsp; The number of receiver bearings (radials)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        THETA():&nbsp; The receiver bearings (degrees)</p>
+        theta():&nbsp; The receiver bearings (degrees)</p>
       <p style="margin-left: 80px; font-family: monospace;"
         class="MsoPlainText">This data is read in using list-directed
         I/O you can type it just about any way you want, e.g. on one
@@ -749,6 +777,7 @@ you
         returned as zero.<br>
       </p>
       <h3 style="font-family: monospace;"><a name="8_-_RUN_TYPE"></a>&nbsp;(8)
+
 
 
 
@@ -787,6 +816,7 @@ you
 
 
 
+
         Syntax:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -803,8 +833,10 @@ you
 
 
 
+
         <span style="font-style: italic;"> OPTION</span></p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -843,8 +875,10 @@ you
 
 
 
+
         OPTION(1:1): 'R' generates a ray file<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -883,8 +917,10 @@ you
 
 
 
+
         'A' generates an amplitude-delay file (ascii)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -924,8 +960,10 @@ you
 
 
 
+
         Coherent&nbsp;&nbsp;&nbsp;&nbsp; TL calculation<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -964,6 +1002,7 @@ you
 
 
 
+
         'S' Semicoherent TL calculation<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -984,8 +1023,10 @@ you
 
 
 
+
         (Lloyd mirror source pattern)</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1026,6 +1067,7 @@ you
 
 
 
+
         'g' Geometric hat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; beams in
         ray-centered coordinates (slow)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1047,9 +1089,11 @@ you
 
 
 
+
         'B' Geometric Gaussian beams in cartesian&nbsp;&nbsp;&nbsp;
         coordinates<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1095,8 +1139,10 @@ source
 
 
 
+
         beam pattern file<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1141,8 +1187,10 @@ coordinates)
 
 
 
+
         (default)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1183,8 +1231,10 @@ coordinates)
 
 
 
+
         OPTION(5:5): 'R' rectilinear grid (default)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1207,6 +1257,7 @@ coordinates)
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;
         &nbsp; &nbsp; &nbsp; &nbsp; OPTION(6:6): '2' Nx2D run (default)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1302,6 +1353,7 @@ coordinates)
 
 
 
+
         - BEAM FAN</h3>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -1322,8 +1374,10 @@ coordinates)
 
 
 
+
         Syntax:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1368,8 +1422,10 @@ coordinates)
 
 
 
+
         Description:</p>
       <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1413,6 +1469,7 @@ calculate
 
 
 
+
           a value automatically, but conservatively).</span></p>
       <p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ISINGLE:
@@ -1421,6 +1478,7 @@ the
 option
 to
 compute
+
 
 
 
@@ -1465,9 +1523,11 @@ of
 
 
 
+
           the beam that is traced.<br>
         </span></p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1476,6 +1536,7 @@ of
         surface)<br>
       </p>
       <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1519,6 +1580,7 @@ calculate
 
 
 
+
           a value automatically, but conservatively).</span></p>
       <p><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ISINGLE:
@@ -1527,6 +1589,7 @@ the
 option
 to
 compute
+
 
 
 
@@ -1571,9 +1634,11 @@ of
 
 
 
+
           the beam that is traced.<br>
         </span></p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1607,8 +1672,10 @@ of
 
 
 
+
         Syntax:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -1646,8 +1713,10 @@ of
 
 
 
+
         Description:</p>
       <p style="font-family: monospace;" class="MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 

@@ -52,7 +52,8 @@ cases = [ 'free       '; ...
               ];
 
 for icase = 1 : size( cases, 1 )
-    directory = deblank( cases( icase, : ) )
+    directory = deblank( cases( icase, : ) );
+    fprintf( '\n *** Changing to directory %s', directory )
     eval( [ 'cd ' directory ] )
 
     % launch matlab in the background

@@ -30,7 +30,9 @@ surf( X, Y, z )
 shading faceted
 shading interp
 colormap( flipud( jet ) )
-colorbar
+
+c = colorbar;
+%c.Label.String = 'Height (m)';
 
 %%
 
@@ -44,4 +46,3 @@ set( gca, 'ZDir', 'Reverse' )   % plot with depth-axis positive down
 if ( nargout == 1 )
    varargout( 1 ) = { h };   % return a handle to the figure
 end
-

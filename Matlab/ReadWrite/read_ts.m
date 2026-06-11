@@ -30,13 +30,13 @@ else
    % read
    
    PlotTitle = fgetl( fid );
-   nrd      = fscanf( fid, '%f', 1 );
-   rd       = fscanf( fid, '%f', nrd );
-   temp     = fscanf( fid, '%f', [ nrd + 1, inf ] );
+   nrz      = fscanf( fid, '%f', 1 );
+   rz       = fscanf( fid, '%f', nrz );
+   temp     = fscanf( fid, '%f', [ nrz + 1, inf ] );
    fclose( fid );
    
    % extract rts
-   Pos.r.z = rd;
+   Pos.r.z = rz;
    tout = temp( 1, : )';
-   RTS  = temp( 2 : nrd + 1, : )';
+   RTS  = temp( 2 : nrz + 1, : )';
 end

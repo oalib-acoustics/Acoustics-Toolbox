@@ -1,0 +1,839 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Language" content="en-us">
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+    <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+    <meta name="ProgId" content="FrontPage.Editor.Document">
+    <title>Acoustics Toolbox</title>
+    <meta name="author" content="Michael B. Porter">
+  </head>
+  <body>
+    <h1 style="text-align: center;">Acoustics Toolbox </h1>
+    <big><big><br>
+        <small>Copyright (C) 2009&nbsp; Michael B. Porter<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; This program is free software: you can
+          redistribute it and/or modify<br>
+          &nbsp;&nbsp;&nbsp; it under the terms of the GNU General
+          Public License as published by<br>
+          &nbsp;&nbsp;&nbsp; the Free Software Foundation, either
+          version 3 of the License, or<br>
+          &nbsp;&nbsp;&nbsp; (at your option) any later version.<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; This program is distributed in the hope
+          that it will be useful,<br>
+          &nbsp;&nbsp;&nbsp; but WITHOUT ANY WARRANTY; without even the
+          implied warranty of<br>
+          &nbsp;&nbsp;&nbsp; MERCHANTABILITY or FITNESS FOR A PARTICULAR
+          PURPOSE.&nbsp; See the<br>
+          &nbsp;&nbsp;&nbsp; GNU General Public License for more
+          details.<br>
+          <br>
+          &nbsp;&nbsp;&nbsp; You should have received a copy of the GNU
+          General Public License<br>
+          &nbsp;&nbsp;&nbsp; along with this program.&nbsp; If not, see
+          &lt;http://www.gnu.org/licenses/&gt;.</small><big><big><br>
+            <span style="font-weight: bold;"></span><br>
+          </big></big></big></big>
+    <h1>GUI Wrapper:</h1>
+    <p><a
+href="http://www.curtin.edu.au/curtin/centre/cmst/products/actoolbox/index.html">ACT</a>:
+      Matlab front-end for the Acoustic Toolbox written by <a
+        href="http://www.curtin.edu.au/curtin/centre/cmst/staff/duncan.html">Alec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Duncan</a> from the <a
+        href="http://www.curtin.edu.au/curtin/centre/cmst/">Centre for
+        Marine Science and Technology</a> at <a
+        href="http://www.curtin.edu.au">Curtin University</a>.</p>
+    <h1>Which version should I download?</h1>
+    There is only one version of the source code; however, you may see
+    options for different pre-compiled binaries. If you're using another
+    machine or operating systems you'll need to recompile it which
+    requires a Fortran95 compiler. The free GFortran compiler works
+    well. We have also used the free g95 compiler in the past; however,
+    the current version of AT uses get_command_parameter, which is a
+    feature of Fortran 2003 not in g95 as of this writing.<br>
+    <br>
+    <ul style="line-height: 100%; margin-bottom: 9px;">
+      <li>
+        <p><b>atWinPII_f95</b>. Version for a Windows, Pentium II
+          machine.&nbsp; The Makefiles are in a sort of Unix style. If
+          you download cygwin (publicly available on the web) you get a
+          sort of pseudo-Unix window in which you can just type 'make
+          all' and 'make install' to recompile and install.</p>
+      </li>
+      <li>
+        <p style="margin-bottom: 18px;"><b>atLinuxPII_f95</b>. Same as
+          above but with binaries compiled under Linux.</p>
+      </li>
+      <li><span style="font-weight: bold;">atOSXintel</span>. For the
+        Mac. Compiled with gfortran. <br>
+      </li>
+    </ul>
+    <br>
+    To use the binaries, you will like need gfortran installed (which is
+    very easy) since the binaries use dynamic libraries that need to be
+    pre-installed.<br>
+    <h1>Overview</h1>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;"><o:p></o:p></span>The Acoustic <span
+        class="SpellE">ToolBox</span> includes five acoustic models:</p>
+    <p style="margin-left: 40px;" class="MsoNormal">BELLHOP:&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+      A beam/ray trace code</p>
+    <p style="margin-left: 40px;" class="MsoNormal">BELLHOP3D: A 3D
+      beam/ray trace code</p>
+    <p style="margin-left: 40px;" class="MsoNormal">KRAKEN:<span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>A normal
+      mode code</p>
+    <p style="margin-left: 40px;" class="MsoNormal"><o:p></o:p>SCOOTER:&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+      A finite element FFP code</p>
+    <p style="margin-left: 40px;" class="MsoNormal"><o:p></o:p>SPARC:<span
+        style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+      </span>A time domain FFP code<br>
+    </p>
+    <p style="margin-left: 40px;" class="MsoNormal"><br>
+    </p>
+    <p class="MsoNormal"><o:p></o:p>In addition, AT contains BOUNCE,
+      which computes the reflection coefficient for a layered medium and
+      may be used to provide input to BELLHOP. A common input structure
+      has been used throughout so that only minor modifications are
+      needed to switch from one program to another.</p>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;"><o:p></o:p></span>All the models produce `shade'
+      files that can be processed using a common set of plotting
+      routines to plot transmission loss vs. range or vs. range and
+      depth. </p>
+    <p class="MsoNormal" style="margin-left: 0.25in;"><span
+        style="font-family: &quot;Times New Roman&quot;;"><o:p>&nbsp;</o:p></span></p>
+    <h1>Porting the code</h1>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;"><o:p>Depending on your platform, you may be able
+          to execute the pre-compiled binaries. Currently we use
+          GFORTRAN to compile those. However, our version requires
+          access to gcc dynamic libraries. Therefore, you will need to
+          have a compatible version of gcc and gfortran installed on
+          your system to run the pre-compiled binaries.<br>
+        </o:p></span></p>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;"><o:p>The package adheres quite strictly to the
+          latest Fortran standard. If you use an older Fortran such as
+          Fortran 77 you will have problems. You will also likely
+          encounter a few issues if you go back to Fortran 90.<br>
+        </o:p></span></p>
+    <h2>Record length</h2>
+    <p class="MsoNormal">Fortran compilers differ in whether record
+      lengths should be declared as bytes or words. To ensure the
+      programs run, I declare lengths in bytes. If your compiler uses
+      words as the default, look for a compiler switch to override that
+      so that your files are not unnecessarily large.</p>
+    <p class="MsoNormal">Some of the programs in this package use direct
+      access I/O and need to know a record length. Many systems do not
+      maintain this information as part of the file info so the code
+      writes that information directly into the file. Then the file is
+      opened twice. First it is opened with a dummy record length to
+      read the actual record length from the file. Then it is re-opened
+      with the correct record length. On machines that <i style="">do</i>
+      know the correct record length, that first open may generate an
+      error message and will have to be removed. The RECL <span
+        class="SpellE">specifier</span> should then also be removed from
+      the second open.<o:p><br>
+      </o:p></p>
+    <h2>Plotting:</h2>
+    <p class="MsoNormal">Plot packages come and go. However, the output
+      formats of the various models are all fairly simple to work with.
+      The distribution includes <span class="SpellE">Matlab</span> <span
+        class="GramE">scripts which</span> I currently use for plotting.
+      If you don’t have <span class="SpellE">Matlab</span>, then these
+      will at least provide an example of how to read the file formats.<br>
+      <br>
+    </p>
+    <h1>Installation Notes</h1>
+    <p class="MsoNormal">To run the Acoustics Toolbox, the executables
+      need to be in your path. The process for setting your path depends
+      on your operating system. I can't stay current with the options
+      but here are some things that have worked in the past:<br>
+    </p>
+    <p style="margin-left: 40px;" class="MsoNormal">DOS: add the
+      following to your autoexec.bat to make the scripts executables in
+      your default path:</p>
+    <p style="margin-left: 80px;" class="MsoNormal">SET PATH=%PATH%<span
+        class="GramE">;C</span>:\AT\SCRIPTS;C:\AT\BIN<br>
+    </p>
+    <p style="margin-left: 40px;" class="MsoNormal">Windows 2000 (and
+      perhaps NT): right click on the “My Computer” icon and select
+      “Properties”, “advanced”.</p>
+    <p style="margin-left: 40px;" class="MsoNormal">Windows XP: go to
+      control panel/Performance and Maintenance/System/Advanced and look
+      for the pushbutton <span class="SpellE">labled</span>
+      “Environment Variables”. There you can edit the system variable
+      “Path”.<br>
+    </p>
+    <p class="MsoNormal"><o:p></o:p><o:p></o:p>Obviously these lines
+      should be updated to reflect whichever directory you installed
+      things in. You may need to reboot to make sure this takes effect.
+      Note that the DOS and Unix scripts are not maintained. We
+      currently execute the binaries via Matlab.<br>
+    </p>
+    <p class="MsoNormal">If you’re having problems, verify your path
+      includes these by typing “path” from a DOS window. Typically you
+      run KRAKEN by typing something like “kraken <span class="SpellE">pekeris</span>”.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      at the DOS command line, or kraken( 'pekeris') at the Matlab
+      command line. </p>
+    <span style="font-family: &quot;Times New Roman&quot;;">On
+      Unix/Linux/MacOSX systems you can ensure that path info is set in
+      Matlab at start up by editing .../bin/matlab to add something
+      like:</span>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;">&nbsp;&nbsp;&nbsp; source ~/.profile<br>
+      </span></p>
+    <p class="MsoNormal">where .profile is the shell start up script
+      that initializes your path.<br>
+    </p>
+    <p class="MsoNormal">Finally, if you use Matlab then you just need
+      to use the "Set Path" option under the "File" menu. If you include
+      all of the Acoustics Toolbox in your Matlab path, then the Matlab
+      scripts find the location of the binaries using the Matlab "which"
+      command.<br>
+    </p>
+    <p class="MsoNormal">Once you have the basic code working, you might
+      want to run some of the test batteries in at/tests to completely
+      verify your installation. The m-file, run<span class="SpellE">tests.m</span>
+      runs the complete suite of tests<span style="font-family:
+        &quot;Times New Roman&quot;;"> using the Fortran binaries. The
+        m-file runtestsM.m does the same thing, using the Matlab
+        versions of BELLHOP, SCOOTER, BOUNCE, and SPARC.<br>
+      </span></p>
+    <span style="font-family: &quot;Times New Roman&quot;;"></span>
+    <p class="MsoNormal"><br>
+      <span style="font-family: &quot;Times New Roman&quot;;"><o:p></o:p></span></p>
+    <h1>Updates</h1>
+    <p class="MsoNormal">(Check also the individual sub-directories for
+      updates on individual components of the Acoustics Toolbox.)</p>
+    <p class="MsoNormal"><span style="font-family: &quot;Times New
+        Roman&quot;;"><o:p>&nbsp;</o:p></span></p>
+    <p class="MsoNormal"><i style="">December 1997<o:p></o:p></i></p>
+    <p class="MsoNormal">Minor changes have been made to the package for
+      improved f77 to f90 portability. Fortran 90 seems to treat
+      parameters differently in terms of precision so some of those
+      changes are important for the most accurate results.</p>
+    <p class="MsoNormal"><i style="">July 1999<o:p></o:p></i></p>
+    <p class="MsoNormal">The whole package has been converted to f90/95
+      standard with free-format lines and taking advantage of dynamic
+      allocation. The code is more concise and portable. Dynamic
+      allocation means that you will not have to worry about dimensional
+      limits--- the size of the problem you can solve is limited only by
+      RAM on your system.</p>
+    <p class="MsoNormal">The change to dynamic allocation has forced a
+      small change in the input structure. Previously an input format
+      was often used with a number of items in a vector followed by the
+      actual vector. For instance, the vector of receiver depths is read
+      this way.</p>
+    <p class="MsoNormal">In the new version the number of items in the
+      vector must appear on a separate line so that the code can read
+      it, allocate the space, and then read the vector contents.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">May 2009</span><br>
+    </p>
+    <p class="MsoNormal">The Matlab version of BELLHOP has been replaced
+      by a new version that traces one beam at a time. The earlier
+      version traced all the beams in parallel for efficiency; however,
+      the logic is too complicated to maintain.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">December 2009</span><br>
+    </p>
+    <p class="MsoNormal">Converted most "char foo*5' references, which
+      are deprecated in the new Fortran, in favor of "char (len=5) ::
+      foo".<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">January 2010</span><br>
+    </p>
+    <p class="MsoNormal">Updated the volume attenuation from the 1967
+      Thorp formula to the more recent one in JKPS. Converted all the
+      Fortran models so that they would determine the file names from
+      the command line arguments. This eliminates the need for DOS,
+      Unix, or Matlab scripts to move files around.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">July 2010</span><br>
+    </p>
+    <p class="MsoNormal">Made all type conversions, e.g. complex to real
+      or double to single, explicit. Expanded use of EXPLICIT NONE to
+      ensure all variable types are called out. Further expansion of the
+      lengths of variable names to take advantage of Fortran 2003.
+      Expanded use of structure-variables. Additional changes as
+      described in the read.me files for the various models. This is a
+      fairly significant revision in terms of the evolution from Fortran
+      77 to Fortran 2003. However, there are virtually no changes to the
+      input and output files.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">April 2011</span><br>
+    </p>
+    <p class="MsoNormal">Greatly expanded use of INTENT( IN, OUT,&nbsp;
+      etc.) to clarify the source code. Continued changes in variable
+      and subroutine names to make them more readable as the Fortran
+      2003 standard permits. Use of explicit dimension sizes in variable
+      declarations to make it easier for the compiler to detect
+      incompatibilities. Change to SHDFile format for the pressure field
+      to allow multiple x-y coordinates for the source.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">October 2011</span><br>
+    </p>
+    <p class="MsoNormal">Added an option for a source beam pattern in
+      KRAKEN and SCOOTER. The pattern is read from a file, following the
+      same procedure as in BELLHOP. The beam pattern is actually
+      introduced after the KRAKEN or SCOOTER run by processing the mode
+      file (FIELD and FIELD3D) or the Green's function file (FIELDS).
+      Currently the beam pattern is implemented by shading the
+      wavenumber spectrum. As a result the beam pattern must be
+      symmetric with respect to the horizontal (only the part of the
+      pattern with positive angles is used). This capability has also
+      been implemented in the Matlab versions of FIELD and FIELDS;
+      however, in FIELD it current only works for the range-independent
+      case.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">March 2012</span><br>
+    </p>
+    <p class="MsoNormal">The new Matlab changed how it did shell escapes
+      (to run things at the command line level) so that piping of stdin
+      and stdout no longer worked. To get around this FIELD and FIELDS
+      have been modified so that they read from a user specified file
+      instead. The field parameter information is now read from
+      'root.flp' instead of field.flp, where 'root' is the root of a
+      filename passed to the code. This change has been made in both the
+      Fortran and Matlab versions. In addition, to make the Matlab more
+      compatible with the Fortran version, the various output files
+      (SHDFIL.mat, GRNFIL.mat, etc.) now use individually named files
+      (root.shd.mat and root.grn.mat, etc.).<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">February 2013</span><br>
+      A bug was fixed in detecting the end of the SSP for a given layer.
+      Instead of testing for exact equality of the SSP depth to the
+      bottom-depth of the layer, I had previously checked for agreement
+      to within a tolerance. The tolerance was scaled based on the
+      bottom depth of the layer so for a bottom depth of zero (in an
+      aero-acoustic problem) the tolerance was 0 and the bottom was not
+      detected.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">February 2014</span><br>
+      Checks have been added to ensure certain vectors are monotonically
+      increasing where that assumption is critical to the codes.<br>
+    </p>
+    <p class="MsoNormal"><span style="font-style: italic;">November 2014</span><br>
+      The Matlab routines that read altimetry and bathymetry files were
+      not clearing old data on subsequent calls. This occurred only when
+      the flat boundary was selected and the routines were supposed to
+      return dummy boundary information. Also, the ranges were not being
+      converted to meters from kilometers. It effected SimplePE runs and
+      probably the Matlab version of BELLHOP as well. These routines are
+      not used by any of the Fortran implementations and the error often
+      had no effect on the Matlab codes.<br>
+    </p>
+    <p class="MsoNormal"><i>June 2014</i><br>
+      Sometime around January of 2010 the Thorp formula for volume
+      attenuation was modified at the request of a user. The modified
+      formula was slightly more accurate. The change was verified in
+      BELLHOP; however, there an incorrect variable name was used in the
+      crci routine used by KRAKEN and SCOOTER. That error mean the added
+      Thorp attenuation was never added. This is corrected in the new
+      code. The volume attenuation was typically most important for
+      higher frequency sources, which in turn were more often treated in
+      BELLHOP. However, the error can be important for low frequency
+      sources at very long range.<br>
+    </p>
+    <p class="MsoNormal"><i>July 2017</i><br>
+      The package has been modified to allow broadband runs for most of
+      the models. Thus, for example, you can give a vector of
+      frequencies to KRAKEN or SCOOTER and produce a single pressure
+      file containing results for each of the frequencies. This has
+      required a small change to the file formats for modfils, shdfils,
+      grndfils, etc. In addition, all the Matlab codes have been
+      modified to allow the '/' convention used in the Fortran versions.
+      This option allows a user to either specify a full vector or just
+      specify the upper and lower limits terminated by '/'. It then uses
+      those limits to create a vector of equally spaced points.<br>
+    </p>
+    <p class="MsoNormal"><i>November 2017</i><br>
+      Updates and fixes to the noise routines in at/Matlab/noise. A
+      routine has been added to construct the noise covariance matrix
+      directly from the shdfil. The shdfil contains the complex pressure
+      field vs. range and depth and the noise routine can use such files
+      produced by KRAKEN, KRAKENC, SCOOTER, and BELLHOP.<br>
+    </p>
+    <p class="MsoNormal"><i>March 2018</i><br>
+      SimplePE was not updating the marching matrices in the case where
+      there was a range-dependent SSP but a flat bottom. Fixed ...<br>
+    </p>
+    <p class="MsoNormal"><i>November 2018</i><br>
+      A Piecewise-Cubic Hermite Interpolating Polynomial (PCHIP) option
+      has been added for interpolating the SSP in the various models.
+      This is really motivated by BELLHOP. The beam tracing algorithm
+      can be sensitive to the profile interpolation. Ideally the
+      interpolation should produce a smooth profile and the c-linear and
+      n2-linear options are only piecewise linear so they have
+      discontinuities in their first derivatives. The spline option is
+      smooth (up to second derivatives) but in some cases produces
+      contorted interpolants to achieve that smoothness. The PCHIP
+      option sacrifices some smoothness for better behavior. This has
+      been implemented in all the Fortran codes. The Matlab versions are
+      not current. i.e. do not have this implemented; however, it is an
+      easy modification.<br>
+    </p>
+    <p class="MsoNormal">There are many varieties of PCHIP; the earlier
+      spline option is one of them. A popular PCHIP is based on work by
+      Fritsch and Carlson and produces a monotonic curve between data
+      points--- so does not introduce new extrema. The key in that
+      implementation is to replace nodal derivatives with zero if there
+      is a sign change in the derivative between adjacent segments.
+      There are also variations in how the endpoints are treated. The
+      monotonic pchip did not have the effect I wanted. I've gone with a
+      simpler piece-wise cubic that simply averages the derivatives
+      between adjacent segments. That average is not O(h^2) if the grid
+      is varying. However, there are physical arguments that motivate
+      the simpler average and I didn't see a benefit in spending more
+      time on that.<br>
+    </p>
+    <p class="MsoNormal"><i>January 2019</i><br>
+      For those of you working at a lower level with the software, note
+      that vectors that previous referred to source and receiver depths
+      now refer to a z coordinate, e.g. Pos.r.depth becomes Pos.r.z.
+      This change was motivated by BELLHOP3D, which uses x, y, and z
+      coordinates for sources and receivers--- it made the code
+      structure more consistent in the sense that (x,y,z) makes more
+      sense than (x,y,depth). This change is transparent to you unless
+      you're using some of the Matlab scripts to read the shade files
+      into your own Matlab code.<br>
+    </p>
+    <p class="MsoNormal">John Peterson worked further on the PCHIP
+      implementation and made an implementation faithful to the original
+      PCHIP and consistent with the Matlab version. He also implement
+      PCHIP in the Matlab versions of SCOOTER, SPARC, and BELLHOP.<br>
+    </p>
+    <p class="MsoNormal"><i>February 2019</i><br>
+      Volume attenuation in the ocean had been implemented using the
+      Thorp formulas. A new option has been added to use to more refined
+      formulas due to Francois and Garrison (1982). This has been
+      implemented in all the Fortran models (Kraken, Scooter, Sparc,
+      Bellhop, Bounce) as well as their Matlab equivalents. I have only
+      checked the Bellhop and Scooter implementations.<br>
+    </p>
+    <p class="MsoNormal"><i>May 2019</i><br>
+      The 'm' option for attenuation (in dB/m with a transition to a
+      power law at a transition frequency) was no longer working. I was
+      testing the AttenUnit (two-letters) option for equality to the
+      single letter 'm', so it was never being invoked. This error was
+      in ReadEnvironmentMod and obviously crept in after the original
+      implementation.<br>
+    </p>
+    <p class="MsoNormal">The Francois-Garrison volume attenuation had
+      been implemented in the Matlab codes using hard-wired values for
+      Temperature, Salinity, pH, and depth. The codes have been modified
+      to read those values from the envfil in a manner consistent with
+      the Fortran codes.<br>
+    </p>
+    <p class="MsoNormal">This should be transparent to the user, but a
+      common routine was written for the Fortran to read a vector
+      (ranges, bearings, ray angles, etc.). This routine echoes the data
+      to the print file, skipping intermediate points if there are many
+      elements. It also converts values for ranges in km to m since the
+      package uses meters for internal units. It allocates dynamic
+      variables and generates intermediate values by linear
+      interpolation if the user has used the '/' option where only the
+      first and last values of the vector are provided. That code had
+      been repeated in a lot of places so this simplified and unified
+      the code a great deal, but involved a lot of changes.<br>
+    </p>
+    <p class="MsoNormal">The matlab version of 'field' and the
+      associated 'evalri' that implemented the modal sum has been
+      cleaned up. It runs a lot faster now and allows multiple source
+      depths and broadband (multi-frequency) cases. Note that the
+      documentation pertains still to the Fortran version of field and
+      that not all of the capabilities are implemented in the Matlab
+      version.<br>
+    </p>
+    <p class="MsoNormal">A 'call flush' statement has been added to the
+      main codes so that print statements that show the progress of a
+      run are flushed to the print file. Without that, the output is
+      buffered and you can't monitor the progress.<br>
+    </p>
+    <p class="MsoNormal"><i>July 2019</i><br>
+      The shdfil created by the various models is a direct access file
+      and was being opened with STATUS='UNKNOWN'. As a result, if the
+      file already existed it was used without change. This meant it
+      kept its original size even if it no longer needed the same
+      storage space. This problem was fixed by opening the files with
+      STATUS='REPLACE'. A similar problem had happened previously with
+      the KRAKEN modefiles and had been fixed in KRAKENC, but not
+      KRAKEN. <br>
+    </p>
+    <p class="MsoNormal">This version has a significantly better version
+      of the PCHIP (Piece-wise Cubic Hermite Interpolating Polynomial)
+      for interpolating the SSP and related info. I had done a
+      preliminary implementation but it was not faithful to the true
+      PCHIP. Also the newer PCHIP is more sophisticated, producing a
+      blend of the cubic spline and the traditional PCHIP that seems to
+      offer the best of both. (Thanks to J. Peterson.) This change is
+      relevant to all the models, but particularly significant for
+      BELLHOP since ray-based models tend to be more sensitive to the
+      SSP interpolation.<br>
+      <br>
+      <i> December 2019</i><br>
+      In preparing an update, I found an access in SPARC outside of the
+      declared length of the source-depth vector. This problem was due
+      to the fact that the time-domain&nbsp; code SPARC tried to treat
+      the times for snapshots as source depths. To be more consistent,
+      the entire package now treats frequency as a conjugate variable to
+      time, and range as a conjugate variable to the horizontal
+      wavenumber. This unifies the file formats for grnfil, shdfil
+      produced by SPARC, SCOOTER, KRAKEN, etc. Wherever frequency
+      occurs, SPARC uses that space for time; wherever range occurs,
+      SCOOTER and SPARC use that space for the horizontal
+      wavenumber.&nbsp; Routines such as fieldsco.m Fourier transform
+      those output fields to the conjugate variables, preserving the
+      basic file structure.<br>
+    </p>
+    <p class="MsoNormal">There had been some fussy code in broadband
+      runs where the first element of a frequency vector was used to
+      denote a carrier frequency. The broadband codes now use a separate
+      variable, freq0, for the carrier or nominal frequency to avoid
+      confusion. That scalar frequency is also now separately written to
+      the output shdfil or grrnfil.<br>
+    </p>
+    <p class="MsoNormal"><i>June 2020</i><br>
+      A user inadvertently selected a very large attenuation in a
+      sediment layer. That attenuation is combined with the real sound
+      speed to generate a complex sound speed, taking into account the
+      user units. If the resulting complex sound speed has an imaginary
+      part greater than the real part, then the squared sound speed is
+      in the negative halfplane. This is not physical and creates
+      errors. A trap has been added to detect and flag this sort of
+      error.<br>
+    </p>
+    <p class="MsoNormal"><i>October/November 2020</i><br>
+      There was a mismatch in the number of arguments for a call to
+      ANALYT in at/misc/sspMod.f90. This option for an analytic SSP was
+      rarely used; however, the mismatch caused a compiler error under
+      gfortran10. I fixed one such call in October; however, in November
+      the error persisted and was tracked to a second call. (I had been
+      using gfortran 9.0 and did not encounter the problem.)<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><i>June
+        2021</i><br>
+      A couple of years ago I changed the Position variables (Pos.s,
+      Pos.r for source and receiver) to use (x, y, z), rather than (x,
+      y, sd) and (x, y, rd). So Pos.s.rd is now Pos.s.z for example.
+      This is just a more self-consistent notation. This change affected
+      many, many Matlab scripts. I changed the ones I was using;
+      however, there are lots of other ones that are rarely used, but
+      which people sometimes stumble upon. Laurel did a global replace
+      so that there should no longer be any remnants of the old variable
+      names anywhere in the code.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><i>April
+        2022</i><br>
+      After upgrading the MacOS to Monterey we are finding that the
+      model executables produced by gfortran are no longer consistently
+      flushing the buffers for output files. The Fortran standard seems
+      to indicate this should happen automatically but it is not clear
+      if this is a problem in gfortran or the new MacOS. I have added
+      FLUSH and CLOSE statements in appropriate places in the code and
+      this seems to have resolved the problem. This problem did not
+      occur with the Intel compiler.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><i>August
+        2022</i><br>
+      As mentioned above gfortran has not been consistently flushing
+      buffers. The main programs have 'close' statements at the end to
+      deal with that. However, in cases of fatal errors the termination
+      is handled by a separate routine that was missing a close
+      statement. So in such cases the output file was empty providing
+      the user with no information about why the program stopped. A
+      'close' statement has been added there as well. This problem did
+      not occur with the Intel compiler<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><i>October
+        2022</i><br>
+      A user ran into a problem simulating a horizontal array at
+      near-broadside because the receiver ranges were nearly identical
+      to within millimeters. In fact, when the receiver offsets were
+      added to the nominal range of the array, the hydrophones appeared
+      to all be at identical ranges because the ranges are stored in
+      single precision internally. There is a test when this input is
+      read to see if the ranges are <i>strictly</i> monotonically
+      increasing and then -- depending on the particular model -- the
+      code would abort with a fatal error.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">It's not
+      clear if strict monotonicity is required, but, for instance, some
+      of the BELLHOP beam options implicitly assume the ranges do not
+      decrease anywhere. In addition, some of the plotting routines will
+      likely be confused if the ranges are not increasing. For now, the
+      monotonicity test is being left in; however, the range vector has
+      been converted to double precision. That higher precision is
+      rarely going to matter, but it does mitigate this particular
+      problem. At some later point, I may change all the Position
+      vectors to double precision to be conservative. However, in some
+      cases this would unnecessarily double the file size and that is
+      often a concern for our global acoustic modeling.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><em>March
+        2023</em></p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">A little
+      more clean-up on the double precision source/receiver positions
+      mentioned just above ... Anything related to the x-y coordinate of
+      a source or receiver is now double precision. This includes the
+      source lat./long. and receiver bearings. The SCOOTER Green's
+      function file (GRNFIL) likewise has wavenumbers in double
+      precision as the wavenumber vector is sort of the dual of the
+      range vector.&nbsp; These changes may improve the accuracy for
+      high-frequency cases and when sources are not at the origin. (When
+      sources are not at the origin a set of bearings may result in
+      small range offsets added to a large origin coordinate.BELLHOP3D
+      and KRAKEN3D/FIELD3D allow sources to be at arbitrary
+      locations.)&nbsp; Some other variables (frequency and attenuation)
+      were also converted to double precision.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">In unusual
+      cases, this change may result in larger output shade files. This
+      would happen, for instance, if the field were computed on a very
+      large number of bearings so that the vector of bearings rather
+      than the vector of ranges determined the record size.<br>
+    </p>
+    <p class="MsoNormal" style="caret-color: rgb(0, 0, 0); color: rgb(0,
+      0, 0); font-family: -webkit-standard; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">Source and
+      receiver depths have been left in single precision for now; I
+      thought the precision was much less likely to be an issue there
+      and there were some worries about side-effects in changing
+      that.&nbsp;&nbsp;</p>
+    <p class="MsoNormal"> </p>
+    <h1>Frequently Asked Questions</h1>
+    <p class="MsoNormal"><i style="">Why do I get an end-of-file in
+        reading the very last line of the <span class="SpellE">envfil</span>?<o:p></o:p></i></p>
+    <p class="MsoNormal">You left off a carriage return/line feed after
+      the last line, or other appropriate end-of-line marker for your
+      system. There are other ways this could happen; check the print
+      file to see where you deviated from the expected format. The
+      models try to echo the input as soon as its read, so you can see
+      clearly where the error happened.<br>
+    </p>
+    <p class="MsoNormal"><i style=""><br>
+        Why do I get a segmentation violation<span class="SpellE"></span>?<o:p></o:p></i></p>
+    <p class="MsoNormal">Generally you should never see this. However,
+      if you ran a case that required an outrageous amount of storage
+      you might encounter a problem. The code is supposed to catch all
+      such cases by detecting an error in the allocation of dynamic
+      variables (or limits for the few arrays with fixed dimensions).
+      However, we see cases where the compiler simply does not handle
+      huge arrays properly.<br>
+    </p>
+    <p class="MsoNormal"><o:p><i><br>
+          Which sign convention is used for a continuous wave source?</i></o:p><br>
+      <o:p> </o:p></p>
+    <div class="" style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
+      font-family: Helvetica; font-size: 13px; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">
+      <p>The source is s( t ) = e(+i \omega t ) in the Acoustics Toolbox
+        models. This is the opposite convention of what we used in the
+        book Computational Ocean Acoustics. We had to standardize on one
+        convention and the models we used were inconsistent.</p>
+      <p> </p>
+    </div>
+    <div class="" style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
+      font-family: Helvetica; font-size: 13px; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;">
+      <p>The KRAKEN manual mimics the book in terms of the theoretical
+        presentation— the footnote on p. 6 of the manual is to warn the
+        user that the code has the opposite sign convention.</p>
+    </div>
+    <div class="" style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
+      font-family: Helvetica; font-size: 13px; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><br
+        class="">
+    </div>
+    <div class="" style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
+      font-family: Helvetica; font-size: 13px; font-style: normal;
+      font-variant-caps: normal; font-weight: normal; letter-spacing:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; text-decoration: none;"><br>
+    </div>
+    <br class="Apple-interchange-newline">
+    <p></p>
+    <p>&nbsp;</p>
+  </body>
+</html>

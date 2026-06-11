@@ -105,6 +105,7 @@ CONTAINS
                 gamma = gammaV( iS - 1 ) + W * ( gammaV( iS ) - gammaV( iS - 1 ) )
                 n     = nA + W * ( nB - nA )
                 nSq   = n * n
+
                 IF ( AIMAG( gamma ) > 0 ) THEN
                    WRITE( PRTFile, * ) 'Unbounded beam'
                    CYCLE RcvrRanges
@@ -265,7 +266,10 @@ CONTAINS
                    Polarity = +1.0D0   ! assumes rigid bottom
                 END SELECT
 
-                IF ( omega * AIMAG( gamma ) * deltaz ** 2 < iBeamWindow2 ) &
+                !!! this window differs by 0.5 from that used in the ray-centered version above
+                ! iBeamWindow2 is important for efficiency; beam evaluation is expensive
+                IF ( -omega * AIMAG( gamma ) * deltaz ** 2 < iBeamWindow2 ) &
+                      !write( *, * ) omega * AIMAG( gamma ) * deltaz ** 2, iBeamWindow2
                      contri =  contri + Polarity * ray2D( iS )%Amp * Hermite( deltaz, RadiusMax, 2.0 * RadiusMax ) * &
                      EXP( -i * ( omega * ( tau + rayt( 2 ) * deltaz + gamma * deltaz**2 ) - ray2D( iS )%Phase ) )
              END DO ImageLoop
@@ -636,7 +640,7 @@ CONTAINS
        CALL AddArr( omega, iz, ir, Amp, phaseInt, delay, SrcDeclAngle, RcvrDeclAngle, ray2D( iS )%NumTopBnc, ray2D( iS )%NumBotBnc )
     CASE ( 'C' )                ! coherent TL
        U = U + CMPLX( Amp * EXP( -i * ( omega * delay - phaseInt ) ) )
-                     ! omega * n * n / ( 2 * ray2d( iS )%c**2 * delay ) ) ) )   ! curvature correction
+       ! omega * n * n / ( 2 * ray2d( iS )%c**2 * delay ) ) ) )   ! curvature correction
     CASE DEFAULT                ! incoherent/semicoherent TL
        IF ( Beam%Type( 1 : 1 ) == 'B' ) THEN   ! Gaussian beam
           U = U + SNGL( SQRT( 2. * pi ) * ( const * EXP( AIMAG( omega * delay ) ) ) ** 2 * W )
@@ -795,7 +799,7 @@ CONTAINS
   REAL (KIND=8 ) FUNCTION Hermite( x, x1, x2 )
 
     ! Calculates a smoothing function based on the h0 hermite cubic
-    ! x is the point where the function is to be evaluated
+    ! abs( x ) is the point where the function is to be evaluated
     ! returns:
     ! [  0, x1  ] = 1
     ! [ x1, x2  ] = cubic taper from 1 to 0
@@ -814,8 +818,6 @@ CONTAINS
        u       = ( Ax - x1 ) / ( x2 - x1 )
        Hermite = ( 1.0d0 + 2.0d0 * u ) * ( 1.0d0 - u ) ** 2
     END IF
-
-    !hermit = hermit / ( 0.5 * ( x1 + x2 ) )
 
   END FUNCTION Hermite
 

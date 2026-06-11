@@ -1,5 +1,5 @@
 btyfil = 'wedge.bty';
-interp_type = 'R';
+interp_type = 'RS';
 
 zmax = 380;
 zmin = 20;

@@ -3,3 +3,5 @@
 sparc head
 fieldsco head.grn
 plotmovie head.shd.mat
+plotshd head.shd.mat
+

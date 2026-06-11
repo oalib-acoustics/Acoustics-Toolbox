@@ -27,16 +27,28 @@ MODULE bdry3Dmod
   REAL (KIND=8), PROTECTED :: Top_deltax, Top_deltay, Bot_deltax, Bot_deltay   ! lengths of sides for active rectangle
   REAL (KIND=8), PARAMETER :: big = 1E25                  ! large number used for domain termination when no altimetry/bathymetry given
 
-  CHARACTER  (LEN=1) :: atiType, btyType
+  CHARACTER  (LEN=2) :: atiType, btyType
 
   REAL (KIND=8), ALLOCATABLE :: BotGlobalx( : ), BotGlobaly( : ), TopGlobalx( : ), TopGlobaly( : )
   TYPE BdryPt
      REAL (KIND=8) :: x( 3 ), t( 3 ), n( 3 ), n1( 3 ), n2( 3 ), Len, Noden( 3 ), Noden_unscaled( 3 ), z_xx, z_xy, z_yy, &
           phi_xx, phi_xy, phi_yy, kappa_xx, kappa_xy, kappa_yy
+     INTEGER       :: Province
   END TYPE BdryPt
 
-  TYPE(BdryPt), ALLOCATABLE :: Bot( :, : ), Top( :, : )
+  ! Halfspace properties
+  TYPE HSInfo2
+     REAL     (KIND=8) :: alphaR, alphaI, betaR, betaI  ! compressional and shear wave speeds/attenuations in user units
+     COMPLEX  (KIND=8) :: cP, cS                        ! P-wave, S-wave speeds
+     REAL     (KIND=8) :: rho, Depth                    ! density, depth
+     CHARACTER (LEN=1) :: BC                            ! Boundary condition type
+     CHARACTER (LEN=6) :: Opt
+  END TYPE
 
+  TYPE(BdryPt), ALLOCATABLE :: Bot( :, : ), Top( :, : )
+  INTEGER                   :: NBotProvinces
+  TYPE( HSInfo2 ), ALLOCATABLE :: BotProv( : )
+  
 CONTAINS
 
   SUBROUTINE ReadATI3D( FileRoot, TopATI, DepthT, PRTFile )
@@ -60,7 +72,7 @@ CONTAINS
        END IF
 
        READ(  ATIFile, * ) atiType
-       SELECT CASE ( atiType )
+       SELECT CASE ( atiType( 1 : 1 ) )
        CASE ( 'R' )
           WRITE( PRTFile, * ) 'Regular grid for a 3D run'
        CASE ( 'C' )
@@ -68,6 +80,16 @@ CONTAINS
        CASE DEFAULT
           CALL ERROUT( 'ReadATI3D', 'Unknown option for selecting altimetry interpolation' )
        END SELECT
+
+       WRITE( PRTFile, * )
+       AltiTypeB: SELECT CASE ( atiType( 2 : 2 ) )
+       CASE ( 'S', '' )
+          WRITE( PRTFile, * ) 'Short format (altimetry only)'
+       CASE ( 'L' )
+          WRITE( PRTFile, * ) 'Long format (altimetry and geoacoustics)'
+       CASE DEFAULT
+          CALL ERROUT( 'ReadATI3D', 'Unknown option for selecting altimetry interpolation' )
+       END SELECT AltiTypeB
 
        ! x values
        READ(  ATIFile, * ) NatiPts( 1 )
@@ -144,7 +166,7 @@ CONTAINS
        END IF
 
     CASE DEFAULT   ! no altimetry given, use SSP depth for flat top
-       atiType = 'R'
+       atiType = 'RS'
        NatiPts = [ 2, 2 ]
        ALLOCATE( TopGlobalx( 2 ), Stat = IAllocStat )
        IF ( IAllocStat /= 0 ) CALL ERROUT( 'BELLHOP3D:ReadATI3D', 'Insufficient memory' )
@@ -199,6 +221,7 @@ CONTAINS
     INTEGER,            INTENT( IN ) :: PRTFile       ! unit number for print file
     REAL      (KIND=8), INTENT( IN ) :: DepthB        ! Nominal bottom depth
     CHARACTER (LEN=80), INTENT( IN ) :: FileRoot
+    INTEGER :: iProv
     REAL (KIND=8), ALLOCATABLE :: Temp( : )
  
     SELECT CASE ( BotBTY )
@@ -215,7 +238,7 @@ CONTAINS
  
        READ( BTYFile, * ) btyType
 
-       SELECT CASE ( btyType )
+       SELECT CASE ( btyType( 1 : 1 ) )
        CASE ( 'R' )
           WRITE( PRTFile, * ) 'Regular grid for a 3D run'
        CASE ( 'C' )
@@ -223,6 +246,16 @@ CONTAINS
        CASE DEFAULT
           CALL ERROUT( 'ReadBTY3D', 'Unknown option for selecting bathymetry interpolation' )
        END SELECT
+       
+       WRITE( PRTFile, * )
+       BathyTypeB: SELECT CASE ( btyType( 2 : 2 ) )
+       CASE ( 'S', '' )
+          WRITE( PRTFile, * ) 'Short format (bathymetry only)'
+       CASE ( 'L' )
+          WRITE( PRTFile, * ) 'Long format (bathymetry and geoacoustics)'
+       CASE DEFAULT
+          CALL ERROUT( 'ReadBTY3D', 'Unknown option for selecting bathymetry interpolation' )
+       END SELECT BathyTypeB
 
        ! x values
        READ(  BTYFile, * ) NbtyPts( 1 )
@@ -274,8 +307,6 @@ CONTAINS
           ! END IF
        END DO
 
-       CLOSE( BTYFile )
-
        IF ( ANY( ISNAN( Bot( :, : )%x( 3 ) ) ) ) THEN
           WRITE( PRTFile, * ) 'Warning in BELLHOP3D - ReadBTY3D : The bathymetry file contains a NaN'
        END IF
@@ -297,6 +328,39 @@ CONTAINS
           CALL ERROUT( 'BELLHOP3D:ReadBTY3D', 'Bathymetry y-coordinates are not monotonically increasing' )
        END IF
 
+       ! Optionally read in bottom province info
+       IF ( btyType( 2 : 2 ) == 'L' ) THEN  ! Long format
+ 
+          WRITE( PRTFile, * ) 'Province type'
+          DO iy = 1, NbtyPts( 2 )
+             READ(  BTYFile, * ) Bot( :, iy )%Province    ! read a row of provinces
+             WRITE( PRTFile, FMT="( 18I4 )" ) ( Bot( ix, iy )%Province, ix = 1, NbtyPts( 1 ) )
+          END DO
+
+          ! read in geoacoustic properties for each province
+          WRITE( PRTFile, * )
+          WRITE( PRTFile, * ) 'Province geoacoustic properties'
+          READ(  BTYFile, * ) NBotProvinces
+          WRITE( PRTFILE, * ) 'Number of bottom provinces = ', NBotProvinces
+
+          ALLOCATE( BotProv( NBotProvinces ), Stat = IAllocStat )
+          IF ( IAllocStat /= 0 ) &
+             CALL ERROUT( 'BELLHOP3D:ReadBTY3D', 'Insufficient memory for bottom province data: reduce # BotProvinces' )
+
+          WRITE( PRTFile, "( /, 'Province  alphaR      betaR     rho        alphaI     betaI'    )" )
+          WRITE( PRTFile, "(    '           (m/s)      (m/s)   (g/cm^3)      (m/s)     (m/s)', / )" )
+          DO iProv = 1, NBotProvinces
+             READ(  BTYFile, * ) BotProv( iProv )%alphaR, BotProv( iProv )%betaR, BotProv( iProv )%rho, &
+                                 BotProv( iProv )%alphaI, BotProv( iProv )%betaI
+             WRITE( PRTFile, FMT="( I5, 2X, 2F10.2, 3X, F6.2, 3X, 2F10.4 )" ) iProv, &
+                                 BotProv( iProv )%alphaR, BotProv( iProv )%betaR, BotProv( iProv )%rho, &
+                                 BotProv( iProv )%alphaI, BotProv( iProv )%betaI
+          END DO
+          IF ( ANY( Bot( :, : )%Province >NBotProvinces ) .OR. ANY( Bot( :, : )%Province < 1 ) ) &
+             CALL ERROUT( 'BELLHOP3D: ReadBTY3D', 'Matrix of provinces contains indices for which province is undefined' )
+       END IF
+
+       CLOSE( BTYFile )
     CASE DEFAULT   ! no bathymetry given, use SSP depth for flat bottom
        btyType = 'R'
        NbtyPts = [ 2, 2 ]

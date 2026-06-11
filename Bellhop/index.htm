@@ -11,9 +11,8 @@
   </head>
   <body>
     <h1 style="text-align: center;">Acoustics Toolbox: Bellhop </h1>
-    <p align="center"><img
-src="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/TLray.jpg"
-        alt="TLray.jpg (77432 bytes)" width="506" height="382"></p>
+    <p align="center"><img src="TLray.jpg" alt="TLray.jpg (77432 bytes)"
+        moz-do-not-send="true" height="382" width="506"></p>
     <big><big> <small>Copyright (C) 2009&nbsp; Michael B. Porter<br>
           <br>
           &nbsp;&nbsp;&nbsp; This program is free software: you can
@@ -42,6 +41,11 @@ src="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20co
     </p>
     <blockquote><a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/acoustic_channel_simulator_code">Acoustic
+
+
+
+
+
 
 
 
@@ -124,6 +128,11 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
+
+
               Toolbox</a>.<em><font color="#ff0000"> (updated 6 July
                 2018)</font></em><br>
           </li>
@@ -132,8 +141,8 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
             (rough draft)&nbsp; <span style="font-style: italic;">(31
               January 2011)</span></li>
           <li>C++ version The Jaffe Lab for Underwater Imaging, Scripps
-            Institution of Oceanography UC San Diego<font
-              face="Helvetica, Arial, sans-serif" size="+3"><span
+            Institution of Oceanography UC San Diego<font size="+3"
+              face="Helvetica, Arial, sans-serif"><span
                 style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);
                 font-size: 13px; font-variant-caps: normal; font-weight:
                 400; letter-spacing: normal; text-align: start;
@@ -156,9 +165,19 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
+
+
               algorithm</a></li>
           <li> <a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/GeneralDescription.pdf">General
+
+
+
+
+
 
 
 
@@ -193,11 +212,21 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
 
 
 
+
+
+
+
+
               version</a> (This is a very preliminary version done as a
             demo by an HLS summer student. It is <b>not</b> for
             production use.)</li>
           <li><a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Modes/python.tgz">Python
+
+
+
+
+
 
 
 
@@ -229,6 +258,11 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
           file</li>
         <li> Complete package <a
 href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20copy%202018_10/Rays/VirTEX/VirTEX_20110708.zip">1Mb
+
+
+
+
+
 
 
 
@@ -650,9 +684,9 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       interpolating the soundspeed profile were modified to return a
       complex sound speed. The option to write an arrivals file was
       modified to write a complex delay where the imaginary part
-      represents the attenuation along the eigenray path. Matlab outines
-      that read the arrivals file were also modified. All the beam
-      influence routines were modifed to incorporate the complex
+      represents the attenuation along the eigenray path. Matlab
+      routines that read the arrivals file were also modified. All the
+      beam influence routines were modifed to incorporate the complex
       delay.&nbsp; A new test case ('VolAtt') was added to exercise the
       new capability. With so many changes, I assume some bugs will show
       up, despite the extensive testing.<br>
@@ -673,7 +707,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       coordinates: the old version would generally have a beam make a
       contribution to a radial and its continuation in the other half
       plane. For instance, if the beam made a contribution to the
-      45-degree radial, it would also show an erroneus contribution to
+      45-degree radial, it would also show an erroneous contribution to
       the 225-degree radial.<br>
       <br>
       <i>August 2016</i><br>
@@ -682,7 +716,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       beams in Cartesian coordinates have been a standard. Only the
       Cerveny-style beams had been implemented in ray-centered
       coordinates. The interpolation of the beams works better with
-      ray-centered coordinates, especialy for beams that are nearly
+      ray-centered coordinates, especially for beams that are nearly
       vertical. However, the Cartesian beams require less computation.<br>
       <br>
       <i>September 2016</i><br>
@@ -723,7 +757,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       <br>
       Bellhop and Bellhop3D have always ignored the density in the
       volume assuming it was seawater and could be treated as a
-      constant. That constant was taken as 1.0 gm/cm^2, which is very
+      constant. That constant was taken as 1.0 gm/cm^3, which is very
       slightly off. In running an aero-acoustic problem for the air that
       density is about 1000x too high which led to an incorrect boundary
       reflection coefficient. Both models have been modified to use the
@@ -756,7 +790,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       for the active segment. This is less efficient but safer. In any
       case, Bellhop and Bellhop3D should likely be set up the same way.<br>
       <br>
-      The Bellhop3D ascii arrivals file has been modified so that it is
+      The Bellhop3D ASCII arrivals file has been modified so that it is
       stylistically consistent with the Bellhop version. (Previously the
       delay information was written as a complex number by Bellhop3D vs.
       two reals in Bellhop.)<br>
@@ -769,18 +803,18 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       <i>May 2018</i><br>
       The geometric Gaussian beam options in Bellhop and Bellhop3D use a
       'stent' which sets a lower limit on how narrow a beam can be. That
-      lower limit is based on arclength from the source so that it
+      lower limit is based on arc-length from the source so that it
       allows narrow beams close to the source. Otherwise the beams add
       up to too high a level. Bellhop and Bellhop3D had been using just
-      a coarse estimate of arclength based on the number of steps times
-      the stepsize. However, that estimate was way off in cases where
-      the default stepsize is chosen to be really large. That is
-      normally OK because the codes adjust the stepsize down
+      a coarse estimate of arc-length based on the number of steps times
+      the step-size. However, that estimate was way off in cases where
+      the default step-size is chosen to be really large. That is
+      normally OK because the codes adjust the step-size down
       automatically as the ray steps along. However, the number of steps
-      times the stepsize then overestimates the arclength in a big way.
-      Both codes have been modified to estimate the arclength using the
-      travel time delay, which is tracked as part of the ray trace and
-      incorporates the dynamic changes in steplength.<br>
+      times the step-size then overestimates the arc-length in a big
+      way. Both codes have been modified to estimate the arc-length
+      using the travel time delay, which is tracked as part of the ray
+      trace and incorporates the dynamic changes in step-length.<br>
       <br>
       The semi-coherent option in Bellhop was over-riding any source
       beam pattern if that was provided. Fixed.<br>
@@ -798,14 +832,14 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       The Matlab version of Bellhop (BellhopM) has the wrong sign on the
       phase changes that happen when a ray crosses a caustic (because I
       used ' instead of .' on the associated vector, inadvertently
-      conjugating it). Fixed. The arclength correction from May 2018 was
-      also implemented in BellhopM.<br>
+      conjugating it). Fixed. The arc-length correction from May 2018
+      was also implemented in BellhopM.<br>
       <br>
       A problem showed up in Bellhop3D when rays were traced over a
       bathymetry given in Eastings and Northings. Those values are in
       the millions, but described (in this case) a small patch. The ray
-      steps are around 1 m and when written in single precion to the ray
-      file, the ray coordinates in Easting and Northings don't have
+      steps are around 1 m and when written in single precision to the
+      ray file, the ray coordinates in Easting and Northings don't have
       enough precision. The rays then look jittery. The fix was simply
       to write the ray file in double precision. This was changed in the
       regulard 2D Bellhop as well, although it's less likely one would
@@ -867,7 +901,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       version of BELLHOP.<br>
       <br>
       <i>February 2019</i><br>
-      2D or 3D soundspeeds are read in from an auxilliary SSPFILE. In
+      2D or 3D soundspeeds are read in from an auxillary SSPFILE. In
       that case, a depth-dependent volume attenuation can be input in
       the envfil. However, the attenuation was being interpolated
       incorrectly due to a confusion between depth into a layer and the
@@ -942,10 +976,10 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
       <br>
       This error could occur with elastic layers and/or with other codes
       in the Acoustics Toolbox. However, one would rarely use a lossless
-      halspace in those models. Also, SCOOTER, for instance always works
-      a little off the real axis and wouldn't experience this. This also
-      might be an issue in&nbsp; the Matlab version of BELLHOP depending
-      on the architecture.<br>
+      halfspace in those models. Also, SCOOTER, for instance always
+      works a little off the real axis and wouldn't experience this.
+      This also might be an issue in&nbsp; the Matlab version of BELLHOP
+      depending on the architecture.<br>
       <br>
       <i>September 2020</i><br>
       An error was showing up in the Fortran BELLHOP under gfortran 9.2,
@@ -1091,7 +1125,7 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     no longer used or supported. Trivial changes are not reporter here;
     however, three changes were more significant bugs:<br>
     1) the ray normal calculation in BELLHOP3D was using the rotation
-    angle ray2%phi (which was uniinitialized). It was supposed to use
+    angle ray2%phi (which was uninitialized). It was supposed to use
     ray1%phi,<br>
     2) the ray phase in the 2D Gaussian Cartesian beam was using the
     (undefined) phase at step iS instead of the correct phase at step
@@ -1101,6 +1135,23 @@ href="file:///Users/michaelbporter/Dropbox%20(HLS%20Research)/Projects/oalib%20c
     correct formula phaseInt = phaseInt + pi / 2.<br>
     These errors have been corrected and may have affected the
     interference patterns in the coherent TL plots for different cases.<br>
+    <br>
+    <i> October 2024</i><br>
+    The capability to treat a bottom type that varies with lat./long.
+    has been added. This is incorporated by adding additional lines to
+    the *.bty file that specify a matrix of bottom-type indices. This is
+    followed by a table that defines the geoacoustic bottom properties
+    associated with every index.<br>
+    <br>
+    <i>December 2024</i><br>
+    As noted above on June 2019 a capability for elastic halfspaces was
+    added in BELLHOP. That same capability has now been added to
+    BELLHOP3D in both the Nx2D and 3D options. The test case
+    at/tests/Bellhop3d/provinces exercises this capability.<br>
+    <br>
+    Previously range-dependent bottom types were hardwired to have
+    attenuation units in dB/wvelength. Now in BELLHOP and BELLHOP3D the
+    attenuation units are inherited from those selected in the envfil.<br>
     <br>
     <br>
     <br>
