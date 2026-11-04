@@ -15,6 +15,7 @@ all :	$(EXECS)
 	@echo " "
  
 install : $(EXECS)
+	mkdir -p ../bin
 	for f in $(EXECS) ; do \
 		echo "----- Installing $$f.exe"; cp -p $$f ../bin; \
 	done
